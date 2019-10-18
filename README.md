@@ -1,29 +1,39 @@
 ### Homepage:
-![Homepage](https://user-images.githubusercontent.com/56137211/67125936-8390e400-f1bb-11e9-9479-924cfc21fe3a.PNG)
+![home](https://user-images.githubusercontent.com/56137211/67126625-1f6f1f80-f1bd-11e9-9c3f-183a40ba970c.PNG)
 
 ### Poem edit left align:
-![poemEdit](https://user-images.githubusercontent.com/56137211/67125938-8390e400-f1bb-11e9-89b2-b5df3e3c3287.PNG)
+![editLeftAlign](https://user-images.githubusercontent.com/56137211/67126623-1f6f1f80-f1bd-11e9-8753-f450392d2e82.PNG)
 
 ### Poem edit centre align:
-![poemEditMiddle](https://user-images.githubusercontent.com/56137211/67125931-82f84d80-f1bb-11e9-9682-fb66002e34dc.PNG)
+![editCentreAlign](https://user-images.githubusercontent.com/56137211/67126622-1f6f1f80-f1bd-11e9-888b-6c26b617497a.PNG)
 
 ### Poem edit right align:
-![poemEditEnd](https://user-images.githubusercontent.com/56137211/67125930-82f84d80-f1bb-11e9-9031-f408f3216faa.PNG)
+![editRightAlign](https://user-images.githubusercontent.com/56137211/67126624-1f6f1f80-f1bd-11e9-9419-3f3fc0004d9a.PNG)
 
 ### Poets:
-![poet](https://user-images.githubusercontent.com/56137211/67125932-82f84d80-f1bb-11e9-9078-8e48229e7f0f.PNG)
+![poet](https://user-images.githubusercontent.com/56137211/67126627-1f6f1f80-f1bd-11e9-94e8-70c0e3688f48.PNG)
 
 ### Register:
-![register](https://user-images.githubusercontent.com/56137211/67125933-82f84d80-f1bb-11e9-86dc-da5dc05af721.PNG)
+![register](https://user-images.githubusercontent.com/56137211/67126620-1ed68900-f1bd-11e9-8ce7-8477f1bf14e6.PNG)
 
 ### Login:
-![login](https://user-images.githubusercontent.com/56137211/67125937-8390e400-f1bb-11e9-981e-0b109a56cd25.PNG)
+![login](https://user-images.githubusercontent.com/56137211/67126626-1f6f1f80-f1bd-11e9-881d-b0ca4a1849bd.PNG)
 
-### User homepage:
-![userHome](https://user-images.githubusercontent.com/56137211/67125935-8390e400-f1bb-11e9-9bb2-958c9949c2af.PNG)
+### User profile page:
+![profile](https://user-images.githubusercontent.com/56137211/67126618-1ed68900-f1bd-11e9-96c1-44183326b927.PNG)
 
 ### Settings:
-![settings](https://user-images.githubusercontent.com/56137211/67125934-8390e400-f1bb-11e9-9077-497905cb9829.PNG)
+![settings](https://user-images.githubusercontent.com/56137211/67126621-1f6f1f80-f1bd-11e9-83a0-38b9bdf06db9.PNG)
+
+
+
+
+
+
+
+
+
+
 
 
 
