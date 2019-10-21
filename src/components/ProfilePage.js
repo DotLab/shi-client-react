@@ -2,7 +2,7 @@ import React from 'react';
 import Poem from './Poem';
 import {Link} from 'react-router-dom';
 
-import {onChange, pushHistory} from '../utils';
+import {onChange, pushHistory, UNAUTHORIZED} from '../utils';
 import queryString from 'query-string';
 
 const POEM_1 = `C8H10N4O2  so  softly  calling
@@ -35,15 +35,11 @@ export default class HomePage extends React.Component {
     this.app = props.app;
   }
 
-  componentWillReceiveProps(newProps) {
-
-  }
-
   render() {
     const loggedin = this.app.state.token;
     if (!loggedin) {
       return <div>
-        403
+        {UNAUTHORIZED}
       </div>;
     }
     const displayName = this.app.state.user.displayName;

@@ -4,7 +4,6 @@ import {onChange} from '../utils';
 
 const STYPE_INPUT = 'H(44px) Bdrs($bdrs-control) D(b) W(100%) Fz(14px) P(12px) Bdc(t)';
 
-
 export default class ChangePasswordPage extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +20,6 @@ export default class ChangePasswordPage extends React.Component {
 
   changePassword(e) {
     e.preventDefault();
-    console.log(this.app.state.token);
     this.app.userChangePassword({...this.state, token: this.app.state.token});
   }
 

@@ -27,7 +27,6 @@ and as long as each day comes,
 i'll cry but i'll love you
 as if it will be my last`;
 
-
 const QUERY_ALL = 'all';
 const QUERY_FOLLOWING = 'following';
 const QUERY_ASC = 'asc';
