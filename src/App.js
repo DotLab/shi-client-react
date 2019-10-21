@@ -88,16 +88,6 @@ export default class App extends React.Component {
     }
   }
 
-  async userCreatePoem({title, body, privacy, token}) {
-    const poem = await this.genericApi1('/v1/poems/create', {title, body, privacy, token})
-        .catch((e)=>{
-          console.log(e);
-        });
-    if (poem) {
-      this.history.push('/me');
-    }
-  }
-
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>
