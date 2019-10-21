@@ -14,6 +14,7 @@ import ChangePasswordPage from './components/ChangePasswordPage';
 import {Route, Link, Switch} from 'react-router-dom';
 
 const API_SUCCESS = 'SUCCESS';
+const API_URL = 'http://localhost:3000';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ export default class App extends React.Component {
 
   genericApi1(event, arg) {
     return new Promise((resolve, reject) => {
-      axios.post(event, arg)
+      axios.post(API_URL + event, arg)
           .then(function(response) {
             if (response.data.status === API_SUCCESS) {
               return resolve(response.data);
@@ -44,7 +45,7 @@ export default class App extends React.Component {
   }
 
   async userLogin({email, password}) {
-    const token = await this.genericApi1('http://localhost:3000/v1/users/login', {email, password})
+    const token = await this.genericApi1('/v1/users/login', {email, password})
         .catch((e)=>{
           console.log(e);
         });
@@ -57,7 +58,7 @@ export default class App extends React.Component {
   }
 
   async userRegister({userName, email, displayName, password}) {
-    const user = await this.genericApi1('http://localhost:3000/v1/users/register', {email, userName, displayName, password})
+    const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password})
         .catch((e)=>{
           console.log(e);
         });
@@ -67,7 +68,7 @@ export default class App extends React.Component {
   }
 
   async userChangePassword({currentPassword, newPassword, token}) {
-    const user = await this.genericApi1('http://localhost:3000/v1/users/settings/password/change', {token, currentPassword, newPassword})
+    const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword})
         .catch((e)=>{
           console.log(e);
         });
@@ -77,13 +78,23 @@ export default class App extends React.Component {
   }
 
   async userDetail({token}) {
-    const user = await this.genericApi1('http://localhost:3000/v1/users/detail', {token})
+    const user = await this.genericApi1('/v1/users/detail', {token})
         .catch((e)=>{
           console.log(e);
         });
     if (user) {
       console.log(user);
       this.setState({user: user.payload});
+    }
+  }
+
+  async userCreatePoem({title, body, privacy, token}) {
+    const poem = await this.genericApi1('/v1/poems/create', {title, body, privacy, token})
+        .catch((e)=>{
+          console.log(e);
+        });
+    if (poem) {
+      this.history.push('/me');
     }
   }
 
