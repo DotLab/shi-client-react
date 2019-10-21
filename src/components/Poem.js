@@ -46,4 +46,3 @@ export default class Poem extends React.Component {
     </div>;
   }
 }
-

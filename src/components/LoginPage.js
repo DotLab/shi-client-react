@@ -8,15 +8,20 @@ const STYPE_INPUT = 'H(44px) Bdrs($bdrs-control) D(b) W(100%) Fz(14px) P(12px) B
 export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
+
+    this.onChange = onChange.bind(this);
+    this.login = this.login.bind(this);
+
     this.state = {
       email: '',
       password: '',
     };
-    this.onChange = onChange.bind(this);
   }
 
   login(e) {
     e.preventDefault();
+    this.app.userLogin(this.state);
   }
 
   render() {

@@ -12,10 +12,11 @@ const ROUTE_LOGOUT = 'logout';
 export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
 
     this.changePath = this.changePath.bind(this);
     this.redirectToLogin = this.redirectToLogin.bind(this);
-    this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.redirectToWrite = this.redirectToWrite.bind(this);
   }
 
   changePath(e) {
@@ -36,11 +37,13 @@ export default class Navbar extends React.Component {
     this.props.history.push('/login');
   }
 
-  redirectToEdit() {
-    this.props.history.push('/edit');
+  redirectToWrite() {
+    this.props.history.push('/write');
   }
 
   render() {
+    const loggedin = this.app.state.token;
+
     return <div>
       <div class="Bgc(black) C(white) H(50px) Pos(st) T(0) Mb(20px)">
         <span className="Fl(start) Lh(50px) Pos(r)">
@@ -55,10 +58,11 @@ export default class Navbar extends React.Component {
           <span class="C(gray) C(white):h Cur(p) Mstart(30px)"><i class="fas fa-search"></i></span>
         </span>
 
-        <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">诗</Link></h1>
-
+        <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToEdit}><i class="fas fa-edit"></i></span>
+          { loggedin &&
+          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
+          {/* { loggedin &&  */}
           <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
             <i class="fas fa-user"></i>
             <select class="Pos(a) D(b) W(50px) H(50px) T(0) End(-15px)  Op(0)" value={ROUTE_INVALID} onChange={this.changePath}>
@@ -68,7 +72,10 @@ export default class Navbar extends React.Component {
               <option value={ROUTE_LOGOUT}>Log Out</option>
             </select>
           </span>
+          {/* } */}
+          {!loggedin&&
           <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToLogin}><i class="fas fa-sign-in-alt"></i></span>
+          }
         </span>
       </div>
 

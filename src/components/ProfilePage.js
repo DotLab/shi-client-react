@@ -32,6 +32,7 @@ as if it will be my last`;
 export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
   }
 
   componentWillReceiveProps(newProps) {
@@ -39,12 +40,22 @@ export default class HomePage extends React.Component {
   }
 
   render() {
+    const loggedin = this.app.state.token;
+    if (!loggedin) {
+      return <div>
+        403
+      </div>;
+    }
+    const displayName = this.app.state.user.displayName;
+
     return <div>
+      <h3 class="Fz(24px)">
+        {displayName}
+      </h3>
       <div class="Fz(12px) C(gray)">
         <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me">poems</Link>
         <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me/following">following</Link>
         <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me/follower">follower</Link>
-
       </div>
       <div>
         <Poem shouldShowEditButton visibility="public" hotness="723" author="MicMag" title="Coffee" date="23h" body={POEM_1} preview={POEM_1_SHORT} />

@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "atomizer": "^3.5.3",
+    "axios": "^0.19.0",
+    "cors": "^2.8.5",
     "debug": "^4.1.1",
     "eslint": "^5.15.1",
     "eslint-config-google": "^0.12.0",
