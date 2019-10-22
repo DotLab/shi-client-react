@@ -17,6 +17,7 @@ export default class Navbar extends React.Component {
     this.changePath = this.changePath.bind(this);
     this.redirectToLogin = this.redirectToLogin.bind(this);
     this.redirectToWrite = this.redirectToWrite.bind(this);
+    this.userLogOut = this.userLogOut.bind(this);
   }
 
   changePath(e) {
@@ -29,7 +30,7 @@ export default class Navbar extends React.Component {
     } else if (e.target.value === ROUTE_SETTINGS) {
       this.props.history.push('/settings');
     } else if (e.target.value === ROUTE_LOGOUT) {
-      this.props.history.push('/logout');
+      this.userLogOut();
     }
   }
 
@@ -39,6 +40,10 @@ export default class Navbar extends React.Component {
 
   redirectToWrite() {
     this.props.history.push('/write');
+  }
+
+  userLogOut() {
+    this.app.userLogOut();
   }
 
   render() {
@@ -61,7 +66,7 @@ export default class Navbar extends React.Component {
         <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
           { isLoggedIn &&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToEdit}><i class="fas fa-edit"></i></span>}
+          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
           { isLoggedIn &&
           <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
             <i class="fas fa-user"></i>

@@ -33,6 +33,18 @@ export default class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.app = props.app;
+    this.state = {
+      _id: null,
+      displayName: null,
+      followingCount: 0,
+      followerCount: 0,
+      viewCount: 0,
+    };
+  }
+
+  async componentDidMount() {
+    await this.app.userDetail({token: this.app.state.token});
+    this.setState(this.app.state.user);
   }
 
   render() {
@@ -42,7 +54,8 @@ export default class HomePage extends React.Component {
         {UNAUTHORIZED}
       </div>;
     }
-    const displayName = this.app.state.user.displayName;
+
+    const {displayName} = this.state;
 
     return <div>
       <h3 class="Fz(24px)">

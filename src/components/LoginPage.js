@@ -9,29 +9,34 @@ export default class LoginPage extends React.Component {
     super(props);
     this.app = props.app;
 
-    this.onChange = onChange.bind(this);
-    this.login = this.login.bind(this);
-
     this.state = {
       email: '',
       password: '',
     };
+
+    this.onChange = onChange.bind(this);
+    this.login = this.login.bind(this);
   }
 
-  login(e) {
+  async login(e) {
     e.preventDefault();
-    this.app.userLogin(this.state);
+    try {
+      await this.app.userLogin(this.state);
+    } catch (err) {
+      this.setState({email: '', password: ''});
+    }
   }
 
   render() {
+    const {email, password} = this.state;
     return <div>
       <h2 class="Fz(30px)">Log in</h2>
       <form class="Maw(300px) Mx(a) Bgc(whitesmoke) P($p-panel) Bdrs($bdrs-panel) My(30px)">
         <div>
-          <input class={STYPE_INPUT} placeholder="Email address" type="email" name="email" onChange={this.onChange} required/>
+          <input class={STYPE_INPUT} placeholder="Email address" type="email" name="email" value={email} onChange={this.onChange} required/>
         </div>
         <div class="Mt($m-control)">
-          <input class={STYPE_INPUT} placeholder="Password" type="password" name="password" onChange={this.onChange} required/>
+          <input class={STYPE_INPUT} placeholder="Password" type="password" name="password" value={password} onChange={this.onChange} required/>
         </div>
         <button class="C(white) D(b) W(100%) Bgc(dimgray) Bgc(black):h Py(4px) Mt($m-control) Bdrs($bdrs-control) Bdc(t)" onClick={this.login}>Log in</button>
       </form>

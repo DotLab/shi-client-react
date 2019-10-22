@@ -28,36 +28,35 @@ export default class LoginPage extends React.Component {
     } else return false;
   }
 
-  register(e) {
+  async register(e) {
     e.preventDefault();
-    const data = {};
-    data['userName'] = this.state.userName;
-    data['displayName'] = this.state.displayName;
-    data['email'] = this.state.email;
-    data['password'] = this.state.password;
-
-    this.app.userRegister(data);
+    try {
+      await this.app.userRegister(this.state);
+    } catch (err) {
+      this.setState({userName: '', email: '', password: '', passwordConfirm: ''});
+    }
   }
 
   render() {
+    const {userName, displayName, email, password, passwordConfirm} = this.state;
     return <div>
       <h2 class="Fz(30px)">Sign up</h2>
 
       <form class="Maw(300px) Mx(a) Bgc(whitesmoke) P($p-panel) Bdrs($bdrs-panel) My(30px)">
         <div>
-          <input class={STYPE_INPUT} placeholder="User Name" type="userName" name="userName" required onChange={this.onChange}/>
+          <input class={STYPE_INPUT} placeholder="User Name" type="userName" name="userName" value={userName} required onChange={this.onChange}/>
         </div>
         <div class="Mt($m-control)">
-          <input class={STYPE_INPUT} placeholder="Display Name" type="displayName" name="displayName" required onChange={this.onChange}/>
+          <input class={STYPE_INPUT} placeholder="Display Name" type="displayName" name="displayName" value={displayName} required onChange={this.onChange}/>
         </div>
         <div class="Mt($m-control)">
-          <input class={STYPE_INPUT} placeholder="Email" type="email" name="email" required onChange={this.onChange}/>
+          <input class={STYPE_INPUT} placeholder="Email" type="email" name="email" value={email} required onChange={this.onChange}/>
         </div>
         <div class="Mt($m-control)">
-          <input class={STYPE_INPUT} placeholder="Password" type="password" name="password" required onChange={this.onChange}/>
+          <input class={STYPE_INPUT} placeholder="Password" type="password" name="password" value={password} required onChange={this.onChange}/>
         </div>
         <div class="Mt($m-control)">
-          <input class={STYPE_INPUT} placeholder="Confirm Password" type="password" name="passwordConfirm" required onChange={this.onChange}/>
+          <input class={STYPE_INPUT} placeholder="Confirm Password" type="password" name="passwordConfirm" value={passwordConfirm} required onChange={this.onChange}/>
         </div>
         <button class="C(white) D(b) W(100%) Bgc(dimgray) Bgc(black):h Py(4px) Mt($m-control) Bdrs($bdrs-control) Bdc(t)" disabled={!this.checkPasswordMatch()} onClick={this.register}>Sign up</button>
       </form>

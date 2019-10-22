@@ -25,16 +25,9 @@ export default class App extends React.Component {
     this.history = props.history;
     this.state = {
       user: null,
-      token: null,
+      token: localStorage.getItem('token'),
       error: null,
     };
-  }
-
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.setState({token: token});
-    }
   }
 
   genericApi1(event, arg) {
@@ -56,7 +49,7 @@ export default class App extends React.Component {
   async userLogin({email, password}) {
     const token = await this.genericApi1('/v1/users/login', {email, password})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
 
     if (token) {
@@ -67,10 +60,16 @@ export default class App extends React.Component {
     }
   }
 
+  async userLogOut() {
+    localStorage.removeItem('token');
+    this.setState({token: null});
+    this.history.push('/');
+  }
+
   async userRegister({userName, email, displayName, password}) {
     const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (user) {
       this.history.push('/login');
@@ -80,7 +79,7 @@ export default class App extends React.Component {
   async userChangePassword({currentPassword, newPassword, token}) {
     const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (user) {
       this.history.push('/login');
@@ -90,10 +89,9 @@ export default class App extends React.Component {
   async userDetail({token}) {
     const user = await this.genericApi1('/v1/users/detail', {token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (user) {
-      console.log(user);
       this.setState({user: user.payload});
     }
   }
@@ -101,7 +99,7 @@ export default class App extends React.Component {
   async userCreatePoem({title, body, privacy, token, align}) {
     const poem = await this.genericApi1('/v1/poems/create', {title, body, privacy, align, token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (poem) {
       console.log(poem);
@@ -112,7 +110,7 @@ export default class App extends React.Component {
   async poemDetail({poemId, token}) {
     const poem = await this.genericApi1('/v1/poems/detail', {poemId, token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (poem) {
       console.log(poem);
@@ -123,7 +121,7 @@ export default class App extends React.Component {
   async poemEdit({poemId, title, body, privacy, align, token}) {
     const poem = await this.genericApi1('/v1/poems/edit', {poemId, title, body, privacy, align, token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (poem) {
       console.log(poem);
@@ -134,7 +132,7 @@ export default class App extends React.Component {
   async poemDelete({poemId, token}) {
     const poem = await this.genericApi1('/v1/poems/delete', {poemId, token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (poem) {
       console.log(poem);
@@ -145,14 +143,14 @@ export default class App extends React.Component {
   async poemLike({poemId, token}) {
     await this.genericApi1('/v1/poems/like', {poemId, token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
   }
 
   async poemUnlike({poemId, token}) {
     await this.genericApi1('/v1/poems/unlike', {poemId, token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
   }
 
