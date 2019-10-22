@@ -54,7 +54,7 @@ export default class App extends React.Component {
   async userLogin({email, password}) {
     const token = await this.genericApi1('/v1/users/login', {email, password})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
 
     if (token) {
@@ -65,10 +65,16 @@ export default class App extends React.Component {
     }
   }
 
+  async userLogOut() {
+    localStorage.removeItem('token');
+    this.setState({token: null});
+    this.history.push('/');
+  }
+
   async userRegister({userName, email, displayName, password}) {
     const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (user) {
       this.history.push('/login');
@@ -78,7 +84,7 @@ export default class App extends React.Component {
   async userChangePassword({currentPassword, newPassword, token}) {
     const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (user) {
       this.history.push('/login');
@@ -88,10 +94,9 @@ export default class App extends React.Component {
   async userDetail({token}) {
     const user = await this.genericApi1('/v1/users/detail', {token})
         .catch((e)=>{
-          console.log(e);
+          throw new Error(e);
         });
     if (user) {
-      console.log(user);
       this.setState({user: user.payload});
     }
   }
@@ -108,7 +113,7 @@ export default class App extends React.Component {
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
         <PropsRoute path="/register" component={RegisterPage} app={this}/>
-        <PropsRoute path="/edit" component={PoemEditorPage} app={this}/>
+        <PropsRoute path="/write" component={PoemEditorPage} app={this}/>
         <PropsRoute path="/settings/password" component={ChangePasswordPage} app={this}/>
         <PropsRoute path="/settings" component={SettingsPage} app={this}/>
 

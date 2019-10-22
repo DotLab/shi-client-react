@@ -18,24 +18,28 @@ export default class ChangePasswordPage extends React.Component {
     };
   }
 
-  changePassword(e) {
+  async changePassword(e) {
     e.preventDefault();
-    this.app.userChangePassword({...this.state, token: this.app.state.token});
+    try {
+      await this.app.userChangePassword({...this.state, token: this.app.state.token});
+    } catch (err) {
+      this.setState({currentPassword: '', newPassword: ''});
+    }
   }
 
   render() {
+    const {currentPassword, newPassword} = this.state;
     return <div>
       <h2 class="Fz(30px)">Change Password</h2>
       <form class="Maw(300px) Mx(a) Bgc(whitesmoke) P($p-panel) Bdrs($bdrs-panel) My(30px)">
         <div>
-          <input class={STYPE_INPUT} placeholder="Current Password" type="currentPassword" name="currentPassword" onChange={this.onChange} required/>
+          <input class={STYPE_INPUT} placeholder="Current Password" type="password" name="currentPassword" value={currentPassword} onChange={this.onChange} required/>
         </div>
         <div class="Mt($m-control)">
-          <input class={STYPE_INPUT} placeholder="New Password" type="newPassword" name="newPassword" onChange={this.onChange} required/>
+          <input class={STYPE_INPUT} placeholder="New Password" type="password" name="newPassword" value={newPassword} onChange={this.onChange} required/>
         </div>
         <button class="C(white) D(b) W(100%) Bgc(dimgray) Bgc(black):h Py(4px) Mt($m-control) Bdrs($bdrs-control) Bdc(t)" onClick={this.changePassword}>Submit</button>
       </form>
     </div>;
   }
 }
-

@@ -8,7 +8,6 @@ const ROUTE_PROFILE = 'profile';
 const ROUTE_SETTINGS = 'settings';
 const ROUTE_LOGOUT = 'logout';
 
-
 export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +15,8 @@ export default class Navbar extends React.Component {
 
     this.changePath = this.changePath.bind(this);
     this.redirectToLogin = this.redirectToLogin.bind(this);
-    this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.redirectToWrite = this.redirectToWrite.bind(this);
+    this.userLogOut = this.userLogOut.bind(this);
   }
 
   changePath(e) {
@@ -29,7 +29,7 @@ export default class Navbar extends React.Component {
     } else if (e.target.value === ROUTE_SETTINGS) {
       this.props.history.push('/settings');
     } else if (e.target.value === ROUTE_LOGOUT) {
-      this.props.history.push('/logout');
+      this.userLogOut();
     }
   }
 
@@ -37,8 +37,12 @@ export default class Navbar extends React.Component {
     this.props.history.push('/login');
   }
 
-  redirectToEdit() {
-    this.props.history.push('/edit');
+  redirectToWrite() {
+    this.props.history.push('/write');
+  }
+
+  userLogOut() {
+    this.app.userLogOut();
   }
 
   render() {
@@ -61,8 +65,8 @@ export default class Navbar extends React.Component {
         <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
           { isLoggedIn &&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToEdit}><i class="fas fa-edit"></i></span>}
-          {/* { isLoggedIn &&  */}
+          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
+          { isLoggedIn &&
           <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
             <i class="fas fa-user"></i>
             <select class="Pos(a) D(b) W(50px) H(50px) T(0) End(-15px)  Op(0)" value={ROUTE_INVALID} onChange={this.changePath}>
@@ -72,7 +76,7 @@ export default class Navbar extends React.Component {
               <option value={ROUTE_LOGOUT}>Log Out</option>
             </select>
           </span>
-          {/* } */}
+          }
           {!isLoggedIn&&
           <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToLogin}><i class="fas fa-sign-in-alt"></i></span>
           }
@@ -82,4 +86,3 @@ export default class Navbar extends React.Component {
     </div>;
   }
 }
-
