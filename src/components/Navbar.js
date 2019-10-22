@@ -61,13 +61,8 @@ export default class Navbar extends React.Component {
         <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
           { loggedin &&
-<<<<<<< HEAD
           <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
           { loggedin &&
-=======
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToEdit}><i class="fas fa-edit"></i></span>}
-          {/* { loggedin &&  */}
->>>>>>> d45bb17065fdaab43efe0754cbd552055fb9d1ad
           <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
             <i class="fas fa-user"></i>
             <select class="Pos(a) D(b) W(50px) H(50px) T(0) End(-15px)  Op(0)" value={ROUTE_INVALID} onChange={this.changePath}>
@@ -77,7 +72,7 @@ export default class Navbar extends React.Component {
               <option value={ROUTE_LOGOUT}>Log Out</option>
             </select>
           </span>
-          {/* } */}
+          }
           {!loggedin&&
           <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToLogin}><i class="fas fa-sign-in-alt"></i></span>
           }
