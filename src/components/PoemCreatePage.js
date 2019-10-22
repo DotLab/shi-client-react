@@ -29,8 +29,8 @@ export default class PoemCreatePage extends React.Component {
 
   render() {
     const {align} = this.state;
-    const loggedin = this.app.state.token;
-    if (!loggedin) {
+    const isLoggedIn = this.app.state.token;
+    if (!isLoggedIn) {
       return <div>
         {UNAUTHORIZED}
       </div>;

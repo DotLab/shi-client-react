@@ -42,7 +42,7 @@ export default class Navbar extends React.Component {
   }
 
   render() {
-    const loggedin = this.app.state.token;
+    const isLoggedIn = this.app.state.token;
 
     return <div>
       <div class="Bgc(black) C(white) H(50px) Pos(st) T(0) Mb(20px)">
@@ -60,9 +60,9 @@ export default class Navbar extends React.Component {
 
         <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
-          { loggedin &&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
-          { loggedin &&
+          { isLoggedIn &&
+          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToEdit}><i class="fas fa-edit"></i></span>}
+          { isLoggedIn &&
           <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
             <i class="fas fa-user"></i>
             <select class="Pos(a) D(b) W(50px) H(50px) T(0) End(-15px)  Op(0)" value={ROUTE_INVALID} onChange={this.changePath}>
@@ -73,7 +73,7 @@ export default class Navbar extends React.Component {
             </select>
           </span>
           }
-          {!loggedin&&
+          {!isLoggedIn&&
           <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToLogin}><i class="fas fa-sign-in-alt"></i></span>
           }
         </span>
