@@ -6,6 +6,8 @@ import RegisterPage from './components/RegisterPage';
 import HomePage from './components/HomePage';
 import Navbar from './components/Navbar';
 import PoemEditorPage from './components/PoemEditorPage';
+import PoemCreatePage from './components/PoemCreatePage';
+import PoemDetailPage from './components/PoemDetailPage';
 import ProfilePage from './components/ProfilePage';
 import PropsRoute from './PropsRoute';
 import PoetListingPage from './components/PoetListingPage';
@@ -51,6 +53,7 @@ export default class App extends React.Component {
         });
 
     if (token) {
+      localStorage.setItem(token, token.payload);
       this.setState({token: token.payload});
       this.userDetail({token: this.state.token});
       this.history.push('/');
@@ -88,15 +91,64 @@ export default class App extends React.Component {
     }
   }
 
-  async userCreatePoem({title, body, privacy, token}) {
-    const poem = await this.genericApi1('/v1/poems/create', {title, body, privacy, token})
+  async userCreatePoem({title, body, privacy, token, align}) {
+    const poem = await this.genericApi1('/v1/poems/create', {title, body, privacy, align, token})
         .catch((e)=>{
           console.log(e);
         });
     if (poem) {
+      console.log(poem);
+      this.history.push(`/poems/${poem.payload}`);
+    }
+  }
+
+  async poemDetail({poemId, token}) {
+    const poem = await this.genericApi1('/v1/poems/detail', {poemId, token})
+        .catch((e)=>{
+          console.log(e);
+        });
+    if (poem) {
+      console.log(poem);
+      return poem;
+    }
+  }
+
+  async poemEdit({poemId, title, body, privacy, align, token}) {
+    const poem = await this.genericApi1('/v1/poems/edit', {poemId, title, body, privacy, align, token})
+        .catch((e)=>{
+          console.log(e);
+        });
+    if (poem) {
+      console.log(poem);
+      this.history.push(`/poems/${poemId}`);
+    }
+  }
+
+  async poemDelete({poemId, token}) {
+    const poem = await this.genericApi1('/v1/poems/delete', {poemId, token})
+        .catch((e)=>{
+          console.log(e);
+        });
+    if (poem) {
+      console.log(poem);
       this.history.push('/me');
     }
   }
+
+  async poemLike({poemId, token}) {
+    await this.genericApi1('/v1/poems/like', {poemId, token})
+        .catch((e)=>{
+          console.log(e);
+        });
+  }
+
+  async poemUnlike({poemId, token}) {
+    await this.genericApi1('/v1/poems/unlike', {poemId, token})
+        .catch((e)=>{
+          console.log(e);
+        });
+  }
+
 
   render() {
     return <div class="Ta(c)">
@@ -110,7 +162,9 @@ export default class App extends React.Component {
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
         <PropsRoute path="/register" component={RegisterPage} app={this}/>
-        <PropsRoute path="/edit" component={PoemEditorPage} app={this}/>
+        <PropsRoute path="/write" component={PoemCreatePage} app={this}/>
+        <PropsRoute path="/poems/:poemId/edit" component={PoemEditorPage} app={this}/>
+        <PropsRoute path="/poems/:poemId" component={PoemDetailPage} app={this}/>
         <PropsRoute path="/settings/password" component={ChangePasswordPage} app={this}/>
         <PropsRoute path="/settings" component={SettingsPage} app={this}/>
 

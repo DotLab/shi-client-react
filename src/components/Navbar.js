@@ -15,7 +15,7 @@ export default class Navbar extends React.Component {
 
     this.changePath = this.changePath.bind(this);
     this.redirectToLogin = this.redirectToLogin.bind(this);
-    this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.redirectToWrite = this.redirectToWrite.bind(this);
   }
 
   changePath(e) {
@@ -36,8 +36,8 @@ export default class Navbar extends React.Component {
     this.props.history.push('/login');
   }
 
-  redirectToEdit() {
-    this.props.history.push('/edit');
+  redirectToWrite() {
+    this.props.history.push('/write');
   }
 
   render() {
@@ -60,7 +60,7 @@ export default class Navbar extends React.Component {
         <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
           { loggedin &&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToEdit}><i class="fas fa-edit"></i></span>}
+          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
           { loggedin &&
           <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
             <i class="fas fa-user"></i>

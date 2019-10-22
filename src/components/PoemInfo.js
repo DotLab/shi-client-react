@@ -1,8 +1,33 @@
 import React from 'react';
 
 export default class PoemInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.app = props.app;
+
+    this.state = {
+      likeFlag: false,
+      likeCount: this.props.likeCount,
+      viewCount: this.props.viewCount,
+      commentCount: this.props.commentCount,
+    };
+
+    this.likePoem = this.likePoem.bind(this);
+  }
+
+  likePoem(e) {
+    e.preventDefault();
+    if (!this.state.likeFlag) {
+      this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
+    } else {
+      this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
+    }
+  }
+
   render() {
-    const {author, likes, views, comments} = this.props;
+    const {author, likeCount, viewCount, commentCount} = this.state;
 
     return <div>
 
@@ -22,17 +47,17 @@ export default class PoemInfo extends React.Component {
 
         <div class="Fz(14px) My(12px) Cf">
           <span className="Cur(p) Fl(start) ">
-            <span class="Mend(10px)"><i class="far fa-heart"></i></span>
-            <span class="Td(u):h">{likes}</span>
+            <span class="Mend(10px)" onClick={this.likePoem}><i class="far fa-heart"></i></span>
+            <span class="Td(u):h">{likeCount}</span>
           </span>
           <span className="Fl(end) C($gray-500)">
             <span class="Mend(10px)"><i class="fas fa-fire"></i></span>
-            <span>{views}</span>
+            <span>{viewCount}</span>
           </span>
         </div>
 
         <div class="Fl(start) Mx(8px) Fz(14px)">
-          {comments} comment
+          {commentCount} comment
         </div>
       </div>
     </div>;
