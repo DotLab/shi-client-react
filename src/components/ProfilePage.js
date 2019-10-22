@@ -36,8 +36,8 @@ export default class HomePage extends React.Component {
   }
 
   render() {
-    const loggedin = this.app.state.token;
-    if (!loggedin) {
+    const isLoggedIn = this.app.state.token;
+    if (!isLoggedIn) {
       return <div>
         {UNAUTHORIZED}
       </div>;
