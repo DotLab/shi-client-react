@@ -28,6 +28,13 @@ export default class App extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.setState({token: token});
+    }
+  }
+
   genericApi1(event, arg) {
     return new Promise((resolve, reject) => {
       axios.post(API_URL + event, arg)
@@ -51,6 +58,7 @@ export default class App extends React.Component {
         });
 
     if (token) {
+      localStorage.setItem('token', token.payload);
       this.setState({token: token.payload});
       this.userDetail({token: this.state.token});
       this.history.push('/');
