@@ -133,3 +133,23 @@ export const NOT_FOUND = 404;
 export function short(poemBody) {
   return poemBody.slice(0, POEM_SHORT_LENGTH);
 }
+
+export const TEXT_ALIGN_START = 'TEXT_ALIGN_START';
+export const TEXT_ALIGN_CENTER = 'TEXT_ALIGN_CENTER';
+export const TEXT_ALIGN_END = 'TEXT_ALIGN_END';
+
+export function getAlignStyle(textAlign) {
+  switch (textAlign) {
+    case TEXT_ALIGN_START: return 'Ta(s)';
+    case TEXT_ALIGN_CENTER: return 'Ta(c)';
+    case TEXT_ALIGN_END: return 'Ta(e)';
+  }
+}
+
+export function getParagraphAlignStyle(textAlign) {
+  switch (textAlign) {
+    case TEXT_ALIGN_START: return 'Ta(s)';
+    case TEXT_ALIGN_CENTER: return 'Ta(c)';
+    case TEXT_ALIGN_END: return 'Ta(e)';
+  }
+}

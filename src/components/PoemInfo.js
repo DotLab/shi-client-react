@@ -1,8 +1,33 @@
 import React from 'react';
 
 export default class PoemInfo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.app = props.app;
+
+    this.state = {
+      likeFlag: false,
+      likeCount: this.props.likeCount,
+      viewCount: this.props.viewCount,
+      commentCount: this.props.commentCount,
+    };
+
+    this.likePoem = this.likePoem.bind(this);
+  }
+
+  likePoem(e) {
+    e.preventDefault();
+    if (!this.state.likeFlag) {
+      this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
+    } else {
+      this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
+    }
+  }
+
   render() {
-    const {author, likeCount, viewCount, commentCount, isOwner} = this.props;
+    const {author, likeCount, commentCount, isOwner} = this.props;
 
     return <div>
 
