@@ -2,7 +2,7 @@ import React from 'react';
 
 export default class PoemInfo extends React.Component {
   render() {
-    const {author, likes, views, comments} = this.props;
+    const {author, likeCount, viewCount, commentCount, isOwner} = this.props;
 
     return <div>
 
@@ -12,7 +12,9 @@ export default class PoemInfo extends React.Component {
           <div class="D(ib) Va(m) Fz(12px) C(gray)">
              Written by <br/><span class="Fz(16px) C(darkred) Td(u):h">{author}</span>
           </div>
+          {!isOwner&&
           <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control)">Follow</span>
+          }
         </div>
 
 
@@ -23,16 +25,12 @@ export default class PoemInfo extends React.Component {
         <div class="Fz(14px) My(12px) Cf">
           <span className="Cur(p) Fl(start) ">
             <span class="Mend(10px)"><i class="far fa-heart"></i></span>
-            <span class="Td(u):h">{likes}</span>
-          </span>
-          <span className="Fl(end) C($gray-500)">
-            <span class="Mend(10px)"><i class="fas fa-fire"></i></span>
-            <span>{views}</span>
+            <span class="Td(u):h">{likeCount}</span>
           </span>
         </div>
 
         <div class="Fl(start) Mx(8px) Fz(14px)">
-          {comments} comment
+          {commentCount} comment
         </div>
       </div>
     </div>;

@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 
 import {onChange, pushHistory, UNAUTHORIZED} from '../utils';
 import queryString from 'query-string';
-import ProfilePage from './ProfilePage';
+
 
 const POEM_1 = `C8H10N4O2  so  softly  calling
 Feel  my  energy  level  falling
@@ -47,8 +47,9 @@ export default class UserProfilePage extends React.Component {
     try {
       await this.app.userDetail({token: this.app.state.token});
       this.setState(this.app.state.user);
-      const poems = await this.app.userPoem({token: this.app.state.token});
+      const poems = await this.app.userPoem({token: this.app.state.token, targetUser: this.state._id});
       if (poems) {
+        console.log(poems);
         this.setState({poems: poems.payload});
       }
     } catch (err) {
@@ -64,7 +65,7 @@ export default class UserProfilePage extends React.Component {
       </div>;
     }
 
-    const {displayName} = this.state;
+    const {displayName, poems} = this.state;
 
     return <div>
       <ProfilePage displayName={displayName} poems={poems} isOwner={true}/>

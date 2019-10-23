@@ -6,7 +6,7 @@ import RegisterPage from './components/RegisterPage';
 import HomePage from './components/HomePage';
 import Navbar from './components/Navbar';
 import PoemEditorPage from './components/PoemEditorPage';
-import ProfilePage from './components/ProfilePage';
+import UserProfilePage from './components/UserProfilePage';
 import PropsRoute from './PropsRoute';
 import PoetListingPage from './components/PoetListingPage';
 import ChangePasswordPage from './components/ChangePasswordPage';
@@ -128,8 +128,8 @@ export default class App extends React.Component {
         });
   }
 
-  async userPoem({token}) {
-    const poems = await this.genericAPI('/v1/user/poems', {token})
+  async userPoem({token, targetUser}) {
+    const poems = await this.genericAPI('/v1/poets/poems', {token, targetUser})
         .catch((e)=>{
           console.log(e);
           throw new Error(e);
@@ -145,10 +145,10 @@ export default class App extends React.Component {
 
       <Switch>
         <PropsRoute exact path="/" component={HomePage} app={this}/>
-        <PropsRoute path="/me/following" component={ProfilePage} page="following" app={this}/>
-        <PropsRoute path="/me/follower" component={ProfilePage} page="follower" app={this}/>
-        <PropsRoute path="/me" component={ProfilePage} app={this}/>
-        {/* <PropsRoute path="/:userName" component={ProfilePage} app={this}/> */}
+        <PropsRoute path="/me/following" component={UserProfilePage} page="following" app={this}/>
+        <PropsRoute path="/me/follower" component={UserProfilePage} page="follower" app={this}/>
+        <PropsRoute path="/me" component={UserProfilePage} app={this}/>
+        <PropsRoute path="/user/:userName" component={UserProfilePage} app={this}/>
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
         <PropsRoute path="/register" component={RegisterPage} app={this}/>

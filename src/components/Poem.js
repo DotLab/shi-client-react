@@ -17,7 +17,7 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {viewCount, author, title, body, preview, lastEditDate, isOwner, privacy} = this.props;
+    const {author, title, body, preview, lastEditDate, isOwner, privacy, viewCount, likeCount, commentCount} = this.props;
     const {isExpanded} = this.state;
 
     return <div class="My(50px)">
@@ -32,7 +32,8 @@ export default class Poem extends React.Component {
          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px)"><Link class="Bgc(black) C(white) C(white):h"to="/edit">edit</Link></button>}
       </div>
       <div>
-        {author} • {lastEditDate}
+        {!isOwner && <span> {author} • </span>}
+        <span>{lastEditDate}</span>
       </div>
       <h3 class="Fz(24px)">
         {title}
@@ -42,7 +43,7 @@ export default class Poem extends React.Component {
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo author={author} likes="4" views="80" comments="1"/>
+      <PoemInfo author={author} likeCount={likeCount} commentCount={commentCount} isOwner={isOwner}/>
     </div>;
   }
 }
