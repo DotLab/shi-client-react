@@ -2,32 +2,7 @@ import React from 'react';
 import Poem from './Poem';
 import {Link} from 'react-router-dom';
 
-
 import {formatDate, short} from '../utils';
-import queryString from 'query-string';
-
-const POEM_1 = `C8H10N4O2  so  softly  calling
-Feel  my  energy  level  falling
-I­t  faintly  whispers  my name (psss)
-But now I'm just stuck stalling     (uh)
-I  try but just can't break  free        (so)
-"How about some herbal tea?"     (no)
-Your  suggestion  is  appalling  (ugh)
-But  coffee?  I'm  al­ways  keen
-Need that daily hit of caffeine`;
-
-const POEM_1_SHORT = `C8H10N4O2  so  softly  calling
-Feel  my  energy  level  falling
-I­t  faintly  whispers  my name (psss)
-But now I'm just stuck stalling     (uh)`;
-
-const POEM_2 = `everyday will be a new reason
-to cry over you
-everyday will also be a new reason
-to love you
-and as long as each day comes,
-i'll cry but i'll love you
-as if it will be my last`;
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
