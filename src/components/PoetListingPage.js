@@ -1,8 +1,7 @@
 import React from 'react';
-
 import UserInfo from './UserInfo';
 import queryString from 'query-string';
-import {onChange, pushHistory} from '../utils';
+import {onChange, pushHistory, formatDate} from '../utils';
 
 const QUERY_ASC = 'asc';
 const QUERY_DESC = 'desc';
@@ -11,9 +10,17 @@ const QUERY_VIEWS = 'views';
 const QUERY_LIKES = 'likes';
 const QUERY_ALPHABETICAL = 'alphabetical';
 
+const FILTER_ALL = 'all';
+const FILTER_FOLLOW = 'follow';
+
+const CURRENT_YEAR = 2019;
+const DEFAULT_LIMIT = 20;
+
+
 export default class PoetListingPage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
 
     this.query = queryString.parse(props.location.search);
     if (!this.query.sort) {
@@ -22,16 +29,41 @@ export default class PoetListingPage extends React.Component {
     }
 
     this.state = {
-      q: this.query.q || '',
-      year: this.query.year || '',
-      order: this.query.order || '',
-      sort: this.query.sort || '',
+      q: this.query.q || undefined,
+      year: this.query.year || CURRENT_YEAR,
+      order: this.query.order || undefined,
+      sort: this.query.sort || undefined,
+      limit: DEFAULT_LIMIT,
+      skip: 0,
+      poets: [],
     };
 
     this.onChange = onChange.bind(this);
     this.pushHistory = pushHistory.bind(this);
     this.search = this.search.bind(this);
     this.searchYear = this.searchYear.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      const poets = await this.app.userList({
+        token: this.app.state.token,
+        filter: FILTER_ALL,
+        // sort: this.state.sort,
+        // order: this.state.order,
+        limit: DEFAULT_LIMIT,
+        skip: this.state.skip,
+        activeYearLImit: this.state.year,
+        search: this.state.q,
+      });
+      console.log(poets);
+      if (poets) {
+        this.setState({poets: poets.payload});
+        console.log(this.state.poets);
+      }
+    } catch (err) {
+      console.log('error');
+    }
   }
 
   componentWillReceiveProps(newprops) {
@@ -71,7 +103,7 @@ export default class PoetListingPage extends React.Component {
   }
 
   render() {
-    const {q, sort, order, year} = this.state;
+    const {q, sort, order, year, poets} = this.state;
     return <div>
       <h2>Poets</h2>
       <form>
@@ -89,12 +121,7 @@ export default class PoetListingPage extends React.Component {
         </span>
       </div>
       <div class="Maw(500px) Mx(a) Mt(12px)">
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
+        {poets.map((poet) => <UserInfo key={poet.id} displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)}/>)}
       </div>
     </div>;
   }

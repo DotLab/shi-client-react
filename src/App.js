@@ -23,7 +23,7 @@ export default class App extends React.Component {
     this.history = props.history;
     this.state = {
       user: null,
-      token: null,
+      token: '',
       error: null,
     };
   }
@@ -31,6 +31,7 @@ export default class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
     if (token) {
+      console.log(token);
       this.setState({token: token});
     }
   }
@@ -60,14 +61,14 @@ export default class App extends React.Component {
     if (token) {
       localStorage.setItem('token', token.payload);
       this.setState({token: token.payload});
-      this.userDetail({token: this.state.token});
+      this.userDetail({token: token.payload});
       this.history.push('/');
     }
   }
 
   async userLogOut() {
     localStorage.removeItem('token');
-    this.setState({token: null});
+    this.setState({token: ''});
     this.history.push('/');
   }
 
@@ -101,6 +102,17 @@ export default class App extends React.Component {
     }
   }
 
+
+  async userList({token, filter, sort, order, limit, skip, activeYearLimit, search}) {
+    const poets = await this.genericApi1('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+    if (poets) {
+      return poets;
+    }
+  }
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>
