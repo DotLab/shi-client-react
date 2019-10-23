@@ -2,7 +2,8 @@ import React from 'react';
 import Poem from './Poem';
 import {Link} from 'react-router-dom';
 
-import {onChange, pushHistory, UNAUTHORIZED} from '../utils';
+
+import {formatDate, short} from '../utils';
 import queryString from 'query-string';
 
 const POEM_1 = `C8H10N4O2  so  softly  calling
@@ -28,34 +29,13 @@ and as long as each day comes,
 i'll cry but i'll love you
 as if it will be my last`;
 
-export default class HomePage extends React.Component {
+export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    this.app = props.app;
-    this.state = {
-      _id: null,
-      displayName: null,
-      followingCount: 0,
-      followerCount: 0,
-      viewCount: 0,
-    };
-  }
-
-  async componentDidMount() {
-    await this.app.userDetail({token: this.app.state.token});
-    this.setState(this.app.state.user);
   }
 
   render() {
-    const isLoggedIn = this.app.state.token;
-    if (!isLoggedIn) {
-      return <div>
-        {UNAUTHORIZED}
-      </div>;
-    }
-
-    const {displayName} = this.state;
-
+    const {displayName, poems, isOwner} = this.props;
     return <div>
       <h3 class="Fz(24px)">
         {displayName}
@@ -66,9 +46,12 @@ export default class HomePage extends React.Component {
         <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me/follower">follower</Link>
       </div>
       <div>
-        <Poem shouldShowEditButton visibility="public" hotness="723" author="MicMag" title="Coffee" date="23h" body={POEM_1} preview={POEM_1_SHORT} />
-        <Poem shouldShowEditButton visibility="public" hotness="530" author="last rainy night"
-          title="even if it's the last thing i do" date="1w" body={POEM_2} />
+
+        {poems.map((poem) => <Poem key={poem._id} id={poem._id} author={poem.author} title={poem.title}
+          body={poem.body} privacy={poem.privacy} lastEditDate={formatDate(poem.lastEditDate)}
+          viewCount={poem.viewCount} preview={short(poem.body)} isOwner={isOwner}
+        />)}
+
       </div>
     </div>;
   }

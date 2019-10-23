@@ -17,22 +17,22 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {hotness, author, title, body, preview, date, shouldShowEditButton, visibility} = this.props;
+    const {viewCount, author, title, body, preview, lastEditDate, isOwner, privacy} = this.props;
     const {isExpanded} = this.state;
 
     return <div class="My(50px)">
       <div class="C(lightgrey) Fz(14dpx)">
-        <i class="fas fa-fire"></i> {hotness}°
+        <i class="fas fa-fire"></i> {viewCount}°
       </div>
       <div>
-        {visibility &&
-        <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>}
+        {isOwner &&
+        <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{privacy}</span>}
 
-        {shouldShowEditButton &&
+        {isOwner &&
          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px)"><Link class="Bgc(black) C(white) C(white):h"to="/edit">edit</Link></button>}
       </div>
       <div>
-        {author} • {date}
+        {author} • {lastEditDate}
       </div>
       <h3 class="Fz(24px)">
         {title}

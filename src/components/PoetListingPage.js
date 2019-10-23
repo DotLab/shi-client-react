@@ -1,7 +1,7 @@
 import React from 'react';
 import UserInfo from './UserInfo';
 import queryString from 'query-string';
-import {onChange, pushHistory, formatDate} from '../utils';
+import {onChange, pushHistory, formatDate, genericAPI} from '../utils';
 
 const QUERY_ASC = 'asc';
 const QUERY_DESC = 'desc';
@@ -11,7 +11,6 @@ const QUERY_LIKES = 'likes';
 const QUERY_ALPHABETICAL = 'alphabetical';
 
 const FILTER_ALL = 'all';
-const FILTER_FOLLOW = 'follow';
 
 const CURRENT_YEAR = 2019;
 const DEFAULT_LIMIT = 20;
@@ -42,6 +41,8 @@ export default class PoetListingPage extends React.Component {
     this.pushHistory = pushHistory.bind(this);
     this.search = this.search.bind(this);
     this.searchYear = this.searchYear.bind(this);
+    this.userFollow = this.userFollow.bind(this);
+    this.userUnfollow = this.userUnfollow.bind(this);
   }
 
   async componentDidMount() {
@@ -49,24 +50,22 @@ export default class PoetListingPage extends React.Component {
       const poets = await this.app.userList({
         token: this.app.state.token,
         filter: FILTER_ALL,
-        // sort: this.state.sort,
-        // order: this.state.order,
+        sort: this.state.sort,
+        order: this.state.order,
         limit: DEFAULT_LIMIT,
         skip: this.state.skip,
         activeYearLImit: this.state.year,
         search: this.state.q,
       });
-      console.log(poets);
       if (poets) {
         this.setState({poets: poets.payload});
-        console.log(this.state.poets);
       }
     } catch (err) {
       console.log('error');
     }
   }
 
-  componentWillReceiveProps(newprops) {
+  async componentWillReceiveProps(newprops) {
     this.query = queryString.parse(newprops.location.search);
     if (!this.query.sort) {
       this.query.sort = QUERY_DATE;
@@ -74,11 +73,29 @@ export default class PoetListingPage extends React.Component {
     }
 
     this.setState({
-      q: this.query.q || '',
-      year: this.query.year || '',
-      order: this.query.order || '',
-      sort: this.query.sort || '',
+      q: this.query.q || undefined,
+      year: this.query.year || CURRENT_YEAR,
+      order: this.query.order || undefined,
+      sort: this.query.sort || undefined,
     });
+
+    try {
+      const poets = await this.app.userList({
+        token: this.app.state.token,
+        filter: FILTER_ALL,
+        sort: this.state.sort,
+        order: this.state.order,
+        limit: DEFAULT_LIMIT,
+        skip: this.state.skip,
+        activeYearLImit: this.state.year,
+        search: this.state.q,
+      });
+      if (poets) {
+        this.setState({poets: poets.payload});
+      }
+    } catch (err) {
+      console.log('error');
+    }
   }
 
   search(e) {
@@ -102,6 +119,28 @@ export default class PoetListingPage extends React.Component {
     this.pushHistory();
   }
 
+  async userFollow(id) {
+    try {
+      await this.app.userFollowUser({followId: id, token: this.app.state.token});
+      this.pushHistory();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async userUnfollow(id) {
+    try {
+      await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
+      this.pushHistory();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  redirectToUserPage() {
+    this.app.history.push(`/${this.props.userName}`);
+  }
+
   render() {
     const {q, sort, order, year, poets} = this.state;
     return <div>
@@ -121,7 +160,10 @@ export default class PoetListingPage extends React.Component {
         </span>
       </div>
       <div class="Maw(500px) Mx(a) Mt(12px)">
-        {poets.map((poet) => <UserInfo key={poet.id} displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)}/>)}
+        {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
+          displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
+          followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
+          isFollowing={poet.isFollowing} />)}
       </div>
     </div>;
   }

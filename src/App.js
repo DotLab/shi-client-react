@@ -31,12 +31,11 @@ export default class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
     if (token) {
-      console.log(token);
       this.setState({token: token});
     }
   }
 
-  genericApi1(event, arg) {
+  genericAPI(event, arg) {
     return new Promise((resolve, reject) => {
       axios.post(API_URL + event, arg)
           .then(function(response) {
@@ -53,7 +52,7 @@ export default class App extends React.Component {
   }
 
   async userLogin({email, password}) {
-    const token = await this.genericApi1('/v1/users/login', {email, password})
+    const token = await this.genericAPI('/v1/users/login', {email, password})
         .catch((e)=>{
           throw new Error(e);
         });
@@ -73,7 +72,7 @@ export default class App extends React.Component {
   }
 
   async userRegister({userName, email, displayName, password}) {
-    const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password})
+    const user = await this.genericAPI('/v1/users/register', {email, userName, displayName, password})
         .catch((e)=>{
           throw new Error(e);
         });
@@ -83,7 +82,7 @@ export default class App extends React.Component {
   }
 
   async userChangePassword({currentPassword, newPassword, token}) {
-    const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword})
+    const user = await this.genericAPI('/v1/users/settings/password/change', {token, currentPassword, newPassword})
         .catch((e)=>{
           throw new Error(e);
         });
@@ -93,7 +92,7 @@ export default class App extends React.Component {
   }
 
   async userDetail({token}) {
-    const user = await this.genericApi1('/v1/users/detail', {token})
+    const user = await this.genericAPI('/v1/users/detail', {token})
         .catch((e)=>{
           throw new Error(e);
         });
@@ -102,9 +101,8 @@ export default class App extends React.Component {
     }
   }
 
-
   async userList({token, filter, sort, order, limit, skip, activeYearLimit, search}) {
-    const poets = await this.genericApi1('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search})
+    const poets = await this.genericAPI('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search})
         .catch((e)=>{
           console.log(e);
           throw new Error(e);
@@ -113,6 +111,34 @@ export default class App extends React.Component {
       return poets;
     }
   }
+
+  async userFollowUser({token, followId}) {
+    await this.genericAPI('/v1/users/follow', {token, followId})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+  }
+
+  async userUnfollowUser({token, unfollowId}) {
+    await this.genericAPI('/v1/users/unfollow', {token, unfollowId})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+  }
+
+  async userPoem({token}) {
+    const poems = await this.genericAPI('/v1/user/poems', {token})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+    if (poems) {
+      return poems;
+    }
+  }
+
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>
@@ -122,6 +148,7 @@ export default class App extends React.Component {
         <PropsRoute path="/me/following" component={ProfilePage} page="following" app={this}/>
         <PropsRoute path="/me/follower" component={ProfilePage} page="follower" app={this}/>
         <PropsRoute path="/me" component={ProfilePage} app={this}/>
+        {/* <PropsRoute path="/:userName" component={ProfilePage} app={this}/> */}
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
         <PropsRoute path="/register" component={RegisterPage} app={this}/>
