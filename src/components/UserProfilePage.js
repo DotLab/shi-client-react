@@ -13,6 +13,8 @@ export default class UserProfilePage extends React.Component {
       viewCount: 0,
       poems: [],
     };
+    this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.redirectToDetail = this.redirectToDetail.bind(this);
   }
 
   async componentDidMount() {
@@ -29,7 +31,6 @@ export default class UserProfilePage extends React.Component {
       this.setState(poet.payload[0]);
     }
 
-
     try {
       const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
       if (poems) {
@@ -40,6 +41,14 @@ export default class UserProfilePage extends React.Component {
     }
   }
 
+  redirectToEdit(poemId) {
+    this.app.history.push(`/poems/${poemId}/edit`);
+  }
+
+  redirectToDetail(poemId) {
+    this.app.history.push(`/poems/${poemId}`);
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -48,7 +57,9 @@ export default class UserProfilePage extends React.Component {
     const {displayName, poems} = this.state;
 
     return <div>
-      <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}/>
+      <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}
+        redirectToEdit={this.redirectToEdit}
+        redirectToDetail={this.redirectToDetail}/>
     </div>;
   }
 }
