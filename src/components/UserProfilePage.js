@@ -20,8 +20,21 @@ export default class UserProfilePage extends React.Component {
   async componentDidMount() {
     try {
       await this.app.userDetail({token: this.app.state.token});
-      this.setState(this.app.state.user);
-      const poems = await this.app.userPoem({token: this.app.state.token, targetUser: this.state._id});
+    } catch (err) {
+      console.log(err);
+    }
+    if (this.props.match.params.userName !== undefined) {
+      const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
+      this.setState(poet.payload[0]);
+    } else {
+      console.log(this.app.state.user);
+      const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
+      this.setState(poet.payload[0]);
+    }
+
+
+    try {
+      const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
       if (poems) {
         this.setState({poems: poems.payload});
       }
@@ -31,17 +44,16 @@ export default class UserProfilePage extends React.Component {
   }
 
   render() {
-    const isLoggedIn = this.app.state.token;
-    if (!isLoggedIn) {
-      return <div>
-        {UNAUTHORIZED}
-      </div>;
+    let isOwner = true;
+    if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
+      isOwner = false;
     }
+    console.log(this.app.state.user);
 
     const {displayName, poems} = this.state;
 
     return <div>
-      <ProfilePage displayName={displayName} poems={poems} isOwner={true}/>
+      <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}/>
     </div>;
   }
 }

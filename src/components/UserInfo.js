@@ -6,6 +6,7 @@ export default class UserInfo extends React.Component {
 
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.profile = this.profile.bind(this);
   }
 
   async follow(e) {
@@ -26,6 +27,10 @@ export default class UserInfo extends React.Component {
     }
   }
 
+  profile() {
+    this.props.redirectToProfile(this.props.userName);
+  }
+
   render() {
     // id displayName followingCount followerCount lastActive viewCount
     const {displayName, lastActiveDate, isFollowing} = this.props;
@@ -34,7 +39,7 @@ export default class UserInfo extends React.Component {
       <div class="D(f) W(100%) Bgc(whitesmoke) P(10px) Mb(16px) Bdrs($bdrs-control) Ta(s)">
         <img class="Bdrs(100%) Mend(20px) D(b)" src="https://hellopoetry.s3.amazonaws.com/static/cache/0a/b7/0ab77aba9927aa7eaf46917bcab83c12.jpg" alt=""/>
         <div class="W(100%)">
-          <span class="C(darkred)">{displayName}</span>
+          <span class="C(darkred) Td(u):h Cur(p):h" onClick={this.profile}>{displayName}</span>
           <br/>
           <span class="Fz(14px) C($gray-500)">last active: {lastActiveDate}</span>
         </div>

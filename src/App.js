@@ -130,10 +130,9 @@ export default class App extends React.Component {
         });
   }
 
-  async userPoem({token, targetUser}) {
-    const poems = await this.genericAPI('/v1/poets/poems', {token, targetUser})
+  async userPoem({token, poetId}) {
+    const poems = await this.genericAPI('/v1/poets/poems', {token, poetId})
         .catch((e)=>{
-          console.log(e);
           throw new Error(e);
         });
     if (poems) {
@@ -147,7 +146,6 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poem) {
-      console.log(poem);
       this.history.push(`/poems/${poem.payload}`);
     }
   }
@@ -158,7 +156,6 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poem) {
-      console.log(poem);
       return poem;
     }
   }
@@ -169,7 +166,6 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poem) {
-      console.log(poem);
       this.history.push(`/poems/${poemId}`);
     }
   }
@@ -180,7 +176,6 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poem) {
-      console.log(poem);
       this.history.push('/me');
     }
   }
@@ -199,6 +194,16 @@ export default class App extends React.Component {
         });
   }
 
+  async poetDetail({userName}) {
+    const poet = await this.genericAPI('/v1/poets/detail', {userName})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poet) {
+      return poet;
+    }
+  }
+
 
   render() {
     return <div class="Ta(c)">
@@ -209,7 +214,7 @@ export default class App extends React.Component {
         <PropsRoute path="/me/following" component={UserProfilePage} page="following" app={this}/>
         <PropsRoute path="/me/follower" component={UserProfilePage} page="follower" app={this}/>
         <PropsRoute path="/me" component={UserProfilePage} app={this}/>
-        <PropsRoute path="/user/:userName" component={UserProfilePage} app={this}/>
+        <PropsRoute path="/poets/:userName" component={UserProfilePage} app={this}/>
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
         <PropsRoute path="/register" component={RegisterPage} app={this}/>
