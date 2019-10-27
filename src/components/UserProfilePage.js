@@ -1,8 +1,6 @@
 import React from 'react';
 import ProfilePage from './ProfilePage';
 
-import {UNAUTHORIZED} from '../utils';
-
 export default class UserProfilePage extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +25,6 @@ export default class UserProfilePage extends React.Component {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
       this.setState(poet.payload[0]);
     } else {
-      console.log(this.app.state.user);
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
       this.setState(poet.payload[0]);
     }
@@ -48,8 +45,6 @@ export default class UserProfilePage extends React.Component {
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
       isOwner = false;
     }
-    console.log(this.app.state.user);
-
     const {displayName, poems} = this.state;
 
     return <div>

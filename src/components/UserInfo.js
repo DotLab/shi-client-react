@@ -32,7 +32,6 @@ export default class UserInfo extends React.Component {
   }
 
   render() {
-    // id displayName followingCount followerCount lastActive viewCount
     const {displayName, lastActiveDate, isFollowing} = this.props;
 
     return <div>
