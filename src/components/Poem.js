@@ -16,6 +16,7 @@ export default class Poem extends React.Component {
 
   expand() {
     this.setState({isExpanded: true});
+    this.props.toVisit(this.props.id);
   }
 
   edit() {

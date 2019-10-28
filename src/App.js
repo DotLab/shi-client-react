@@ -195,6 +195,13 @@ export default class App extends React.Component {
         });
   }
 
+  async poemVisit({poemId, token}) {
+    this.genericAPI('/v1/poems/visit', {poemId, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+  }
+
   async poetDetail({userName}) {
     const poet = await this.genericAPI('/v1/poets/detail', {userName})
         .catch((e)=>{

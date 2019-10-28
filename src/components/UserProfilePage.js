@@ -19,6 +19,7 @@ export default class UserProfilePage extends React.Component {
     this.redirectToPoem = this.redirectToPoem.bind(this);
     this.redirectToFollower = this.redirectToFollower.bind(this);
     this.redirectToFollowing = this.redirectToFollowing.bind(this);
+    this.visitPoem = this.visitPoem.bind(this);
   }
 
   async componentDidMount() {
@@ -65,6 +66,10 @@ export default class UserProfilePage extends React.Component {
     this.app.history.push(`/poets/${this.state.userName}/follower`);
   }
 
+  visitPoem(poemId) {
+    this.app.poemVisit({poemId: poemId, token: this.app.state.token});
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -79,6 +84,7 @@ export default class UserProfilePage extends React.Component {
         redirectToPoem={this.redirectToPoem}
         redirectToFollower={this.redirectToFollower}
         redirectToFollowing={this.redirectToFollowing}
+        visitPoem={this.visitPoem}
       />
     </div>;
   }
