@@ -7,6 +7,7 @@ export default class UserProfilePage extends React.Component {
     this.app = props.app;
     this.state = {
       _id: null,
+      userName: null,
       displayName: null,
       followingCount: 0,
       followerCount: 0,
@@ -15,6 +16,9 @@ export default class UserProfilePage extends React.Component {
     };
     this.redirectToEdit = this.redirectToEdit.bind(this);
     this.redirectToDetail = this.redirectToDetail.bind(this);
+    this.redirectToPoem = this.redirectToPoem.bind(this);
+    this.redirectToFollower = this.redirectToFollower.bind(this);
+    this.redirectToFollowing = this.redirectToFollowing.bind(this);
   }
 
   async componentDidMount() {
@@ -49,6 +53,18 @@ export default class UserProfilePage extends React.Component {
     this.app.history.push(`/poems/${poemId}`);
   }
 
+  redirectToPoem() {
+    this.app.history.push(`/poets/${this.state.userName}`);
+  }
+
+  redirectToFollowing() {
+    this.app.history.push(`/poets/${this.state.userName}/following`);
+  }
+
+  redirectToFollower() {
+    this.app.history.push(`/poets/${this.state.userName}/follower`);
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -59,7 +75,11 @@ export default class UserProfilePage extends React.Component {
     return <div>
       <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}
         redirectToEdit={this.redirectToEdit}
-        redirectToDetail={this.redirectToDetail}/>
+        redirectToDetail={this.redirectToDetail}
+        redirectToPoem={this.redirectToPoem}
+        redirectToFollower={this.redirectToFollower}
+        redirectToFollowing={this.redirectToFollowing}
+      />
     </div>;
   }
 }

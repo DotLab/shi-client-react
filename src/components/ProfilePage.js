@@ -9,6 +9,9 @@ export default class ProfilePage extends React.Component {
     super(props);
     this.toEdit = this.toEdit.bind(this);
     this.toDetail = this.toDetail.bind(this);
+    this.toPoem = this.toPoem.bind(this);
+    this.toFollower = this.toFollower.bind(this);
+    this.toFollowing = this.toFollowing.bind(this);
   }
 
   toEdit(poemId) {
@@ -19,6 +22,17 @@ export default class ProfilePage extends React.Component {
     this.props.redirectToDetail(poemId);
   }
 
+  toPoem(poemId) {
+    this.props.redirectToPoem(poemId);
+  }
+  toFollower(poemId) {
+    this.props.redirectToFollower(poemId);
+  }
+
+  toFollowing(poemId) {
+    this.props.redirectToFollowing(poemId);
+  }
+
   render() {
     const {displayName, poems, isOwner} = this.props;
     return <div>
@@ -26,9 +40,9 @@ export default class ProfilePage extends React.Component {
         {displayName}
       </h3>
       <div class="Fz(12px) C(gray)">
-        <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me">poems</Link>
-        <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me/following">following</Link>
-        <Link class="Mx(6px) Cur(p) Td(u):h C(gray)" to="/me/follower">follower</Link>
+        <span class="Mx(6px) Cur(p) Td(u) C(gray)" onClick={this.toPoem}>poems</span>
+        <span class="Mx(6px) Cur(p) Td(u):h C(gray)" onClick={this.toFollowing}>following</span>
+        <span class="Mx(6px) Cur(p) Td(u):h C(gray)" onClick={this.toFollower}>follower</span>
       </div>
       <div>
 
