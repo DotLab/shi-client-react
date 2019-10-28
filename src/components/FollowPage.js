@@ -33,7 +33,6 @@ export default class FollowListingPage extends React.Component {
 
     try {
       if (this.props.page === 'following') {
-        console.log(this.state.userName);
         const poets = await this.app.followingList({
           userName: this.state.userName,
         });

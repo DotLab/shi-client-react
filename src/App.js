@@ -213,7 +213,6 @@ export default class App extends React.Component {
   }
 
   async followerList({userName}) {
-    console.log(userName);
     const poets = await this.genericAPI('/v1/poets/follower', {userName})
         .catch((e)=>{
           console.log(e);
@@ -242,7 +241,6 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (followingStatus) {
-      console.log(followingStatus);
       return followingStatus.payload;
     }
   }
