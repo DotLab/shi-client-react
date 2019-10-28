@@ -133,3 +133,15 @@ export const NOT_FOUND = 404;
 export function short(poemBody) {
   return poemBody.slice(0, POEM_SHORT_LENGTH);
 }
+
+export const FILTER_ALL = 'all';
+export const FILTER_FOLLOWING = 'following';
+
+export const CURRENT_YEAR = 2019;
+export const DEFAULT_LIMIT = 20;
+export const QUERY_ASC = 'asc';
+export const QUERY_DESC = 'desc';
+export const QUERY_DATE = 'date';
+export const QUERY_VIEWS = 'views';
+export const QUERY_LIKES = 'likes';
+export const QUERY_ALPHABETICAL = 'alphabetical';

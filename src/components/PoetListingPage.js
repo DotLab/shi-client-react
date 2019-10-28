@@ -1,20 +1,9 @@
 import React from 'react';
 import UserInfo from './UserInfo';
 import queryString from 'query-string';
-import {onChange, pushHistory, formatDate, genericAPI} from '../utils';
-
-const QUERY_ASC = 'asc';
-const QUERY_DESC = 'desc';
-const QUERY_DATE = 'date';
-const QUERY_VIEWS = 'views';
-const QUERY_LIKES = 'likes';
-const QUERY_ALPHABETICAL = 'alphabetical';
-
-const FILTER_ALL = 'all';
-
-const CURRENT_YEAR = 2019;
-const DEFAULT_LIMIT = 20;
-
+import {onChange, pushHistory, formatDate} from '../utils';
+import {QUERY_ASC, QUERY_DESC, QUERY_DATE, QUERY_VIEWS, QUERY_LIKES, QUERY_ALPHABETICAL,
+  FILTER_ALL, CURRENT_YEAR, DEFAULT_LIMIT} from '../utils';
 
 export default class PoetListingPage extends React.Component {
   constructor(props) {
