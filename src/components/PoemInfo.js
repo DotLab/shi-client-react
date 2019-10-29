@@ -15,19 +15,28 @@ export default class PoemInfo extends React.Component {
     this.likePoem = this.likePoem.bind(this);
   }
 
-  likePoem(e) {
+  async likePoem(e) {
     e.preventDefault();
     if (!this.state.likeFlag) {
-      this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
-      this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
+      try {
+        await this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
+        this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
+      } catch (e) {
+        console.log(e);
+      }
     } else {
-      this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
-      this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
+      try {
+        await this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
+        this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
   render() {
-    const {author, likeCount, viewCount, commentCount} = this.state;
+    const {author, isOwner} = this.props;
+    const {likeCount, commentCount} = this.state;
 
     return <div>
 
@@ -37,7 +46,9 @@ export default class PoemInfo extends React.Component {
           <div class="D(ib) Va(m) Fz(12px) C(gray)">
              Written by <br/><span class="Fz(16px) C(darkred) Td(u):h">{author}</span>
           </div>
+          {!isOwner&&
           <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control)">Follow</span>
+          }
         </div>
 
 
@@ -50,10 +61,6 @@ export default class PoemInfo extends React.Component {
             <span class="Mend(10px)" onClick={this.likePoem}><i class="far fa-heart"></i></span>
             <span class="Td(u):h">{likeCount}</span>
           </span>
-          <span className="Fl(end) C($gray-500)">
-            <span class="Mend(10px)"><i class="fas fa-fire"></i></span>
-            <span>{viewCount}</span>
-          </span>
         </div>
 
         <div class="Fl(start) Mx(8px) Fz(14px)">
@@ -63,4 +70,3 @@ export default class PoemInfo extends React.Component {
     </div>;
   }
 }
-

@@ -93,6 +93,7 @@ export default class App extends React.Component {
         });
     if (user) {
       this.setState({user: user.payload});
+      console.log(this.state.user);
     }
   }
 
