@@ -2,7 +2,7 @@ import React from 'react';
 import PoemInfo from './PoemInfo';
 import {Link} from 'react-router-dom';
 import {formatDateTime, UNAUTHORIZED} from '../utils';
-import {getAlignStyle} from '../utils';
+import {getAlignStyle, pushHistory} from '../utils';
 
 export default class PoemDetailPage extends React.Component {
   constructor(props) {
@@ -21,19 +21,55 @@ export default class PoemDetailPage extends React.Component {
       likeCount: 0,
       viewCount: 0,
       commentCount: 0,
+      authorName: null,
+      likeStatus: false,
     };
+    this.pushHistory = pushHistory.bind(this);
     this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.poemLike = this.poemLike.bind(this);
+    this.poemUnlike = this.poemUnlike.bind(this);
   }
 
   async componentDidMount() {
-    const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
-    if (poem) {
-      this.setState(poem.payload);
+    try {
+      const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
+      if (poem) {
+        this.setState(poem);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      const poet = await this.app.poetDetail({userId: this.state.id});
+      if (poet) {
+        this.setState({authorName: poet.displayName});
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
   redirectToEdit() {
     this.app.history.push(`/poems/${this.state._id}/edit`);
+  }
+
+  async poemLike() {
+    try {
+      await this.app.poemLike({poemId: this.state._id, token: this.app.state.token});
+      this.pushHistory();
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async poemUnlike() {
+    try {
+      await this.app.poemUnlike({poemId: this.state._id, token: this.app.state.token});
+      this.pushHistory();
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   render() {
@@ -67,7 +103,9 @@ export default class PoemDetailPage extends React.Component {
           {body}
         </p>
 
-        <PoemInfo author={displayName} likeCount={likeCount} viewCount={viewCount} commentCount={commentCount} poemId={this.state._id} app={this.app}/>
+        <PoemInfo author={displayName} likeCount={likeCount}
+          viewCount={viewCount} commentCount={commentCount}
+          poemId={this.state._id} poemLike={this.poemLike} poemUnlike={this.poemUnlike}/>
       </div>
     </div>;
   }

@@ -124,6 +124,7 @@ export default class App extends React.Component {
   }
 
   async userUnfollowUser({token, unfollowId}) {
+    console.log('got to here');
     await this.genericAPI('/v1/users/unfollow', {token, unfollowId})
         .catch((e)=>{
           console.log(e);
@@ -137,7 +138,7 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poems) {
-      return poems;
+      return poems.payload;
     }
   }
 
@@ -157,7 +158,7 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poem) {
-      return poem;
+      return poem.payload;
     }
   }
 
@@ -202,13 +203,13 @@ export default class App extends React.Component {
         });
   }
 
-  async poetDetail({userName}) {
-    const poet = await this.genericAPI('/v1/poets/detail', {userName})
+  async poetDetail({userName, userId}) {
+    const poet = await this.genericAPI('/v1/poets/detail', {userName, userId})
         .catch((e)=>{
           throw new Error(e);
         });
     if (poet) {
-      return poet;
+      return poet.payload;
     }
   }
 
@@ -219,7 +220,7 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poets) {
-      return poets;
+      return poets.payload;
     }
   }
 
@@ -230,7 +231,7 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poets) {
-      return poets;
+      return poets.payload;
     }
   }
 
@@ -242,6 +243,17 @@ export default class App extends React.Component {
         });
     if (followingStatus) {
       return followingStatus.payload;
+    }
+  }
+
+  async likeStatus({token, poemIds}) {
+    const likeStatus = await this.genericAPI('/v1/poems/likeStatus', {token, poemIds})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+    if (likeStatus) {
+      return likeStatus.payload;
     }
   }
 

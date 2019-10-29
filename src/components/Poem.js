@@ -28,7 +28,8 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {author, align, title, body, preview, lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount} = this.props;
+    const {id, authorId, authorName, align, title, body, preview,
+      lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing} = this.props;
     const {isExpanded} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
@@ -43,7 +44,7 @@ export default class Poem extends React.Component {
          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px)" onClick={this.edit}>edit</button>}
       </div>
       <div class={getAlignStyle(align)}>
-        {!isOwner && <span> {author} • </span>}
+        {!isOwner && <span> {authorName} • </span>}
         <span>{lastEditDate}</span>
       </div>
       <h3 class={`Fz(24px) Cur(p):h `+ getAlignStyle(align)} onClick={this.detail}>
@@ -54,7 +55,8 @@ export default class Poem extends React.Component {
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo author={author} likeCount={likeCount} commentCount={commentCount} isOwner={isOwner}/>
+      <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
+        commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing}/>
     </div>;
   }
 }

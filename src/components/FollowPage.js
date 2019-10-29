@@ -25,10 +25,10 @@ export default class FollowListingPage extends React.Component {
   async componentDidMount() {
     if (this.props.match.params.userName !== undefined) {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
-      this.setState(poet.payload[0]);
+      this.setState(poet[0]);
     } else {
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
-      this.setState(poet.payload[0]);
+      this.setState(poet[0]);
     }
 
     try {
@@ -37,9 +37,9 @@ export default class FollowListingPage extends React.Component {
           userName: this.state.userName,
         });
         if (poets) {
-          this.setState({poets: poets.payload});
+          this.setState({poets: poets});
           const userIds = [];
-          poets.payload.forEach((x) => userIds.push(x._id));
+          poets.forEach((x) => userIds.push(x._id));
           const followingStatus = await this.app.followingStatus({
             token: this.app.state.token, userIds,
           });
@@ -56,9 +56,9 @@ export default class FollowListingPage extends React.Component {
           userName: this.state.userName,
         });
         if (poets) {
-          this.setState({poets: poets.payload});
+          this.setState({poets: poets});
           const userIds = [];
-          poets.payload.forEach((x) => userIds.push(x._id));
+          poets.forEach((x) => userIds.push(x._id));
           const followingStatus = await this.app.followingStatus({
             token: this.app.state.token, userIds,
           });

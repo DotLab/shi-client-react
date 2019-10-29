@@ -39,7 +39,7 @@ export default class ProfilePage extends React.Component {
   }
 
   render() {
-    const {displayName, poems, isOwner} = this.props;
+    const {displayName, poems, isOwner, isFollowing} = this.props;
     return <div>
       <h3 class="Fz(24px)">
         {displayName}
@@ -51,11 +51,11 @@ export default class ProfilePage extends React.Component {
       </div>
       <div>
 
-        {poems.map((poem) => <Poem key={poem._id} id={poem._id} author={displayName} align={poem.align} title={poem.title}
-          body={poem.body} visibility={poem.visibility} lastEditDate={formatDate(poem.lastEditDate)}
-          viewCount={poem.viewCount} likeCount={poem.likeCount} commentCount={poem.commentCount}
-          preview={short(poem.body)} isOwner={isOwner} toEdit={this.toEdit} toDetail={this.toDetail}
-          toVisit={this.toVisit}
+        {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId} authorName={displayName}
+          align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
+          lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
+          commentCount={poem.commentCount} preview={short(poem.body)} isOwner={isOwner} toEdit={this.toEdit}
+          toDetail={this.toDetail} toVisit={this.toVisit} isFollowing={isFollowing}
         />)}
 
       </div>
