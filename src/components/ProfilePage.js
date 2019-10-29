@@ -33,7 +33,7 @@ export default class ProfilePage extends React.Component {
       <div>
 
         {poems.map((poem) => <Poem key={poem._id} id={poem._id} author={displayName} align={poem.align} title={poem.title}
-          body={poem.body} privacy={poem.privacy} lastEditDate={formatDate(poem.lastEditDate)}
+          body={poem.body} visibility={poem.visibility} lastEditDate={formatDate(poem.lastEditDate)}
           viewCount={poem.viewCount} likeCount={poem.likeCount} commentCount={poem.commentCount}
           preview={short(poem.body)} isOwner={isOwner} toEdit={this.toEdit} toDetail={this.toDetail}
         />)}
