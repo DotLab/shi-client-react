@@ -11,12 +11,12 @@ export default class PoemDetailPage extends React.Component {
 
     this.state = {
       _id: null,
-      author: null,
+      authorId: null,
       title: '',
       body: '',
       writtenDate: null,
       lastEditDate: null,
-      privacy: '',
+      visibility: '',
       align: '',
       likeCount: 0,
       viewCount: 0,
@@ -45,7 +45,7 @@ export default class PoemDetailPage extends React.Component {
       </div>;
     }
 
-    const {align, title, body, privacy, likeCount, viewCount, commentCount} = this.state;
+    const {align, title, body, visibility, likeCount, viewCount, commentCount} = this.state;
     const writtenDateFormatted = formatDateTime(this.state.writtenDate);
     const displayName = this.app.state.user ? this.app.state.user.displayName : '';
 
@@ -53,7 +53,7 @@ export default class PoemDetailPage extends React.Component {
       <div>
 
         <div class={getAlignStyle(align)}>
-          <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{privacy}</span>
+          <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>
           <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px) Td(u):h" onClick={this.redirectToEdit}>
             edit
           </button>

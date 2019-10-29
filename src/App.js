@@ -96,8 +96,8 @@ export default class App extends React.Component {
     }
   }
 
-  async userCreatePoem({title, body, privacy, token, align}) {
-    const poem = await this.genericApi1('/v1/poems/create', {title, body, privacy, align, token})
+  async userCreatePoem({title, body, visibility, token, align}) {
+    const poem = await this.genericApi1('/v1/poems/create', {title, body, visibility, align, token})
         .catch((e)=>{
           throw new Error(e);
         });
@@ -118,8 +118,8 @@ export default class App extends React.Component {
     }
   }
 
-  async poemEdit({poemId, title, body, privacy, align, token}) {
-    const poem = await this.genericApi1('/v1/poems/edit', {poemId, title, body, privacy, align, token})
+  async poemEdit({poemId, title, body, visibility, align, token}) {
+    const poem = await this.genericApi1('/v1/poems/edit', {poemId, title, body, visibility, align, token})
         .catch((e)=>{
           throw new Error(e);
         });
