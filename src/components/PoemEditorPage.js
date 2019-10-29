@@ -11,12 +11,12 @@ export default class PoemEditorPage extends React.Component {
 
     this.state = {
       _id: null,
-      author: null,
+      authorId: null,
       title: '',
       body: '',
       writtenDate: null,
       lastEditDate: null,
-      privacy: '',
+      visibility: '',
       align: '',
       likeCount: 0,
       viewCount: 0,
@@ -35,7 +35,7 @@ export default class PoemEditorPage extends React.Component {
   poemEdit(e) {
     e.preventDefault();
     this.app.poemEdit({poemId: this.state._id, title: this.state.title,
-      body: this.state.body, privacy: this.state.privacy,
+      body: this.state.body, visibility: this.state.visibility,
       align: this.state.align, token: this.app.state.token});
   }
 
@@ -52,12 +52,13 @@ export default class PoemEditorPage extends React.Component {
   }
 
   render() {
-    const {align, title, body, privacy} = this.state;
+    const {align, title, body, visibility} = this.state;
+    console.log(align);
 
     return <div>
       <div class="Maw(600px) Ta(s) Bgc(whitesmoke) Mih(500px) Bdrs($bdrs-panel) P($p-panel) Mx(a)">
         <div>
-          <select class="Bgc(white) P(4px) Bdrs($bdrs-control) Bdc(t)" name="privacy" value={privacy} onChange={this.onChange}>
+          <select class="Bgc(white) P(4px) Bdrs($bdrs-control) Bdc(t)" name="visibility" value={visibility} onChange={this.onChange}>
             <option value="public">Public</option>
             <option value="community">Community</option>
             <option value="private">Private</option>

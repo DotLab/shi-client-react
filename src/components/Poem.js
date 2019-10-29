@@ -28,7 +28,7 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {author, align, title, body, preview, lastEditDate, isOwner, privacy, viewCount, likeCount, commentCount} = this.props;
+    const {author, align, title, body, preview, lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount} = this.props;
     const {isExpanded} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
@@ -37,7 +37,7 @@ export default class Poem extends React.Component {
       </div>
       <div class={getAlignStyle(align)}>
         {isOwner &&
-        <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{privacy}</span>}
+        <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>}
 
         {isOwner &&
          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px)" onClick={this.edit}>edit</button>}

@@ -15,19 +15,28 @@ export default class PoemInfo extends React.Component {
     this.likePoem = this.likePoem.bind(this);
   }
 
-  likePoem(e) {
+  async likePoem(e) {
     e.preventDefault();
     if (!this.state.likeFlag) {
-      this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
-      this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
+      try {
+        await this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
+        this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
+      } catch (e) {
+        console.log(e);
+      }
     } else {
-      this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
-      this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
+      try {
+        await this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
+        this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
   render() {
-    const {author, likeCount, commentCount, isOwner} = this.props;
+    const {author, isOwner} = this.props;
+    const {likeCount, commentCount} = this.state;
 
     return <div>
 
@@ -61,4 +70,3 @@ export default class PoemInfo extends React.Component {
     </div>;
   }
 }
-
