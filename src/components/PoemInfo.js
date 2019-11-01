@@ -34,8 +34,6 @@ export default class PoemInfo extends React.Component {
   render() {
     const {authorName, isFollowing, likeCount, commentCount} = this.props;
 
-    console.log(isFollowing);
-
     return <div>
 
       <div class="Mih(100px) Miw(500px) Bgc(whitesmoke) D(ib) P(10px) Bdrs($bdrs-panel)">
