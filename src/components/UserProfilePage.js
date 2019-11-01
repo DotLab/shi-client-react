@@ -47,7 +47,6 @@ export default class UserProfilePage extends React.Component {
     try {
       const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
       if (poems) {
-        console.log(poems);
         this.setState({poems: poems});
       }
     } catch (err) {

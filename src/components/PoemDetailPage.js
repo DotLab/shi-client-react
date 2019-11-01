@@ -22,11 +22,13 @@ export default class PoemDetailPage extends React.Component {
       viewCount: 0,
       commentCount: 0,
       authorName: null,
+      authorUserName: null,
       isFollowing: false,
       likeStatus: false,
     };
     this.pushHistory = pushHistory.bind(this);
     this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.poemLike = this.poemLike.bind(this);
     this.poemUnlike = this.poemUnlike.bind(this);
   }
@@ -44,7 +46,7 @@ export default class PoemDetailPage extends React.Component {
     try {
       const poet = await this.app.poetDetail({userId: this.state.authorId});
       if (poet) {
-        this.setState({authorName: poet.displayName});
+        this.setState({authorName: poet.displayName, authorUserName: poet.userName});
       }
     } catch (err) {
       console.log(err);
@@ -62,6 +64,10 @@ export default class PoemDetailPage extends React.Component {
 
   redirectToEdit() {
     this.app.history.push(`/poems/${this.state._id}/edit`);
+  }
+
+  redirectToUserProfile() {
+    this.app.history.push(`/poets/${this.state.authorUserName}`);
   }
 
   async poemLike() {
@@ -90,7 +96,7 @@ export default class PoemDetailPage extends React.Component {
       </div>;
     }
 
-    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, isFollowing} = this.state;
+    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorId, isFollowing} = this.state;
     const writtenDateFormatted = formatDateTime(this.state.writtenDate);
 
 
@@ -113,9 +119,10 @@ export default class PoemDetailPage extends React.Component {
           {body}
         </p>
 
-        <PoemInfo authorName={authorName} isFollowing={isFollowing} likeCount={likeCount}
+        <PoemInfo authorName={authorName} authorId={authorId} isFollowing={isFollowing} likeCount={likeCount}
           viewCount={viewCount} commentCount={commentCount}
-          poemId={this.state._id} poemLike={this.poemLike} poemUnlike={this.poemUnlike}/>
+          poemId={this.state._id} poemLike={this.poemLike} poemUnlike={this.poemUnlike}
+          redirectToUserProfile={this.redirectToUserProfile}/>
       </div>
     </div>;
   }
