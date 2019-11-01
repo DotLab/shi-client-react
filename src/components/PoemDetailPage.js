@@ -22,6 +22,7 @@ export default class PoemDetailPage extends React.Component {
       viewCount: 0,
       commentCount: 0,
       authorName: null,
+      isFollowing: false,
       likeStatus: false,
     };
     this.pushHistory = pushHistory.bind(this);
@@ -41,9 +42,18 @@ export default class PoemDetailPage extends React.Component {
     }
 
     try {
-      const poet = await this.app.poetDetail({userId: this.state.id});
+      const poet = await this.app.poetDetail({userId: this.state.authorId});
       if (poet) {
         this.setState({authorName: poet.displayName});
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
+      if (isFollowing) {
+        this.setState({isFollowing: isFollowing[0]});
       }
     } catch (err) {
       console.log(err);
@@ -80,9 +90,9 @@ export default class PoemDetailPage extends React.Component {
       </div>;
     }
 
-    const {align, title, body, visibility, likeCount, viewCount, commentCount} = this.state;
+    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, isFollowing} = this.state;
     const writtenDateFormatted = formatDateTime(this.state.writtenDate);
-    const displayName = this.app.state.user ? this.app.state.user.displayName : '';
+
 
     return <div class="My(50px) Maw(500px) Mx(a)">
       <div>
@@ -103,7 +113,7 @@ export default class PoemDetailPage extends React.Component {
           {body}
         </p>
 
-        <PoemInfo author={displayName} likeCount={likeCount}
+        <PoemInfo authorName={authorName} isFollowing={isFollowing} likeCount={likeCount}
           viewCount={viewCount} commentCount={commentCount}
           poemId={this.state._id} poemLike={this.poemLike} poemUnlike={this.poemUnlike}/>
       </div>
