@@ -24,11 +24,13 @@ export default class UserProfilePage extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      await this.app.userDetail({token: this.app.state.token});
-    } catch (err) {
-      console.log(err);
-    }
+    // if (this.app.state.token !== null) {
+    //   try {
+    //     await this.app.userDetail({token: this.app.state.token});
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // }
     if (this.props.match.params.userName !== undefined) {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
       this.setState(poet[0]);
@@ -36,6 +38,7 @@ export default class UserProfilePage extends React.Component {
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
       this.setState(poet[0]);
     }
+
 
     try {
       const followStatus = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state._id]});
