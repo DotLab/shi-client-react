@@ -12,6 +12,7 @@ export default class Poem extends React.Component {
     this.expand=this.expand.bind(this);
     this.edit = this.edit.bind(this);
     this.detail = this.detail.bind(this);
+    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
   }
 
   expand() {
@@ -25,6 +26,10 @@ export default class Poem extends React.Component {
 
   detail() {
     this.props.toDetail(this.props.id);
+  }
+
+  redirectToUserProfile() {
+    this.props.redirectToUserProfile();
   }
 
   render() {
@@ -56,7 +61,9 @@ export default class Poem extends React.Component {
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
       <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
-        commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing}/>
+        commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing}
+        redirectToUserProfile={this.redirectToUserProfile}
+      />
     </div>;
   }
 }

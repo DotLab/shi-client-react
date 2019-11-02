@@ -20,6 +20,7 @@ export default class UserProfilePage extends React.Component {
     this.redirectToPoem = this.redirectToPoem.bind(this);
     this.redirectToFollower = this.redirectToFollower.bind(this);
     this.redirectToFollowing = this.redirectToFollowing.bind(this);
+    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.visitPoem = this.visitPoem.bind(this);
   }
 
@@ -77,6 +78,10 @@ export default class UserProfilePage extends React.Component {
     this.app.history.push(`/poets/${this.state.userName}/follower`);
   }
 
+  redirectToUserProfile() {
+    this.app.history.push(`/poets/${this.state.userName}`);
+  }
+
   visitPoem(poemId) {
     this.app.poemVisit({poemId: poemId, token: this.app.state.token});
   }
@@ -95,6 +100,7 @@ export default class UserProfilePage extends React.Component {
         redirectToPoem={this.redirectToPoem}
         redirectToFollower={this.redirectToFollower}
         redirectToFollowing={this.redirectToFollowing}
+        redirectToUserProfile={this.redirectToUserProfile}
         visitPoem={this.visitPoem}
         isFollowing={isFollowing}
       />
