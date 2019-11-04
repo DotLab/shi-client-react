@@ -26,13 +26,6 @@ export default class UserProfilePage extends React.Component {
   }
 
   async componentDidMount() {
-    // if (this.app.state.token !== null) {
-    //   try {
-    //     await this.app.userDetail({token: this.app.state.token});
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // }
     if (this.props.match.params.userName !== undefined) {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
       this.setState(poet[0]);

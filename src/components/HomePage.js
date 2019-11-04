@@ -43,6 +43,7 @@ export default class HomePage extends React.Component {
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
     this.toDetail = this.toDetail.bind(this);
+    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
   }
 
   async componentDidMount() {
@@ -214,6 +215,10 @@ export default class HomePage extends React.Component {
     this.app.history.push(`/poems/${poemId}`);
   }
 
+  redirectToUserProfile(authorUserName) {
+    this.app.history.push(`/poets/${authorUserName}`);
+  }
+
   render() {
     const {q, sort, order, filter, poems} = this.state;
 
@@ -239,6 +244,7 @@ export default class HomePage extends React.Component {
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
           commentCount={poem.commentCount} preview={short(poem.body)} liked={poem.liked} toDetail={this.toDetail}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
+          redirectToUserProfile={this.redirectToUserProfile}
           visitPoem={this.visitPoem} app={this.app}/>)}
       </div>
     </div>;

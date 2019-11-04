@@ -9,9 +9,9 @@ export default class Poem extends React.Component {
 
     this.state = {
       isExpanded: false,
-      authorName: null,
-      authorUserName: null,
-      isFollowing: false,
+      authorName: this.props.authorName,
+      authorUserName: this.props.authorUserName,
+      isFollowing: this.props.isFollowing || false,
     };
     this.pushHistory = pushHistory.bind(this);
     this.expand=this.expand.bind(this);
@@ -25,18 +25,20 @@ export default class Poem extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      const poet = await this.app.poetDetail({userId: this.props.authorId});
-      let isFollowing;
-      if (this.app.state.token !== null) {
-        isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.props.authorId]});
-      } else {
-        isFollowing = [false];
+    if (!this.props.authorName) {
+      try {
+        const poet = await this.app.poetDetail({userId: this.props.authorId});
+        let isFollowing;
+        if (this.app.state.token !== null) {
+          isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.props.authorId]});
+        } else {
+          isFollowing = [false];
+        }
+        this.setState({authorName: poet.displayName, authorUserName: poet.userName,
+          isFollowing: isFollowing[0]});
+      } catch (err) {
+        console.log(err);
       }
-      this.setState({authorName: poet.displayName, authorUserName: poet.userName,
-        isFollowing: isFollowing[0]});
-    } catch (err) {
-      console.log(err);
     }
   }
 
@@ -54,7 +56,7 @@ export default class Poem extends React.Component {
   }
 
   redirectToUserProfile() {
-    this.props.redirectToUserProfile();
+    this.props.redirectToUserProfile(this.state.authorUserName);
   }
 
   async like() {
