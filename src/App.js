@@ -111,7 +111,7 @@ export default class App extends React.Component {
           throw new Error(e);
         });
     if (poets) {
-      return poets;
+      return poets.payload;
     }
   }
 
@@ -254,6 +254,27 @@ export default class App extends React.Component {
         });
     if (likeStatus) {
       return likeStatus.payload;
+    }
+  }
+
+  async poemList({token, filter, sort, order, limit, skip, search}) {
+    const poems = await this.genericAPI('/v1/poems/home', {token, filter, sort, order, limit, skip, search})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+    if (poems) {
+      return poems.payload;
+    }
+  }
+
+  async poemLikeCount({poemId}) {
+    const likeCount = await this.genericAPI('/v1/poems/likeCount', {poemId})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (likeCount) {
+      return likeCount.payload.likeCount;
     }
   }
 

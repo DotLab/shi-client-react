@@ -24,39 +24,29 @@ export default class PoemDetailPage extends React.Component {
       authorName: null,
       authorUserName: null,
       isFollowing: false,
-      likeStatus: false,
+      liked: false,
     };
     this.pushHistory = pushHistory.bind(this);
     this.redirectToEdit = this.redirectToEdit.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
-    this.poemLike = this.poemLike.bind(this);
-    this.poemUnlike = this.poemUnlike.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
   }
 
   async componentDidMount() {
     try {
       const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
-      if (poem) {
-        this.setState(poem);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+      this.setState(poem);
 
-    try {
       const poet = await this.app.poetDetail({userId: this.state.authorId});
-      if (poet) {
-        this.setState({authorName: poet.displayName, authorUserName: poet.userName});
-      }
-    } catch (err) {
-      console.log(err);
-    }
-
-    try {
+      this.app.poemVisit({poemId: this.props.match.params.poemId, token: this.app.state.token});
       const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
-      if (isFollowing) {
-        this.setState({isFollowing: isFollowing[0]});
-      }
+      const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
+      console.log(poem);
+      this.setState({authorName: poet.displayName, authorUserName: poet.userName,
+        isFollowing: isFollowing[0], liked: liked[0]});
     } catch (err) {
       console.log(err);
     }
@@ -70,26 +60,61 @@ export default class PoemDetailPage extends React.Component {
     this.app.history.push(`/poets/${this.state.authorUserName}`);
   }
 
-  async poemLike() {
+  async like() {
     try {
       await this.app.poemLike({poemId: this.state._id, token: this.app.state.token});
-      this.pushHistory();
+      const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
+      if (poem) {
+        this.setState({likeCount: poem.likeCount, liked: true});
+      }
     } catch (e) {
       console.log(e);
     }
+    console.log(this.state);
   }
 
-  async poemUnlike() {
+  async unlike() {
     try {
       await this.app.poemUnlike({poemId: this.state._id, token: this.app.state.token});
-      this.pushHistory();
+      const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
+      if (poem) {
+        this.setState({likeCount: poem.likeCount, liked: false});
+      }
     } catch (e) {
       console.log(e);
     }
+    console.log(this.state);
   }
 
+  async follow() {
+    try {
+      await this.app.userFollowUser({followId: this.state.authorId, token: this.app.state.token});
+      const follow = await this.app.followingStatus({userIds: [this.state.authorId], token: this.app.state.token});
+      if (follow) {
+        this.setState({isFollowing: follow[0]});
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    console.log(this.state);
+  }
+
+  async unfollow() {
+    try {
+      await this.app.userUnfollowUser({unfollowId: this.state.authorId, token: this.app.state.token});
+      const follow = await this.app.followingStatus({userIds: [this.state.authorId], token: this.app.state.token});
+      if (follow) {
+        this.setState({isFollowing: follow[0]});
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    console.log(this.state);
+  }
+
+
   render() {
-    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorId, isFollowing} = this.state;
+    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorId, isFollowing, liked} = this.state;
     const writtenDateFormatted = formatDateTime(this.state.writtenDate);
     let isOwner = true;
     if (!this.app.state.user || this.state.authorId!== this.app.state.user._id) {
@@ -117,9 +142,10 @@ export default class PoemDetailPage extends React.Component {
           {body}
         </p>
 
-        <PoemInfo authorName={authorName} authorId={authorId} isFollowing={isFollowing} likeCount={likeCount}
-          viewCount={viewCount} commentCount={commentCount}
-          poemId={this.state._id} poemLike={this.poemLike} poemUnlike={this.poemUnlike}
+        <PoemInfo authorName={authorName} authorId={authorId} isFollowing={isFollowing} liked={liked}
+          likeCount={likeCount} viewCount={viewCount} commentCount={commentCount}
+          poemId={this.state._id} like={this.like} unlike={this.unlike}
+          follow={this.follow} unfollow={this.unfollow}
           redirectToUserProfile={this.redirectToUserProfile}/>
       </div>
     </div>;

@@ -22,6 +22,7 @@ export default class UserProfilePage extends React.Component {
     this.redirectToFollowing = this.redirectToFollowing.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.visitPoem = this.visitPoem.bind(this);
+    this.likePoem = this.likePoem.bind(this);
   }
 
   async componentDidMount() {
@@ -39,7 +40,6 @@ export default class UserProfilePage extends React.Component {
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
       this.setState(poet[0]);
     }
-
 
     try {
       const followStatus = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state._id]});
@@ -86,6 +86,10 @@ export default class UserProfilePage extends React.Component {
     this.app.poemVisit({poemId: poemId, token: this.app.state.token});
   }
 
+  likePoem(poemId) {
+    this.app.poemLike({poemId: poemId, token: this.app.state.token});
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -101,7 +105,7 @@ export default class UserProfilePage extends React.Component {
         redirectToFollower={this.redirectToFollower}
         redirectToFollowing={this.redirectToFollowing}
         redirectToUserProfile={this.redirectToUserProfile}
-        visitPoem={this.visitPoem}
+        visitPoem={this.visitPoem} likePoem={this.likePoem}
         isFollowing={isFollowing}
       />
     </div>;
