@@ -62,7 +62,6 @@ export default class PoetListingPage extends React.Component {
       this.query.order = QUERY_DESC;
     }
 
-    console.log(this.query);
     try {
       const poets = await this.app.userList({
         token: this.app.state.token,

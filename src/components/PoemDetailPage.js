@@ -44,7 +44,7 @@ export default class PoemDetailPage extends React.Component {
       this.app.poemVisit({poemId: this.props.match.params.poemId, token: this.app.state.token});
       const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
       const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
-      console.log(poem);
+
       this.setState({authorName: poet.displayName, authorUserName: poet.userName,
         isFollowing: isFollowing[0], liked: liked[0]});
     } catch (err) {
@@ -70,7 +70,6 @@ export default class PoemDetailPage extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    console.log(this.state);
   }
 
   async unlike() {
@@ -83,7 +82,6 @@ export default class PoemDetailPage extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    console.log(this.state);
   }
 
   async follow() {
@@ -96,7 +94,6 @@ export default class PoemDetailPage extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    console.log(this.state);
   }
 
   async unfollow() {
@@ -109,7 +106,6 @@ export default class PoemDetailPage extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    console.log(this.state);
   }
 
 

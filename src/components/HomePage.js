@@ -75,7 +75,6 @@ export default class HomePage extends React.Component {
           skip: this.state.skip,
           search: this.state.q,
         });
-        console.log(poems);
         if (poems) {
           this.setState({poems: poems});
         }

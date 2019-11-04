@@ -53,7 +53,6 @@ export default class PoemEditorPage extends React.Component {
 
   render() {
     const {align, title, body, visibility} = this.state;
-    console.log(align);
 
     return <div>
       <div class="Maw(600px) Ta(s) Bgc(whitesmoke) Mih(500px) Bdrs($bdrs-panel) P($p-panel) Mx(a)">

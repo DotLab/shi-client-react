@@ -124,7 +124,6 @@ export default class App extends React.Component {
   }
 
   async userUnfollowUser({token, unfollowId}) {
-    console.log('got to here');
     await this.genericAPI('/v1/users/unfollow', {token, unfollowId})
         .catch((e)=>{
           console.log(e);
