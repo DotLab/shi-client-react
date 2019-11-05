@@ -73,10 +73,8 @@ export default class PoemInfo extends React.Component {
 
   comment(e) {
     e.preventDefault();
-    this.setState({editing: false, body: ''}, ()=> {
-      this.props.comment(this.state.body);
-    });
-    console.log(this.state);
+    this.props.comment(this.state.body);
+    this.setState({editing: false, body: ''});
   }
 
   render() {
@@ -103,12 +101,12 @@ export default class PoemInfo extends React.Component {
         </div>
 
         <div class="D(f) My(12px)">
-          <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..." name="body" onChange={this.onChange}
+          <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..." name="body" value={body} onChange={this.onChange}
             onFocus={this.editing} />
         </div>
         <div>
           {editing && <button class="Fl(end) Bdc(t) Bgc(dimgray) Bgc(black):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
-            onClick={this.comment} value={body}>comment</button>
+            onClick={this.comment} >comment</button>
           }
         </div>
 

@@ -8,8 +8,8 @@ export default class Poem extends React.Component {
     this.app = props.app;
   }
   render() {
-    const {date, commentAuthorName} = this.props;
-    const body = 'f it does not work for you it means that you have some css rules that override the default settings. You either have set display:inline (in which case the width is not respected), or a white-space:nowrap; (which disables the text-wrapping).';
+    const {date, body, commentAuthorName} = this.props;
+    // const body = 'f it does not work for you it means that you have some css rules that override the default settings. You either have set display:inline (in which case the width is not respected), or a white-space:nowrap; (which disables the text-wrapping).';
 
     return <div>
 
@@ -20,7 +20,7 @@ export default class Poem extends React.Component {
             <span class="Fz(16px) C(darkred) Mend(8px) Td(u):h" onClick={this.user}>test</span>
             <p class="Wob(2px)">{body}</p>
             <div>
-              <span>date</span>
+              <span>{date}</span>
             </div>
           </div>
         </div>

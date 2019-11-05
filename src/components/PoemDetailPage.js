@@ -26,6 +26,7 @@ export default class PoemDetailPage extends React.Component {
       authorUserName: null,
       isFollowing: false,
       liked: false,
+      comments: [],
     };
     this.pushHistory = pushHistory.bind(this);
     this.redirectToEdit = this.redirectToEdit.bind(this);
@@ -48,9 +49,10 @@ export default class PoemDetailPage extends React.Component {
       }
       const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
       const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
+      const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
 
       this.setState({authorName: poet.displayName, authorUserName: poet.userName,
-        isFollowing: isFollowing[0], liked: liked[0]});
+        isFollowing: isFollowing[0], liked: liked[0], comments: comments});
     } catch (err) {
       console.log(err);
     }
@@ -114,11 +116,14 @@ export default class PoemDetailPage extends React.Component {
 
   async comment(comment) {
     this.app.comment({poemId: this.state._id, token: this.app.state.token, comment: comment});
+    const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
+    this.setState({comments: comments});
   }
 
 
   render() {
-    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorId, isFollowing, liked} = this.state;
+    const {align, title, body, visibility, likeCount, viewCount, commentCount,
+      authorName, authorId, isFollowing, liked, comments} = this.state;
     const writtenDateFormatted = formatDateTime(this.state.writtenDate);
     let isOwner = true;
     if (!this.app.state.user || this.state.authorId!== this.app.state.user._id) {
@@ -152,7 +157,11 @@ export default class PoemDetailPage extends React.Component {
           follow={this.follow} unfollow={this.unfollow}
           redirectToUserProfile={this.redirectToUserProfile}
           comment={this.comment}/>
-        <Comment/>
+        {/* <Comment/> */}
+        <div>
+          {comments.map((comment) => <Comment key={comment._id} id={comment._id} body={comment.body}
+            commentAuthorId={comment.commentAuthorId} date={formatDateTime(comment.date)}/>)}
+        </div>
       </div>
     </div>;
   }

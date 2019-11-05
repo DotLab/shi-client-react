@@ -280,15 +280,11 @@ export default class App extends React.Component {
   }
 
   async comment({token, poemId, comment}) {
-    const status = await this.genericAPI('/v1/poems/comment', {token, poemId, comment})
+    await this.genericAPI('/v1/poems/comment', {token, poemId, comment})
         .catch((e)=>{
           console.log(e);
           throw new Error(e);
         });
-    if (status) {
-      console.log('got to here');
-      this.history.push();
-    }
   }
 
   render() {
