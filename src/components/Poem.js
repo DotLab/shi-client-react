@@ -22,8 +22,8 @@ export default class Poem extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
-    this.comment = this.comment.bind(this);
   }
 
   async componentDidMount() {

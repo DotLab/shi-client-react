@@ -36,6 +36,7 @@ export default class PoemDetailPage extends React.Component {
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
     this.comment = this.comment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async componentDidMount() {
@@ -117,9 +118,14 @@ export default class PoemDetailPage extends React.Component {
   async comment(comment) {
     this.app.comment({poemId: this.state._id, token: this.app.state.token, comment: comment});
     const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
-    this.setState({comments: comments});
+    this.setState({comments: comments, commentCount: comments.length});
   }
 
+  async deleteComment(commentId) {
+    this.app.commentDelete({token: this.app.state.token, commentId: commentId});
+    const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
+    this.setState({comments: comments, commentCount: comments.length});
+  }
 
   render() {
     const {align, title, body, visibility, likeCount, viewCount, commentCount,
@@ -160,7 +166,8 @@ export default class PoemDetailPage extends React.Component {
         {/* <Comment/> */}
         <div>
           {comments.map((comment) => <Comment key={comment._id} id={comment._id} body={comment.body}
-            commentAuthorId={comment.commentAuthorId} date={formatDateTime(comment.date)}/>)}
+            commentAuthorId={comment.commentAuthorId} date={formatDateTime(comment.date)}
+            deleteComment={this.deleteComment} isOwner={comment.isOwner}/>)}
         </div>
       </div>
     </div>;

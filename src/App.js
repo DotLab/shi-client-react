@@ -287,6 +287,14 @@ export default class App extends React.Component {
         });
   }
 
+  async commentDelete({token, commentId}) {
+    await this.genericAPI('/v1/poems/comment/delete', {token, commentId})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+  }
+
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>
