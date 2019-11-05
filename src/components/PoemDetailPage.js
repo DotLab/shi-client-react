@@ -2,7 +2,7 @@ import React from 'react';
 import PoemInfo from './PoemInfo';
 import Comment from './Comment';
 import {Link} from 'react-router-dom';
-import {formatDateTime, UNAUTHORIZED} from '../utils';
+import {formatDateTime, DETAIL_COMMENT_LIMIT} from '../utils';
 import {getAlignStyle, pushHistory} from '../utils';
 
 export default class PoemDetailPage extends React.Component {
@@ -50,7 +50,7 @@ export default class PoemDetailPage extends React.Component {
       }
       const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
       const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
-      const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
+      const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token, limit: DETAIL_COMMENT_LIMIT});
 
       this.setState({authorName: poet.displayName, authorUserName: poet.userName,
         isFollowing: isFollowing[0], liked: liked[0], comments: comments});
@@ -117,13 +117,13 @@ export default class PoemDetailPage extends React.Component {
 
   async comment(comment) {
     this.app.comment({poemId: this.state._id, token: this.app.state.token, comment: comment});
-    const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
+    const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token, limit: DETAIL_COMMENT_LIMIT});
     this.setState({comments: comments, commentCount: comments.length});
   }
 
   async deleteComment(commentId) {
     this.app.commentDelete({token: this.app.state.token, commentId: commentId});
-    const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token});
+    const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token, limit: DETAIL_COMMENT_LIMIT});
     this.setState({comments: comments, commentCount: comments.length});
   }
 
@@ -163,11 +163,12 @@ export default class PoemDetailPage extends React.Component {
           follow={this.follow} unfollow={this.unfollow}
           redirectToUserProfile={this.redirectToUserProfile}
           comment={this.comment}/>
-        {/* <Comment/> */}
+
         <div>
           {comments.map((comment) => <Comment key={comment._id} id={comment._id} body={comment.body}
             commentAuthorId={comment.commentAuthorId} date={formatDateTime(comment.date)}
-            deleteComment={this.deleteComment} isOwner={comment.isOwner}/>)}
+            deleteComment={this.deleteComment} isOwner={comment.isOwner}
+            commentAuthorName={comment.commentAuthorName}/>)}
         </div>
       </div>
     </div>;

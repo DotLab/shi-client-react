@@ -268,8 +268,8 @@ export default class App extends React.Component {
     }
   }
 
-  async commentList({token, poemId}) {
-    const comments = await this.genericAPI('/v1/poems/comment-list', {token, poemId})
+  async commentList({token, poemId, limit}) {
+    const comments = await this.genericAPI('/v1/poems/comment-list', {token, poemId, limit})
         .catch((e)=>{
           console.log(e);
           throw new Error(e);

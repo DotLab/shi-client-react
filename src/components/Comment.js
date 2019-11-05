@@ -25,7 +25,7 @@ export default class Poem extends React.Component {
         <div class="Ta(s) D(f)">
           <img class="Bdrs(100%) Mend(16px) H(fc)" src="https://hellopoetry.s3.amazonaws.com/static/cache/3c/06/3c06fe65b732452ef83554385e05d5d6.jpg" alt=""/>
           <div class="D(ib) Fz(12px) Va(t) C(gray)">
-            <span class="Fz(16px) C(darkred) Mend(8px) Td(u):h" onClick={this.user}>test</span>
+            <span class="Fz(16px) C(darkred) Mend(8px) Td(u):h" onClick={this.user}>{commentAuthorName}</span>
             <p class="Wob(ba)">{body}</p>
             <div>
               <span>{date}</span>
