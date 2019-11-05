@@ -8,7 +8,7 @@ export default class Poem extends React.Component {
     this.app = props.app;
 
     this.state = {
-      isExpanded: false,
+      isExpanded: this.props.isExpanded,
       authorName: this.props.authorName,
       authorUserName: this.props.authorUserName,
       isFollowing: this.props.isFollowing || false,
@@ -111,11 +111,12 @@ export default class Poem extends React.Component {
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} poemId={id}
+
+      {isExpanded && <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
         redirectToUserProfile={this.redirectToUserProfile} like={this.like} unlike={this.unlike}
-        follow={this.follow} unfollow={this.unfollow} comments={comments} comment={this.comment}
-      />
+        follow={this.follow} unfollow={this.unfollow}
+      />}
     </div>;
   }
 }
