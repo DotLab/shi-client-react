@@ -244,7 +244,7 @@ export default class HomePage extends React.Component {
           commentCount={poem.commentCount} preview={short(poem.body)} liked={poem.liked} toDetail={this.toDetail}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
           redirectToUserProfile={this.redirectToUserProfile}
-          toVisit={this.toVisit} app={this.app} isExpanded={false}/>)}
+          toVisit={this.toVisit} app={this.app}/>)}
       </div>
     </div>;
   }
