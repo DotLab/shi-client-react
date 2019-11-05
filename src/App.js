@@ -198,6 +198,7 @@ export default class App extends React.Component {
   async poemVisit({poemId, token}) {
     this.genericAPI('/v1/poems/visit', {poemId, token})
         .catch((e)=>{
+          console.log(e);
           throw new Error(e);
         });
   }
@@ -267,13 +268,26 @@ export default class App extends React.Component {
     }
   }
 
-  async poemLikeCount({poemId}) {
-    const likeCount = await this.genericAPI('/v1/poems/likeCount', {poemId})
+  async commentList({token, poemId}) {
+    const comments = await this.genericAPI('/v1/poems/comment-list', {token, poemId})
         .catch((e)=>{
+          console.log(e);
           throw new Error(e);
         });
-    if (likeCount) {
-      return likeCount.payload.likeCount;
+    if (comments) {
+      return comments.payload;
+    }
+  }
+
+  async comment({token, poemId, comment}) {
+    const status = await this.genericAPI('/v1/poems/comment', {token, poemId, comment})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+    if (status) {
+      console.log('got to here');
+      this.history.push();
     }
   }
 

@@ -12,6 +12,7 @@ export default class Poem extends React.Component {
       authorName: this.props.authorName,
       authorUserName: this.props.authorUserName,
       isFollowing: this.props.isFollowing || false,
+      comments: [],
     };
     this.pushHistory = pushHistory.bind(this);
     this.expand=this.expand.bind(this);
@@ -22,6 +23,7 @@ export default class Poem extends React.Component {
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
+    this.comment = this.comment.bind(this);
   }
 
   async componentDidMount() {
@@ -34,8 +36,9 @@ export default class Poem extends React.Component {
         } else {
           isFollowing = [false];
         }
+        const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token});
         this.setState({authorName: poet.displayName, authorUserName: poet.userName,
-          isFollowing: isFollowing[0]});
+          isFollowing: isFollowing[0], comments: comments});
       } catch (err) {
         console.log(err);
       }
@@ -75,9 +78,14 @@ export default class Poem extends React.Component {
     await this.props.unfollow(this.props.authorId);
   }
 
+  async comment() {
+    await this.props.comment(this.props.authorId);
+  }
+
   render() {
     const {id, authorId, align, title, body, preview,
-      lastEditDate, isOwner, visibility, viewCount, commentCount, liked, likeCount} = this.props;
+      lastEditDate, isOwner, visibility, viewCount, commentCount, liked, likeCount,
+      comments} = this.props;
     const {isExpanded, isFollowing, authorName} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
@@ -95,18 +103,18 @@ export default class Poem extends React.Component {
         {!isOwner && <span> {authorName} • </span>}
         <span>{lastEditDate}</span>
       </div>
-      <h3 class={`Fz(24px) Cur(p):h `+ getAlignStyle(align)} onClick={this.detail}>
+      <h3 class={`Fz(24px) Wob(2px) Cur(p):h `+ getAlignStyle(align)} onClick={this.detail}>
         {title}
       </h3>
-      <p class={`Whs(pw) `+ getAlignStyle(align)}>
+      <p class={`Whs(pw) Wob(2px) `+ getAlignStyle(align)}>
         {!isExpanded ? (preview || body) : body}
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
+      <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} poemId={id}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
         redirectToUserProfile={this.redirectToUserProfile} like={this.like} unlike={this.unlike}
-        follow={this.follow} unfollow={this.unfollow}
+        follow={this.follow} unfollow={this.unfollow} comments={comments} comment={this.comment}
       />
     </div>;
   }

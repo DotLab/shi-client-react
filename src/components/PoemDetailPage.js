@@ -1,5 +1,6 @@
 import React from 'react';
 import PoemInfo from './PoemInfo';
+import Comment from './Comment';
 import {Link} from 'react-router-dom';
 import {formatDateTime, UNAUTHORIZED} from '../utils';
 import {getAlignStyle, pushHistory} from '../utils';
@@ -33,6 +34,7 @@ export default class PoemDetailPage extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.comment = this.comment.bind(this);
   }
 
   async componentDidMount() {
@@ -41,7 +43,9 @@ export default class PoemDetailPage extends React.Component {
       this.setState(poem);
 
       const poet = await this.app.poetDetail({userId: this.state.authorId});
-      this.app.poemVisit({poemId: this.props.match.params.poemId, token: this.app.state.token});
+      if (this.app.state.token !== null) {
+        this.app.poemVisit({poemId: this.props.match.params.poemId, token: this.app.state.token});
+      }
       const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
       const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
 
@@ -108,6 +112,10 @@ export default class PoemDetailPage extends React.Component {
     }
   }
 
+  async comment(comment) {
+    this.app.comment({poemId: this.state._id, token: this.app.state.token, comment: comment});
+  }
+
 
   render() {
     const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorId, isFollowing, liked} = this.state;
@@ -131,10 +139,10 @@ export default class PoemDetailPage extends React.Component {
         <div class={getAlignStyle(align)}>
           <span class="C(gray) Fz(8px)">{writtenDateFormatted}</span>
         </div>
-        <h3 class={`Fz(24px) `+ getAlignStyle(align)}>
+        <h3 class={`Fz(24px) Wob(8) `+ getAlignStyle(align)}>
           {title}
         </h3>
-        <p class={`Whs(pw) `+ getAlignStyle(align)}>
+        <p class={`Whs(pw) Wob(2) `+ getAlignStyle(align)}>
           {body}
         </p>
 
@@ -142,7 +150,9 @@ export default class PoemDetailPage extends React.Component {
           likeCount={likeCount} viewCount={viewCount} commentCount={commentCount}
           poemId={this.state._id} like={this.like} unlike={this.unlike}
           follow={this.follow} unfollow={this.unfollow}
-          redirectToUserProfile={this.redirectToUserProfile}/>
+          redirectToUserProfile={this.redirectToUserProfile}
+          comment={this.comment}/>
+        <Comment/>
       </div>
     </div>;
   }

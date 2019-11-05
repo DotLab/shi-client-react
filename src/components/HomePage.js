@@ -37,11 +37,12 @@ export default class HomePage extends React.Component {
     this.pushHistory = pushHistory.bind(this);
     this.search = this.search.bind(this);
     this.changeFilter = this.changeFilter.bind(this);
-    this.visitPoem = this.visitPoem.bind(this);
+    this.toVisit = this.toVisit.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.comment = this.comment.bind(this);
     this.toDetail = this.toDetail.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
   }
@@ -166,7 +167,7 @@ export default class HomePage extends React.Component {
     this.pushHistory();
   }
 
-  visitPoem(poemId) {
+  toVisit(poemId) {
     this.app.poemVisit({poemId: poemId, token: this.app.state.token});
   }
 
@@ -218,6 +219,10 @@ export default class HomePage extends React.Component {
     this.app.history.push(`/poets/${authorUserName}`);
   }
 
+  async comment(comment) {
+    this.app.comment({poemId: this.state._id, token: this.app.state.token, comment: comment});
+  }
+
   render() {
     const {q, sort, order, filter, poems} = this.state;
 
@@ -244,7 +249,7 @@ export default class HomePage extends React.Component {
           commentCount={poem.commentCount} preview={short(poem.body)} liked={poem.liked} toDetail={this.toDetail}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
           redirectToUserProfile={this.redirectToUserProfile}
-          visitPoem={this.visitPoem} app={this.app}/>)}
+          toVisit={this.toVisit} app={this.app} comment={this.comment}/>)}
       </div>
     </div>;
   }
