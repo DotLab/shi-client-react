@@ -12,7 +12,6 @@ export default class Poem extends React.Component {
       isExpanded: this.props.isExpanded,
       authorName: this.props.authorName,
       authorUserName: this.props.authorUserName,
-      isFollowing: this.props.isFollowing || false,
       comments: [],
     };
     this.pushHistory = pushHistory.bind(this);
@@ -32,18 +31,15 @@ export default class Poem extends React.Component {
     if (!this.props.authorName) {
       try {
         const poet = await this.app.poetDetail({userId: this.props.authorId});
-        let isFollowing;
+
         let comments;
         if (this.app.state.token !== null) {
-          isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.props.authorId]});
           comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
         } else {
-          isFollowing = [false];
           comments = [];
         }
-
         this.setState({authorName: poet.displayName, authorUserName: poet.userName,
-          isFollowing: isFollowing[0], comments: comments});
+          comments: comments});
       } catch (err) {
         console.log(err);
       }
@@ -105,8 +101,8 @@ export default class Poem extends React.Component {
 
   render() {
     const {id, authorId, align, title, body, preview,
-      lastEditDate, isOwner, visibility, viewCount, commentCount, liked, likeCount} = this.props;
-    const {isExpanded, isFollowing, authorName, comments} = this.state;
+      lastEditDate, isOwner, visibility, viewCount, commentCount, liked, likeCount, isFollowing} = this.props;
+    const {isExpanded, authorName, comments} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
       <div class="C(lightgrey) Fz(14dpx)">

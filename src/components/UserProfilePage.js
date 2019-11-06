@@ -22,7 +22,10 @@ export default class UserProfilePage extends React.Component {
     this.redirectToFollowing = this.redirectToFollowing.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.visitPoem = this.visitPoem.bind(this);
-    this.likePoem = this.likePoem.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
     this.comment = this.comment.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
   }
@@ -81,12 +84,57 @@ export default class UserProfilePage extends React.Component {
     this.app.poemVisit({poemId: poemId, token: this.app.state.token});
   }
 
-  likePoem(poemId) {
-    this.app.poemLike({poemId: poemId, token: this.app.state.token});
+  async like(poemId) {
+    if (this.app.state.token === null) return;
+    try {
+      await this.app.poemLike({poemId: poemId, token: this.app.state.token});
+    } catch (err) {
+      console.log(err);
+    }
+    const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+    if (poems) {
+      this.setState({poems: poems});
+    }
+  }
+
+  async unlike(poemId) {
+    if (this.app.state.token === null) return;
+    try {
+      await this.app.poemUnlike({poemId: poemId, token: this.app.state.token});
+    } catch (err) {
+      console.log(err);
+    }
+    const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+    if (poems) {
+      this.setState({poems: poems});
+    }
+  }
+
+  async follow() {
+    try {
+      await this.app.userFollowUser({followId: this.state._id, token: this.app.state.token});
+      const follow = await this.app.followingStatus({userIds: [this.state._id], token: this.app.state.token});
+      if (follow) {
+        this.setState({isFollowing: follow[0]});
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async unfollow() {
+    try {
+      await this.app.userUnfollowUser({unfollowId: this.state._id, token: this.app.state.token});
+      const follow = await this.app.followingStatus({userIds: [this.state._id], token: this.app.state.token});
+      if (follow) {
+        this.setState({isFollowing: follow[0]});
+      }
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   async comment(comment, poemId) {
-    console.log('got to here');
     this.app.comment({poemId: poemId, token: this.app.state.token, comment: comment});
   }
 
@@ -109,7 +157,8 @@ export default class UserProfilePage extends React.Component {
         redirectToFollower={this.redirectToFollower}
         redirectToFollowing={this.redirectToFollowing}
         redirectToUserProfile={this.redirectToUserProfile}
-        visitPoem={this.visitPoem} likePoem={this.likePoem}
+        visitPoem={this.visitPoem} like={this.like} unlike={this.unlike}
+        follow={this.follow} unfollow={this.unfollow}
         isFollowing={isFollowing} app={this.app}
         comment={this.comment} deleteComment={this.deleteComment}
       />

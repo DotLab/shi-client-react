@@ -48,9 +48,18 @@ export default class PoemDetailPage extends React.Component {
       if (this.app.state.token !== null) {
         this.app.poemVisit({poemId: this.props.match.params.poemId, token: this.app.state.token});
       }
-      const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
-      const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
-      const comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token, limit: DETAIL_COMMENT_LIMIT});
+      let isFollowing;
+      let liked;
+      let comments;
+      if (this.app.state.token !== null) {
+        isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
+        liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
+        comments = await this.app.commentList({poemId: this.props.match.params.poemId, token: this.app.state.token, limit: DETAIL_COMMENT_LIMIT});
+      } else {
+        isFollowing = [false];
+        liked = [false];
+        comments = [];
+      }
 
       this.setState({authorName: poet.displayName, authorUserName: poet.userName,
         isFollowing: isFollowing[0], liked: liked[0], comments: comments});

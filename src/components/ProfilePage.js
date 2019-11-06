@@ -14,7 +14,10 @@ export default class ProfilePage extends React.Component {
     this.toFollower = this.toFollower.bind(this);
     this.toFollowing = this.toFollowing.bind(this);
     this.toVisit = this.toVisit.bind(this);
-    this.toLike = this.toLike.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.comment = this.comment.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
@@ -43,8 +46,20 @@ export default class ProfilePage extends React.Component {
     this.props.visitPoem(poemId);
   }
 
-  toLike(poemId) {
-    this.props.likePoem(poemId);
+  like(poemId) {
+    this.props.like(poemId);
+  }
+
+  unlike(poemId) {
+    this.props.unlike(poemId);
+  }
+
+  follow() {
+    this.props.follow();
+  }
+
+  unfollow() {
+    this.props.unfollow();
   }
 
   redirectToUserProfile() {
@@ -76,8 +91,9 @@ export default class ProfilePage extends React.Component {
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
           commentCount={poem.commentCount} preview={short(poem.body)} isOwner={isOwner} toEdit={this.toEdit}
-          toDetail={this.toDetail} toVisit={this.toVisit} toLike={this.toLike}
-          isFollowing={isFollowing}
+          toDetail={this.toDetail} toVisit={this.toVisit} like={this.like} unlike={this.unlike}
+          follow={this.follow} unfollow={this.unfollow}
+          isFollowing={isFollowing} liked={poem.liked}
           redirectToUserProfile={this.redirectToUserProfile}
           app={this.app} comment={this.comment} deleteComment={this.deleteComment}
         />)}
