@@ -23,6 +23,8 @@ export default class UserProfilePage extends React.Component {
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.visitPoem = this.visitPoem.bind(this);
     this.likePoem = this.likePoem.bind(this);
+    this.comment = this.comment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async componentDidMount() {
@@ -83,6 +85,15 @@ export default class UserProfilePage extends React.Component {
     this.app.poemLike({poemId: poemId, token: this.app.state.token});
   }
 
+  async comment(comment, poemId) {
+    console.log('got to here');
+    this.app.comment({poemId: poemId, token: this.app.state.token, comment: comment});
+  }
+
+  async deleteComment(commentId) {
+    this.app.commentDelete({token: this.app.state.token, commentId: commentId});
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -99,7 +110,8 @@ export default class UserProfilePage extends React.Component {
         redirectToFollowing={this.redirectToFollowing}
         redirectToUserProfile={this.redirectToUserProfile}
         visitPoem={this.visitPoem} likePoem={this.likePoem}
-        isFollowing={isFollowing}
+        isFollowing={isFollowing} app={this.app}
+        comment={this.comment} deleteComment={this.deleteComment}
       />
     </div>;
   }

@@ -33,12 +33,15 @@ export default class Poem extends React.Component {
       try {
         const poet = await this.app.poetDetail({userId: this.props.authorId});
         let isFollowing;
+        let comments;
         if (this.app.state.token !== null) {
           isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.props.authorId]});
+          comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
         } else {
           isFollowing = [false];
+          comments = [];
         }
-        const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+
         this.setState({authorName: poet.displayName, authorUserName: poet.userName,
           isFollowing: isFollowing[0], comments: comments});
       } catch (err) {
@@ -47,9 +50,13 @@ export default class Poem extends React.Component {
     }
   }
 
-  expand() {
+  async expand() {
     this.setState({isExpanded: true});
     this.props.toVisit(this.props.id);
+    if (this.app.state.token !== null) {
+      const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+      this.setState({comments: comments, commentCount: comments.length});
+    }
   }
 
   edit() {
@@ -81,15 +88,19 @@ export default class Poem extends React.Component {
   }
 
   async comment(body) {
-    await this.props.comment(body, this.props.id);
-    const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
-    this.setState({comments: comments, commentCount: comments.length});
+    if (this.app.state.token !== null) {
+      await this.props.comment(body, this.props.id);
+      const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+      this.setState({comments: comments, commentCount: comments.length});
+    }
   }
 
   async deleteComment(commentId) {
-    await this.props.deleteComment(commentId);
-    const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
-    this.setState({comments: comments, commentCount: comments.length});
+    if (this.app.state.token !== null) {
+      await this.props.deleteComment(commentId);
+      const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+      this.setState({comments: comments, commentCount: comments.length});
+    }
   }
 
   render() {

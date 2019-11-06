@@ -7,6 +7,7 @@ import {formatDate, short} from '../utils';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
     this.toEdit = this.toEdit.bind(this);
     this.toDetail = this.toDetail.bind(this);
     this.toPoem = this.toPoem.bind(this);
@@ -15,6 +16,8 @@ export default class ProfilePage extends React.Component {
     this.toVisit = this.toVisit.bind(this);
     this.toLike = this.toLike.bind(this);
     this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
+    this.comment = this.comment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   toEdit(poemId) {
@@ -48,6 +51,14 @@ export default class ProfilePage extends React.Component {
     this.props.redirectToUserProfile();
   }
 
+  async comment(body, poemId) {
+    await this.props.comment(body, poemId);
+  }
+
+  async deleteComment(commentId) {
+    await this.props.deleteComment(commentId);
+  }
+
   render() {
     const {displayName, poems, isOwner, isFollowing} = this.props;
     return <div>
@@ -68,6 +79,7 @@ export default class ProfilePage extends React.Component {
           toDetail={this.toDetail} toVisit={this.toVisit} toLike={this.toLike}
           isFollowing={isFollowing}
           redirectToUserProfile={this.redirectToUserProfile}
+          app={this.app} comment={this.comment} deleteComment={this.deleteComment}
         />)}
 
       </div>
