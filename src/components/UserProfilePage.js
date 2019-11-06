@@ -56,6 +56,33 @@ export default class UserProfilePage extends React.Component {
     }
   }
 
+  async componentWillReceiveProps(newprops) {
+    if (newprops.match.params.userName !== undefined) {
+      const poet = await this.app.poetDetail({userName: newprops.match.params.userName});
+      this.setState(poet[0]);
+    } else {
+      const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
+      this.setState(poet[0]);
+    }
+
+    try {
+      const followStatus = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state._id]});
+      this.setState({isFollowing: followStatus[0]});
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+      if (poems) {
+        this.setState({poems: poems});
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
   redirectToEdit(poemId) {
     this.app.history.push(`/poems/${poemId}/edit`);
   }
