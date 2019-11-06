@@ -38,7 +38,7 @@ export default class FollowListingPage extends React.Component {
       const poets = await this.app.followerList({
         userName: this.state.userName,
       });
-      if (poets) {
+      if (this.app.state.token) {
         const userIds = poets.map((x) => x._id);
         const followingStatus = await this.app.followingStatus({
           token: this.app.state.token, userIds,
@@ -47,9 +47,9 @@ export default class FollowListingPage extends React.Component {
           followingStatus.forEach((f, i) => {
             poets[i].isFollowing = f;
           });
-          this.setState({poets: poets});
         }
       }
+      this.setState({poets: poets});
     } catch (err) {
       console.log('error');
     }
