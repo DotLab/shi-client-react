@@ -12,7 +12,8 @@ import PoemDetailPage from './components/PoemDetailPage';
 import PropsRoute from './PropsRoute';
 import PoetListingPage from './components/PoetListingPage';
 import ChangePasswordPage from './components/ChangePasswordPage';
-import FollowPage from './components/FollowPage';
+import FollowerPage from './components/FollowerPage';
+import FollowingPage from './components/FollowingPage';
 
 import {Route, Link, Switch} from 'react-router-dom';
 
@@ -198,6 +199,7 @@ export default class App extends React.Component {
   async poemVisit({poemId, token}) {
     this.genericAPI('/v1/poems/visit', {poemId, token})
         .catch((e)=>{
+          console.log(e);
           throw new Error(e);
         });
   }
@@ -267,14 +269,31 @@ export default class App extends React.Component {
     }
   }
 
-  async poemLikeCount({poemId}) {
-    const likeCount = await this.genericAPI('/v1/poems/likeCount', {poemId})
+  async commentList({token, poemId, limit}) {
+    const comments = await this.genericAPI('/v1/poems/comment-list', {token, poemId, limit})
         .catch((e)=>{
+          console.log(e);
           throw new Error(e);
         });
-    if (likeCount) {
-      return likeCount.payload.likeCount;
+    if (comments) {
+      return comments.payload;
     }
+  }
+
+  async comment({token, poemId, comment}) {
+    await this.genericAPI('/v1/poems/comment', {token, poemId, comment})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+  }
+
+  async commentDelete({token, commentId}) {
+    await this.genericAPI('/v1/poems/comment/delete', {token, commentId})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
   }
 
   render() {
@@ -283,11 +302,11 @@ export default class App extends React.Component {
 
       <Switch>
         <PropsRoute exact path="/" component={HomePage} app={this}/>
-        <PropsRoute path="/me/following" component={FollowPage} page="following" app={this}/>
-        <PropsRoute path="/me/follower" component={FollowPage} page="follower" app={this}/>
+        <PropsRoute path="/me/following" component={FollowingPage} app={this}/>
+        <PropsRoute path="/me/follower" component={FollowerPage} app={this}/>
         <PropsRoute path="/me" component={UserProfilePage} app={this}/>
-        <PropsRoute path="/poets/:userName/following"component={FollowPage} page="following" app={this}/>
-        <PropsRoute path="/poets/:userName/follower"component={FollowPage} page="follower" app={this}/>
+        <PropsRoute path="/poets/:userName/following"component={FollowingPage} app={this}/>
+        <PropsRoute path="/poets/:userName/follower"component={FollowerPage} app={this}/>
         <PropsRoute path="/poets/:userName" component={UserProfilePage} app={this}/>
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
