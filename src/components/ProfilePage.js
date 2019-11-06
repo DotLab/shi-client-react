@@ -27,6 +27,7 @@ export default class ProfilePage extends React.Component {
   toPoem(poemId) {
     this.props.redirectToPoem(poemId);
   }
+
   toFollower(poemId) {
     this.props.redirectToFollower(poemId);
   }
