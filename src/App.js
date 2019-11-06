@@ -12,7 +12,8 @@ import PoemDetailPage from './components/PoemDetailPage';
 import PropsRoute from './PropsRoute';
 import PoetListingPage from './components/PoetListingPage';
 import ChangePasswordPage from './components/ChangePasswordPage';
-import FollowPage from './components/FollowPage';
+import FollowerPage from './components/FollowerPage';
+import FollowingPage from './components/FollowingPage';
 
 import {Route, Link, Switch} from 'react-router-dom';
 
@@ -301,11 +302,11 @@ export default class App extends React.Component {
 
       <Switch>
         <PropsRoute exact path="/" component={HomePage} app={this}/>
-        <PropsRoute path="/me/following" component={FollowPage} page="following" app={this}/>
-        <PropsRoute path="/me/follower" component={FollowPage} page="follower" app={this}/>
+        <PropsRoute path="/me/following" component={FollowingPage} app={this}/>
+        <PropsRoute path="/me/follower" component={FollowerPage} app={this}/>
         <PropsRoute path="/me" component={UserProfilePage} app={this}/>
-        <PropsRoute path="/poets/:userName/following"component={FollowPage} page="following" app={this}/>
-        <PropsRoute path="/poets/:userName/follower"component={FollowPage} page="follower" app={this}/>
+        <PropsRoute path="/poets/:userName/following"component={FollowingPage} app={this}/>
+        <PropsRoute path="/poets/:userName/follower"component={FollowerPage} app={this}/>
         <PropsRoute path="/poets/:userName" component={UserProfilePage} app={this}/>
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
