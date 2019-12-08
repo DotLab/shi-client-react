@@ -6,7 +6,9 @@ import RegisterPage from './components/RegisterPage';
 import HomePage from './components/HomePage';
 import Navbar from './components/Navbar';
 import PoemEditorPage from './components/PoemEditorPage';
-import ProfilePage from './components/ProfilePage';
+import UserProfilePage from './components/UserProfilePage';
+import PoemCreatePage from './components/PoemCreatePage';
+import PoemDetailPage from './components/PoemDetailPage';
 import PropsRoute from './PropsRoute';
 import PoetListingPage from './components/PoetListingPage';
 import ChangePasswordPage from './components/ChangePasswordPage';
@@ -23,7 +25,7 @@ export default class App extends React.Component {
     this.history = props.history;
     this.state = {
       user: null,
-      token: null,
+      token: localStorage.getItem('token'),
       error: null,
     };
   }
@@ -35,7 +37,7 @@ export default class App extends React.Component {
     }
   }
 
-  genericApi1(event, arg) {
+  genericAPI(event, arg) {
     return new Promise((resolve, reject) => {
       axios.post(API_URL + event, arg).then((response) => {
         if (response.data.status === API_SUCCESS) {
@@ -55,7 +57,7 @@ export default class App extends React.Component {
     if (token) {
       localStorage.setItem('token', token.payload);
       this.setState({token: token.payload});
-      this.userDetail({token: this.state.token});
+      this.userDetail({token: token.payload});
       this.history.push('/');
     }
   }
@@ -87,19 +89,124 @@ export default class App extends React.Component {
     }
   }
 
+  async userList({token, filter, sort, order, limit, skip, activeYearLimit, search}) {
+    const poets = await this.genericAPI('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+    if (poets) {
+      return poets;
+    }
+  }
+
+  async userFollowUser({token, followId}) {
+    await this.genericAPI('/v1/users/follow', {token, followId})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+  }
+
+  async userUnfollowUser({token, unfollowId}) {
+    await this.genericAPI('/v1/users/unfollow', {token, unfollowId})
+        .catch((e)=>{
+          console.log(e);
+          throw new Error(e);
+        });
+  }
+
+  async userPoem({token, poetId}) {
+    const poems = await this.genericAPI('/v1/poets/poems', {token, poetId})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poems) {
+      return poems;
+    }
+  }
+
+  async userCreatePoem({title, body, visibility, token, align}) {
+    const poem = await this.genericAPI('/v1/poems/create', {title, body, visibility, align, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poem) {
+      this.history.push(`/poems/${poem.payload}`);
+    }
+  }
+
+  async poemDetail({poemId, token}) {
+    const poem = await this.genericAPI('/v1/poems/detail', {poemId, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poem) {
+      return poem;
+    }
+  }
+
+  async poemEdit({poemId, title, body, visibility, align, token}) {
+    const poem = await this.genericApi1('/v1/poems/edit', {poemId, title, body, visibility, align, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poem) {
+      this.history.push(`/poems/${poemId}`);
+    }
+  }
+
+  async poemDelete({poemId, token}) {
+    const poem = await this.genericAPI('/v1/poems/delete', {poemId, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poem) {
+      this.history.push('/me');
+    }
+  }
+
+  async poemLike({poemId, token}) {
+    await this.genericAPI('/v1/poems/like', {poemId, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+  }
+
+  async poemUnlike({poemId, token}) {
+    await this.genericAPI('/v1/poems/unlike', {poemId, token})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+  }
+
+  async poetDetail({userName}) {
+    const poet = await this.genericAPI('/v1/poets/detail', {userName})
+        .catch((e)=>{
+          throw new Error(e);
+        });
+    if (poet) {
+      return poet;
+    }
+  }
+
+
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>
 
       <Switch>
         <PropsRoute exact path="/" component={HomePage} app={this}/>
-        <PropsRoute path="/me/following" component={ProfilePage} page="following" app={this}/>
-        <PropsRoute path="/me/follower" component={ProfilePage} page="follower" app={this}/>
-        <PropsRoute path="/me" component={ProfilePage} app={this}/>
+        <PropsRoute path="/me/following" component={UserProfilePage} page="following" app={this}/>
+        <PropsRoute path="/me/follower" component={UserProfilePage} page="follower" app={this}/>
+        <PropsRoute path="/me" component={UserProfilePage} app={this}/>
+        <PropsRoute path="/poets/:userName" component={UserProfilePage} app={this}/>
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />
         <PropsRoute path="/register" component={RegisterPage} app={this}/>
-        <PropsRoute path="/write" component={PoemEditorPage} app={this}/>
+        <PropsRoute path="/write" component={PoemCreatePage} app={this}/>
+        <PropsRoute path="/poems/:poemId/edit" component={PoemEditorPage} app={this}/>
+        <PropsRoute path="/poems/:poemId" component={PoemDetailPage} app={this}/>
         <PropsRoute path="/settings/password" component={ChangePasswordPage} app={this}/>
         <PropsRoute path="/settings" component={SettingsPage} app={this}/>
 

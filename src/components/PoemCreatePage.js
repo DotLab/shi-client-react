@@ -10,7 +10,7 @@ export default class PoemCreatePage extends React.Component {
 
     this.state = {
       align: TEXT_ALIGN_START,
-      privacy: 'public',
+      visibility: 'public',
       title: '',
       body: '',
     };
@@ -40,7 +40,7 @@ export default class PoemCreatePage extends React.Component {
     return <div>
       <div class="Maw(600px) Ta(s) Bgc(whitesmoke) Mih(500px) Bdrs($bdrs-panel) P($p-panel) Mx(a)">
         <div>
-          <select class="Bgc(white) P(4px) Bdrs($bdrs-control) Bdc(t)" name="privacy" onChange={this.onChange} value={this.state.privacy}>
+          <select class="Bgc(white) P(4px) Bdrs($bdrs-control) Bdc(t)" name="visibility" onChange={this.onChange} value={this.state.visibility}>
             <option value="public">Public</option>
             <option value="community">Community</option>
             <option value="private">Private</option>
