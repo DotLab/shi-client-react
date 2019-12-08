@@ -46,9 +46,8 @@ export default class PoemEditorPage extends React.Component {
 
   async componentDidMount() {
     const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
-    console.log(poem);
     if (poem) {
-      this.setState(poem.payload);
+      this.setState(poem);
     }
   }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import PoemInfo from './PoemInfo';
 import {getAlignStyle} from '../utils';
+import {Link} from 'react-router-dom';
 
 export default class Poem extends React.Component {
   constructor(props) {
@@ -10,20 +11,10 @@ export default class Poem extends React.Component {
       isExpanded: false,
     };
     this.expand=this.expand.bind(this);
-    this.edit = this.edit.bind(this);
-    this.detail = this.detail.bind(this);
   }
 
   expand() {
     this.setState({isExpanded: true});
-  }
-
-  edit() {
-    this.props.toEdit(this.props.id);
-  }
-
-  detail() {
-    this.props.toDetail(this.props.id);
   }
 
   render() {
@@ -39,15 +30,15 @@ export default class Poem extends React.Component {
           <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>}
 
         {isOwner &&
-          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px)" onClick={this.edit}>edit</button>}
+          <Link to={{pathname: `/poems/${this.props.id}/edit`}} class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px) Px(4px)">edit</Link>}
       </div>
       <div class={getAlignStyle(align)}>
         {!isOwner && <span> {author} • </span>}
         <span>{lastEditDate}</span>
       </div>
-      <h3 class={`Fz(24px) Cur(p):h `+ getAlignStyle(align)} onClick={this.detail}>
+      <Link to={{pathname: `/poems/${this.props.id}`}} class={`Fz(24px) Cur(p):h D(b) C(black) `+ getAlignStyle(align)}>
         {title}
-      </h3>
+      </Link>
       <p class={`Whs(pw) `+ getAlignStyle(align)}>
         {!isExpanded ? (preview || body) : body}
       </p>

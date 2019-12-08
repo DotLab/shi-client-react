@@ -27,7 +27,7 @@ export default class PoemDetailPage extends React.Component {
   async componentDidMount() {
     const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
     if (poem) {
-      this.setState(poem.payload);
+      this.setState(poem);
     }
   }
 

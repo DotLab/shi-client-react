@@ -47,7 +47,7 @@ export default class PoetListingPage extends React.Component {
       search: this.state.q,
     });
     if (poets) {
-      this.setState({poets: poets.payload});
+      this.setState({poets: poets});
     }
   }
 
@@ -77,7 +77,7 @@ export default class PoetListingPage extends React.Component {
       search: this.state.q,
     });
     if (poets) {
-      this.setState({poets: poets.payload});
+      this.setState({poets: poets});
     }
   }
 
@@ -116,9 +116,9 @@ export default class PoetListingPage extends React.Component {
     this.app.history.push(`/poets/${userName}`);
   }
 
-
   render() {
     const {q, sort, order, year, poets} = this.state;
+
     return <div>
       <h2>Poets</h2>
       <form>
