@@ -2,7 +2,7 @@ import React from 'react';
 import Poem from './Poem';
 import {Link} from 'react-router-dom';
 
-import {formatDate, short} from '../utils';
+import {formatDate, getExcerpt} from '../utils';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export default class ProfilePage extends React.Component {
 
         {poems.map((poem) => <Poem key={poem._id} id={poem._id} author={displayName} title={poem.title}
           body={poem.body} privacy={poem.privacy} lastEditDate={formatDate(poem.lastEditDate)}
-          viewCount={poem.viewCount} likeCount={poem.likeCount} commentCount={poem.commentCount} preview={short(poem.body)} isOwner={isOwner}
+          viewCount={poem.viewCount} likeCount={poem.likeCount} commentCount={poem.commentCount} preview={getExcerpt(poem.body)} isOwner={isOwner}
         />)}
 
       </div>

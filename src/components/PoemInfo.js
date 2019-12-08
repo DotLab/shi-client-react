@@ -12,9 +12,7 @@ export default class PoemInfo extends React.Component {
           <div class="D(ib) Va(m) Fz(12px) C(gray)">
              Written by <br/><span class="Fz(16px) C(darkred) Td(u):h">{author}</span>
           </div>
-          {!isOwner&&
-          <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control)">Follow</span>
-          }
+          {!isOwner && <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control)">Follow</span>}
         </div>
 
 

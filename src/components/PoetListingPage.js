@@ -50,7 +50,7 @@ export default class PoetListingPage extends React.Component {
         this.setState({poets: poets.payload});
       }
     } catch (err) {
-      console.log('error');
+      console.log(err);
     }
   }
 
