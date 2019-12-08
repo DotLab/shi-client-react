@@ -7,6 +7,16 @@ import {formatDate, getExcerpt} from '../utils';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
+    this.toEdit = this.toEdit.bind(this);
+    this.toDetail = this.toDetail.bind(this);
+  }
+
+  toEdit(poemId) {
+    this.props.redirectToEdit(poemId);
+  }
+
+  toDetail(poemId) {
+    this.props.redirectToDetail(poemId);
   }
 
   render() {

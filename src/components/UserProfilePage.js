@@ -1,8 +1,6 @@
 import React from 'react';
 import ProfilePage from './ProfilePage';
 
-import {UNAUTHORIZED} from '../utils';
-
 export default class UserProfilePage extends React.Component {
   constructor(props) {
     super(props);
@@ -15,13 +13,26 @@ export default class UserProfilePage extends React.Component {
       viewCount: 0,
       poems: [],
     };
+    this.redirectToEdit = this.redirectToEdit.bind(this);
+    this.redirectToDetail = this.redirectToDetail.bind(this);
   }
 
   async componentDidMount() {
     try {
       await this.app.userDetail({token: this.app.state.token});
-      this.setState(this.app.state.user);
-      const poems = await this.app.userPoem({token: this.app.state.token, targetUser: this.state._id});
+    } catch (err) {
+      console.log(err);
+    }
+    if (this.props.match.params.userName !== undefined) {
+      const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
+      this.setState(poet.payload[0]);
+    } else {
+      const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
+      this.setState(poet.payload[0]);
+    }
+
+    try {
+      const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
       if (poems) {
         this.setState({poems: poems.payload});
       }
@@ -30,18 +41,25 @@ export default class UserProfilePage extends React.Component {
     }
   }
 
-  render() {
-    const isLoggedIn = this.app.state.token;
-    if (!isLoggedIn) {
-      return <div>
-        {UNAUTHORIZED}
-      </div>;
-    }
+  redirectToEdit(poemId) {
+    this.app.history.push(`/poems/${poemId}/edit`);
+  }
 
+  redirectToDetail(poemId) {
+    this.app.history.push(`/poems/${poemId}`);
+  }
+
+  render() {
+    let isOwner = true;
+    if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
+      isOwner = false;
+    }
     const {displayName, poems} = this.state;
 
     return <div>
-      <ProfilePage displayName={displayName} poems={poems} isOwner={true}/>
+      <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}
+        redirectToEdit={this.redirectToEdit}
+        redirectToDetail={this.redirectToDetail}/>
     </div>;
   }
 }
