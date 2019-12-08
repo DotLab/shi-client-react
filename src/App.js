@@ -80,30 +80,30 @@ export default class App extends React.Component {
   }
 
   async userList({token, filter, sort, order, limit, skip, activeYearLimit, search}) {
-    const poets = await this.genericAPI('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search});
+    const poets = await this.genericApi1('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search});
     return poets;
   }
 
   async userFollowUser({token, followId}) {
-    await this.genericAPI('/v1/users/follow', {token, followId});
+    await this.genericApi1('/v1/users/follow', {token, followId});
   }
 
   async userUnfollowUser({token, unfollowId}) {
-    await this.genericAPI('/v1/users/unfollow', {token, unfollowId});
+    await this.genericApi1('/v1/users/unfollow', {token, unfollowId});
   }
 
   async userPoem({token, poetId}) {
-    const poems = await this.genericAPI('/v1/poets/poems', {token, poetId});
+    const poems = await this.genericApi1('/v1/poets/poems', {token, poetId});
     return poems;
   }
 
   async userCreatePoem({title, body, visibility, token, align}) {
-    const poem = await this.genericAPI('/v1/poems/create', {title, body, visibility, align, token});
+    const poem = await this.genericApi1('/v1/poems/create', {title, body, visibility, align, token});
     this.history.push(`/poems/${poem.payload}`);
   }
 
   async poemDetail({poemId, token}) {
-    const poem = await this.genericAPI('/v1/poems/detail', {poemId, token});
+    const poem = await this.genericApi1('/v1/poems/detail', {poemId, token});
     return poem;
   }
 
@@ -113,20 +113,20 @@ export default class App extends React.Component {
   }
 
   async poemDelete({poemId, token}) {
-    await this.genericAPI('/v1/poems/delete', {poemId, token});
+    await this.genericApi1('/v1/poems/delete', {poemId, token});
     this.history.push('/me');
   }
 
   async poemLike({poemId, token}) {
-    await this.genericAPI('/v1/poems/like', {poemId, token});
+    await this.genericApi1('/v1/poems/like', {poemId, token});
   }
 
   async poemUnlike({poemId, token}) {
-    await this.genericAPI('/v1/poems/unlike', {poemId, token});
+    await this.genericApi1('/v1/poems/unlike', {poemId, token});
   }
 
   async poetDetail({userName}) {
-    const poet = await this.genericAPI('/v1/poets/detail', {userName});
+    const poet = await this.genericApi1('/v1/poets/detail', {userName});
     return poet;
   }
 

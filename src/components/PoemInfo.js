@@ -49,7 +49,6 @@ export default class PoemInfo extends React.Component {
           {!isOwner && <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control)">Follow</span>}
         </div>
 
-
         <div class="D(f) My(12px)">
           <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..."/>
         </div>
