@@ -18,6 +18,7 @@ export default class PoemCreatePage extends React.Component {
     this.onChange = onChange.bind(this);
     this.createPoem = this.createPoem.bind(this);
   }
+
   setAlign(textAlign) {
     this.setState({align: textAlign});
   }
@@ -61,7 +62,6 @@ export default class PoemCreatePage extends React.Component {
           <input class={STYLE_CONTROL_INPUT} placeholder="Tags..."/>
         </div>
         <button class="C(white) D(b) W(100%) Bgc(dimgray) Bgc(black):h Py(4px) Mt($m-control) Bdrs($bdrs-control) Bdc(t)" onClick={this.createPoem}>Publish</button>
-
       </div>
     </div>;
   }

@@ -37,25 +37,20 @@ export default class App extends React.Component {
 
   genericApi1(event, arg) {
     return new Promise((resolve, reject) => {
-      axios.post(API_URL + event, arg)
-          .then(function(response) {
-            if (response.data.status === API_SUCCESS) {
-              return resolve(response.data);
-            } else {
-              reject(response.data);
-            }
-          })
-          .catch(function(error) {
-            console.log(error);
-          });
+      axios.post(API_URL + event, arg).then((response) => {
+        if (response.data.status === API_SUCCESS) {
+          return resolve(response.data);
+        } else {
+          reject(response.data);
+        }
+      }).catch((error) => {
+        throw new Error('Api failed');
+      });
     });
   }
 
   async userLogin({email, password}) {
-    const token = await this.genericApi1('/v1/users/login', {email, password})
-        .catch((e)=>{
-          throw new Error(e);
-        });
+    const token = await this.genericApi1('/v1/users/login', {email, password});
 
     if (token) {
       localStorage.setItem('token', token.payload);
@@ -72,30 +67,21 @@ export default class App extends React.Component {
   }
 
   async userRegister({userName, email, displayName, password}) {
-    const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password})
-        .catch((e)=>{
-          throw new Error(e);
-        });
+    const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password});
     if (user) {
       this.history.push('/login');
     }
   }
 
   async userChangePassword({currentPassword, newPassword, token}) {
-    const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword})
-        .catch((e)=>{
-          throw new Error(e);
-        });
+    const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword});
     if (user) {
       this.history.push('/login');
     }
   }
 
   async userDetail({token}) {
-    const user = await this.genericApi1('/v1/users/detail', {token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
+    const user = await this.genericApi1('/v1/users/detail', {token});
     if (user) {
       this.setState({user: user.payload});
     }
