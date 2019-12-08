@@ -1,19 +1,14 @@
 import React from 'react';
-
 import UserInfo from './UserInfo';
 import queryString from 'query-string';
-import {onChange, pushHistory} from '../utils';
-
-const QUERY_ASC = 'asc';
-const QUERY_DESC = 'desc';
-const QUERY_DATE = 'date';
-const QUERY_VIEWS = 'views';
-const QUERY_LIKES = 'likes';
-const QUERY_ALPHABETICAL = 'alphabetical';
+import {onChange, pushHistory, formatDate} from '../utils';
+import {QUERY_ASC, QUERY_DESC, QUERY_DATE, QUERY_VIEWS, QUERY_LIKES, QUERY_ALPHABETICAL,
+  FILTER_ALL, CURRENT_YEAR, DEFAULT_LIMIT} from '../utils';
 
 export default class PoetListingPage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
 
     this.query = queryString.parse(props.location.search);
     if (!this.query.sort) {
@@ -22,19 +17,45 @@ export default class PoetListingPage extends React.Component {
     }
 
     this.state = {
-      q: this.query.q || '',
-      year: this.query.year || '',
-      order: this.query.order || '',
-      sort: this.query.sort || '',
+      q: this.query.q || undefined,
+      year: this.query.year || CURRENT_YEAR,
+      order: this.query.order || undefined,
+      sort: this.query.sort || undefined,
+      limit: DEFAULT_LIMIT,
+      skip: 0,
+      poets: [],
     };
 
     this.onChange = onChange.bind(this);
     this.pushHistory = pushHistory.bind(this);
     this.search = this.search.bind(this);
     this.searchYear = this.searchYear.bind(this);
+    this.userFollow = this.userFollow.bind(this);
+    this.userUnfollow = this.userUnfollow.bind(this);
+    this.redirectToProfile = this.redirectToProfile.bind(this);
   }
 
-  componentWillReceiveProps(newprops) {
+  async componentDidMount() {
+    try {
+      const poets = await this.app.userList({
+        token: this.app.state.token,
+        filter: FILTER_ALL,
+        sort: this.state.sort,
+        order: this.state.order,
+        limit: DEFAULT_LIMIT,
+        skip: this.state.skip,
+        activeYearLImit: this.state.year,
+        search: this.state.q,
+      });
+      if (poets) {
+        this.setState({poets: poets.payload});
+      }
+    } catch (err) {
+      console.log('error');
+    }
+  }
+
+  async componentWillReceiveProps(newprops) {
     this.query = queryString.parse(newprops.location.search);
     if (!this.query.sort) {
       this.query.sort = QUERY_DATE;
@@ -42,11 +63,29 @@ export default class PoetListingPage extends React.Component {
     }
 
     this.setState({
-      q: this.query.q || '',
-      year: this.query.year || '',
-      order: this.query.order || '',
-      sort: this.query.sort || '',
+      q: this.query.q || undefined,
+      year: this.query.year || CURRENT_YEAR,
+      order: this.query.order || undefined,
+      sort: this.query.sort || undefined,
     });
+
+    try {
+      const poets = await this.app.userList({
+        token: this.app.state.token,
+        filter: FILTER_ALL,
+        sort: this.state.sort,
+        order: this.state.order,
+        limit: DEFAULT_LIMIT,
+        skip: this.state.skip,
+        activeYearLImit: this.state.year,
+        search: this.state.q,
+      });
+      if (poets) {
+        this.setState({poets: poets.payload});
+      }
+    } catch (err) {
+      console.log('error');
+    }
   }
 
   search(e) {
@@ -70,8 +109,31 @@ export default class PoetListingPage extends React.Component {
     this.pushHistory();
   }
 
+  async userFollow(id) {
+    try {
+      await this.app.userFollowUser({followId: id, token: this.app.state.token});
+      this.pushHistory();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async userUnfollow(id) {
+    try {
+      await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
+      this.pushHistory();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  redirectToProfile(userName) {
+    this.app.history.push(`/poets/${userName}`);
+  }
+
+
   render() {
-    const {q, sort, order, year} = this.state;
+    const {q, sort, order, year, poets} = this.state;
     return <div>
       <h2>Poets</h2>
       <form>
@@ -89,12 +151,10 @@ export default class PoetListingPage extends React.Component {
         </span>
       </div>
       <div class="Maw(500px) Mx(a) Mt(12px)">
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
-        <UserInfo/>
+        {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
+          displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
+          followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
+          isFollowing={poet.isFollowing} redirectToProfile={this.redirectToProfile}/>)}
       </div>
     </div>;
   }

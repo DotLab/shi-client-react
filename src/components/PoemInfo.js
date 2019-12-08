@@ -58,7 +58,7 @@ export default class PoemInfo extends React.Component {
 
         <div class="Fz(14px) My(12px) Cf">
           <span className="Cur(p) Fl(start) ">
-            <span class="Mend(10px)" onClick={this.likePoem}><i class="far fa-heart"></i></span>
+            <span class="Mend(10px)"><i class="far fa-heart"></i></span>
             <span class="Td(u):h">{likeCount}</span>
           </span>
         </div>
