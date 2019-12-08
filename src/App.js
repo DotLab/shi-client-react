@@ -37,29 +37,25 @@ export default class App extends React.Component {
     }
   }
 
-  genericAPI(event, arg) {
+  genericApi1(event, arg) {
     return new Promise((resolve, reject) => {
       axios.post(API_URL + event, arg).then((response) => {
         if (response.data.status === API_SUCCESS) {
-          return resolve(response.data);
+          resolve(response.data);
         } else {
           reject(response.data);
         }
-      }).catch((error) => {
-        throw new Error('Api failed');
-      });
+      }).catch((err) => reject(err));
     });
   }
 
   async userLogin({email, password}) {
     const token = await this.genericApi1('/v1/users/login', {email, password});
 
-    if (token) {
-      localStorage.setItem('token', token.payload);
-      this.setState({token: token.payload});
-      this.userDetail({token: token.payload});
-      this.history.push('/');
-    }
+    localStorage.setItem('token', token.payload);
+    this.setState({token: token.payload});
+    this.userDetail({token: token.payload});
+    this.history.push('/');
   }
 
   async userLogOut() {
@@ -69,125 +65,69 @@ export default class App extends React.Component {
   }
 
   async userRegister({userName, email, displayName, password}) {
-    const user = await this.genericApi1('/v1/users/register', {email, userName, displayName, password});
-    if (user) {
-      this.history.push('/login');
-    }
+    await this.genericApi1('/v1/users/register', {email, userName, displayName, password});
+    this.history.push('/login');
   }
 
   async userChangePassword({currentPassword, newPassword, token}) {
-    const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword});
-    if (user) {
-      this.history.push('/login');
-    }
+    await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword});
+    this.history.push('/login');
   }
 
   async userDetail({token}) {
     const user = await this.genericApi1('/v1/users/detail', {token});
-    if (user) {
-      this.setState({user: user.payload});
-    }
+    this.setState({user: user.payload});
   }
 
   async userList({token, filter, sort, order, limit, skip, activeYearLimit, search}) {
-    const poets = await this.genericAPI('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search})
-        .catch((e)=>{
-          console.log(e);
-          throw new Error(e);
-        });
-    if (poets) {
-      return poets;
-    }
+    const poets = await this.genericAPI('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search});
+    return poets;
   }
 
   async userFollowUser({token, followId}) {
-    await this.genericAPI('/v1/users/follow', {token, followId})
-        .catch((e)=>{
-          console.log(e);
-          throw new Error(e);
-        });
+    await this.genericAPI('/v1/users/follow', {token, followId});
   }
 
   async userUnfollowUser({token, unfollowId}) {
-    await this.genericAPI('/v1/users/unfollow', {token, unfollowId})
-        .catch((e)=>{
-          console.log(e);
-          throw new Error(e);
-        });
+    await this.genericAPI('/v1/users/unfollow', {token, unfollowId});
   }
 
   async userPoem({token, poetId}) {
-    const poems = await this.genericAPI('/v1/poets/poems', {token, poetId})
-        .catch((e)=>{
-          throw new Error(e);
-        });
-    if (poems) {
-      return poems;
-    }
+    const poems = await this.genericAPI('/v1/poets/poems', {token, poetId});
+    return poems;
   }
 
   async userCreatePoem({title, body, visibility, token, align}) {
-    const poem = await this.genericAPI('/v1/poems/create', {title, body, visibility, align, token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
-    if (poem) {
-      this.history.push(`/poems/${poem.payload}`);
-    }
+    const poem = await this.genericAPI('/v1/poems/create', {title, body, visibility, align, token});
+    this.history.push(`/poems/${poem.payload}`);
   }
 
   async poemDetail({poemId, token}) {
-    const poem = await this.genericAPI('/v1/poems/detail', {poemId, token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
-    if (poem) {
-      return poem;
-    }
+    const poem = await this.genericAPI('/v1/poems/detail', {poemId, token});
+    return poem;
   }
 
   async poemEdit({poemId, title, body, visibility, align, token}) {
-    const poem = await this.genericApi1('/v1/poems/edit', {poemId, title, body, visibility, align, token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
-    if (poem) {
-      this.history.push(`/poems/${poemId}`);
-    }
+    await this.genericApi1('/v1/poems/edit', {poemId, title, body, visibility, align, token});
+    this.history.push(`/poems/${poemId}`);
   }
 
   async poemDelete({poemId, token}) {
-    const poem = await this.genericAPI('/v1/poems/delete', {poemId, token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
-    if (poem) {
-      this.history.push('/me');
-    }
+    await this.genericAPI('/v1/poems/delete', {poemId, token});
+    this.history.push('/me');
   }
 
   async poemLike({poemId, token}) {
-    await this.genericAPI('/v1/poems/like', {poemId, token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
+    await this.genericAPI('/v1/poems/like', {poemId, token});
   }
 
   async poemUnlike({poemId, token}) {
-    await this.genericAPI('/v1/poems/unlike', {poemId, token})
-        .catch((e)=>{
-          throw new Error(e);
-        });
+    await this.genericAPI('/v1/poems/unlike', {poemId, token});
   }
 
   async poetDetail({userName}) {
-    const poet = await this.genericAPI('/v1/poets/detail', {userName})
-        .catch((e)=>{
-          throw new Error(e);
-        });
-    if (poet) {
-      return poet;
-    }
+    const poet = await this.genericAPI('/v1/poets/detail', {userName});
+    return poet;
   }
 
 
