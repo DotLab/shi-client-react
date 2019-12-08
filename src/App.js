@@ -69,10 +69,8 @@ export default class App extends React.Component {
   }
 
   async userChangePassword({currentPassword, newPassword, token}) {
-    const user = await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword});
-    if (user) {
-      this.history.push('/login');
-    }
+    await this.genericApi1('/v1/users/settings/password/change', {token, currentPassword, newPassword});
+    this.history.push('/login');
   }
 
   async userDetail({token}) {
