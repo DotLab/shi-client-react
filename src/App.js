@@ -130,7 +130,6 @@ export default class App extends React.Component {
     return poet;
   }
 
-
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>

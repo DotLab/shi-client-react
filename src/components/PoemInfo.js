@@ -18,19 +18,11 @@ export default class PoemInfo extends React.Component {
   async likePoem(e) {
     e.preventDefault();
     if (!this.state.likeFlag) {
-      try {
-        await this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
-        this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
-      } catch (e) {
-        console.log(e);
-      }
+      await this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
     } else {
-      try {
-        await this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
-        this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
-      } catch (e) {
-        console.log(e);
-      }
+      await this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
     }
   }
 

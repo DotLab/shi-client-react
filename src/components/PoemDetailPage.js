@@ -22,7 +22,6 @@ export default class PoemDetailPage extends React.Component {
       viewCount: 0,
       commentCount: 0,
     };
-    this.redirectToEdit = this.redirectToEdit.bind(this);
   }
 
   async componentDidMount() {
@@ -30,10 +29,6 @@ export default class PoemDetailPage extends React.Component {
     if (poem) {
       this.setState(poem.payload);
     }
-  }
-
-  redirectToEdit() {
-    this.app.history.push(`/poems/${this.state._id}/edit`);
   }
 
   render() {
@@ -52,9 +47,9 @@ export default class PoemDetailPage extends React.Component {
       <div>
         <div class={getAlignStyle(align)}>
           <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>
-          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px) Td(u):h" onClick={this.redirectToEdit}>
+          <Link to={{pathname: `/poems/${this.state._id}/edit`}} class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Px(4px) Bdrs(2px) Td(u):h">
             edit
-          </button>
+          </Link>
         </div>
         <div class={getAlignStyle(align)}>
           <span class="C(gray) Fz(8px)">{writtenDateFormatted}</span>
