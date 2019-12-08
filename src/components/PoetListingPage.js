@@ -36,22 +36,18 @@ export default class PoetListingPage extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      const poets = await this.app.userList({
-        token: this.app.state.token,
-        filter: FILTER_ALL,
-        sort: this.state.sort,
-        order: this.state.order,
-        limit: DEFAULT_LIMIT,
-        skip: this.state.skip,
-        activeYearLImit: this.state.year,
-        search: this.state.q,
-      });
-      if (poets) {
-        this.setState({poets: poets.payload});
-      }
-    } catch (err) {
-      console.log('error');
+    const poets = await this.app.userList({
+      token: this.app.state.token,
+      filter: FILTER_ALL,
+      sort: this.state.sort,
+      order: this.state.order,
+      limit: DEFAULT_LIMIT,
+      skip: this.state.skip,
+      activeYearLImit: this.state.year,
+      search: this.state.q,
+    });
+    if (poets) {
+      this.setState({poets: poets.payload});
     }
   }
 
@@ -69,22 +65,19 @@ export default class PoetListingPage extends React.Component {
       sort: this.query.sort || undefined,
     });
 
-    try {
-      const poets = await this.app.userList({
-        token: this.app.state.token,
-        filter: FILTER_ALL,
-        sort: this.state.sort,
-        order: this.state.order,
-        limit: DEFAULT_LIMIT,
-        skip: this.state.skip,
-        activeYearLImit: this.state.year,
-        search: this.state.q,
-      });
-      if (poets) {
-        this.setState({poets: poets.payload});
-      }
-    } catch (err) {
-      console.log('error');
+
+    const poets = await this.app.userList({
+      token: this.app.state.token,
+      filter: FILTER_ALL,
+      sort: this.state.sort,
+      order: this.state.order,
+      limit: DEFAULT_LIMIT,
+      skip: this.state.skip,
+      activeYearLImit: this.state.year,
+      search: this.state.q,
+    });
+    if (poets) {
+      this.setState({poets: poets.payload});
     }
   }
 
@@ -110,21 +103,13 @@ export default class PoetListingPage extends React.Component {
   }
 
   async userFollow(id) {
-    try {
-      await this.app.userFollowUser({followId: id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.app.userFollowUser({followId: id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async userUnfollow(id) {
-    try {
-      await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   redirectToProfile(userName) {
