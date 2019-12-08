@@ -8,7 +8,6 @@ const ROUTE_PROFILE = 'profile';
 const ROUTE_SETTINGS = 'settings';
 const ROUTE_LOGOUT = 'logout';
 
-
 export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -65,26 +64,23 @@ export default class Navbar extends React.Component {
 
         <h1 class="Fz(26px) Lh(50px) D(ib) Cur(p)"><Link className="C(white) C(white):h Td(n):h" to="/">Scarletea</Link></h1>
         <span className="Fl(end) Lh(50px)">
-          { isLoggedIn &&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToWrite}><i class="fas fa-edit"></i></span>}
-          { isLoggedIn &&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
-            <i class="fas fa-user"></i>
-            <select class="Pos(a) D(b) W(50px) H(50px) T(0) End(-15px)  Op(0)" value={ROUTE_INVALID} onChange={this.changePath}>
-              <option value={ROUTE_INVALID} disabled>---</option>
-              <option value={ROUTE_PROFILE}>My Profile</option>
-              <option value={ROUTE_SETTINGS}>Settings</option>
-              <option value={ROUTE_LOGOUT}>Log Out</option>
-            </select>
-          </span>
+          {isLoggedIn && <Link to="/write" class="C(gray) C(white):h Cur(p) Mend(30px)"><i class="fas fa-edit"></i></Link>}
+
+          {isLoggedIn &&
+            <span class="C(gray) C(white):h Cur(p) Mend(30px) Pos(r) D(ib)">
+              <i class="fas fa-user"></i>
+              <select class="Pos(a) D(b) W(50px) H(50px) T(0) End(-15px)  Op(0)" value={ROUTE_INVALID} onChange={this.changePath}>
+                <option value={ROUTE_INVALID} disabled>---</option>
+                <option value={ROUTE_PROFILE}>My Profile</option>
+                <option value={ROUTE_SETTINGS}>Settings</option>
+                <option value={ROUTE_LOGOUT}>Log Out</option>
+              </select>
+            </span>
           }
-          {!isLoggedIn&&
-          <span class="C(gray) C(white):h Cur(p) Mend(30px)" onClick={this.redirectToLogin}><i class="fas fa-sign-in-alt"></i></span>
-          }
+          {!isLoggedIn && <Link to="/login" class="C(gray) C(white):h Cur(p) Mend(30px)"><i class="fas fa-sign-in-alt"></i></Link>}
         </span>
       </div>
 
     </div>;
   }
 }
-

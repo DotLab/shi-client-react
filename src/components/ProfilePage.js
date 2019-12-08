@@ -24,7 +24,6 @@ const POEM_2 = `everyday will be a new reason
 to cry over you
 everyday will also be a new reason
 to love you
-
 and as long as each day comes,
 i'll cry but i'll love you
 as if it will be my last`;
@@ -74,4 +73,3 @@ export default class HomePage extends React.Component {
     </div>;
   }
 }
-
