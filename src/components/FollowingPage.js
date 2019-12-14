@@ -58,8 +58,8 @@ export default class FollowListingPage extends React.Component {
 
   render() {
     const {poets, displayName} = this.state;
-    return <div>
 
+    return <div>
       <h3 class="Fz(24px)">
         {displayName}
       </h3>
