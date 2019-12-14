@@ -23,9 +23,7 @@ export default class LoginPage extends React.Component {
   }
 
   checkPasswordMatch() {
-    if (this.state.password === this.state.passwordConfirm) {
-      return true;
-    } else return false;
+    return (this.state.password === this.state.passwordConfirm);
   }
 
   async register(e) {

@@ -13,40 +13,20 @@ export default class UserProfilePage extends React.Component {
       viewCount: 0,
       poems: [],
     };
-    this.redirectToEdit = this.redirectToEdit.bind(this);
-    this.redirectToDetail = this.redirectToDetail.bind(this);
   }
 
   async componentDidMount() {
-    try {
-      await this.app.userDetail({token: this.app.state.token});
-    } catch (err) {
-      console.log(err);
-    }
+    await this.app.userDetail({token: this.app.state.token});
     if (this.props.match.params.userName !== undefined) {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
-      this.setState(poet.payload[0]);
+      this.setState(poet[0]);
     } else {
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
-      this.setState(poet.payload[0]);
+      this.setState(poet[0]);
     }
 
-    try {
-      const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
-      if (poems) {
-        this.setState({poems: poems.payload});
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  redirectToEdit(poemId) {
-    this.app.history.push(`/poems/${poemId}/edit`);
-  }
-
-  redirectToDetail(poemId) {
-    this.app.history.push(`/poems/${poemId}`);
+    const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+    this.setState({poems: poems});
   }
 
   render() {
@@ -57,9 +37,7 @@ export default class UserProfilePage extends React.Component {
     const {displayName, poems} = this.state;
 
     return <div>
-      <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}
-        redirectToEdit={this.redirectToEdit}
-        redirectToDetail={this.redirectToDetail}/>
+      <ProfilePage displayName={displayName} poems={poems} isOwner={isOwner}/>
     </div>;
   }
 }

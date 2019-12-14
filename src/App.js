@@ -33,7 +33,7 @@ export default class App extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem('token');
     if (token) {
-      this.setState({token: token});
+      this.setState({token});
     }
   }
 
@@ -50,11 +50,12 @@ export default class App extends React.Component {
   }
 
   async userLogin({email, password}) {
-    const token = await this.genericApi1('/v1/users/login', {email, password});
+    const res = await this.genericApi1('/v1/users/login', {email, password});
+    const token = res.payload;
 
-    localStorage.setItem('token', token.payload);
-    this.setState({token: token.payload});
-    this.userDetail({token: token.payload});
+    localStorage.setItem('token', token);
+    this.setState({token});
+    this.userDetail({token});
     this.history.push('/');
   }
 
@@ -75,13 +76,13 @@ export default class App extends React.Component {
   }
 
   async userDetail({token}) {
-    const user = await this.genericApi1('/v1/users/detail', {token});
-    this.setState({user: user.payload});
+    const res = await this.genericApi1('/v1/users/detail', {token});
+    this.setState({user: res.payload});
   }
 
   async userList({token, filter, sort, order, limit, skip, activeYearLimit, search}) {
-    const poets = await this.genericApi1('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search});
-    return poets;
+    const res = await this.genericApi1('/v1/poets', {token, filter, sort, order, limit, skip, activeYearLimit, search});
+    return res.payload;
   }
 
   async userFollowUser({token, followId}) {
@@ -93,18 +94,18 @@ export default class App extends React.Component {
   }
 
   async userPoem({token, poetId}) {
-    const poems = await this.genericApi1('/v1/poets/poems', {token, poetId});
-    return poems;
+    const res = await this.genericApi1('/v1/poets/poems', {token, poetId});
+    return res.payload;
   }
 
   async userCreatePoem({title, body, visibility, token, align}) {
-    const poem = await this.genericApi1('/v1/poems/create', {title, body, visibility, align, token});
-    this.history.push(`/poems/${poem.payload}`);
+    const res = await this.genericApi1('/v1/poems/create', {title, body, visibility, align, token});
+    this.history.push(`/poems/${res.payload}`);
   }
 
   async poemDetail({poemId, token}) {
-    const poem = await this.genericApi1('/v1/poems/detail', {poemId, token});
-    return poem;
+    const res = await this.genericApi1('/v1/poems/detail', {poemId, token});
+    return res.payload;
   }
 
   async poemEdit({poemId, title, body, visibility, align, token}) {
@@ -126,10 +127,9 @@ export default class App extends React.Component {
   }
 
   async poetDetail({userName}) {
-    const poet = await this.genericApi1('/v1/poets/detail', {userName});
-    return poet;
+    const res = await this.genericApi1('/v1/poets/detail', {userName});
+    return res.payload;
   }
-
 
   render() {
     return <div class="Ta(c)">
