@@ -32,65 +32,31 @@ export default class PoemDetailPage extends React.Component {
   }
 
   async componentDidMount() {
-    try {
-      const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
-      if (poem) {
-        this.setState(poem);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
+    this.setState(poem);
 
-    try {
-      const poet = await this.app.poetDetail({userId: this.state.authorId});
-      if (poet) {
-        this.setState({authorName: poet.displayName, authorUserName: poet.userName});
-      }
-    } catch (err) {
-      console.log(err);
-    }
+    const poet = await this.app.poetDetail({userId: this.state.authorId});
+    this.setState({authorName: poet.displayName, authorUserName: poet.userName});
 
-    try {
-      const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
-      if (isFollowing) {
-        this.setState({isFollowing: isFollowing[0]});
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  redirectToEdit() {
-    this.app.history.push(`/poems/${this.state._id}/edit`);
-  }
-
-  redirectToUserProfile() {
-    this.app.history.push(`/poets/${this.state.authorUserName}`);
+    const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
+    this.setState({isFollowing: isFollowing[0]});
   }
 
   async poemLike() {
-    try {
-      await this.app.poemLike({poemId: this.state._id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (e) {
-      console.log(e);
-    }
+    await this.app.poemLike({poemId: this.state._id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async poemUnlike() {
-    try {
-      await this.app.poemUnlike({poemId: this.state._id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (e) {
-      console.log(e);
-    }
+    await this.app.poemUnlike({poemId: this.state._id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   render() {
-    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorId, isFollowing} = this.state;
+    const {align, title, body, visibility, likeCount, viewCount, commentCount, authorName, authorUserName, authorId, isFollowing} = this.state;
     const writtenDateFormatted = formatDateTime(this.state.writtenDate);
-    let isOwner = true;
-    if (!this.app.state.user || this.state.authorId!== this.app.state.user._id) {
+    let isOwner;
+    if (!this.app.state.user || this.state.authorId !== this.app.state.user._id) {
       isOwner = false;
     }
 
@@ -112,10 +78,11 @@ export default class PoemDetailPage extends React.Component {
           {body}
         </p>
 
-        <PoemInfo authorName={authorName} authorId={authorId} isFollowing={isFollowing} likeCount={likeCount}
+        <PoemInfo authorName={authorName} authorId={authorId} userName={authorUserName}
+          isFollowing={isFollowing} likeCount={likeCount}
           viewCount={viewCount} commentCount={commentCount}
           poemId={this.state._id} poemLike={this.poemLike} poemUnlike={this.poemUnlike}
-          redirectToUserProfile={this.redirectToUserProfile}/>
+        />
       </div>
     </div>;
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 export default class PoemInfo extends React.Component {
   constructor(props) {
@@ -6,7 +7,6 @@ export default class PoemInfo extends React.Component {
 
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
-    this.user = this.user.bind(this);
   }
 
   async like(e) {
@@ -27,29 +27,23 @@ export default class PoemInfo extends React.Component {
     }
   }
 
-  user() {
-    this.props.redirectToUserProfile();
-  }
-
   render() {
-    const {authorName, isFollowing, likeCount, commentCount} = this.props;
+    const {authorName, userName, isFollowing, likeCount, commentCount} = this.props;
 
     return <div>
-
       <div class="Mih(100px) Miw(500px) Bgc(whitesmoke) D(ib) P(10px) Bdrs($bdrs-panel)">
         <div class="Ta(s)">
           <img class="Bdrs(100%) Mend(16px)" src="https://hellopoetry.s3.amazonaws.com/static/cache/3c/06/3c06fe65b732452ef83554385e05d5d6.jpg" alt=""/>
           <div class="D(ib) Va(m) Fz(12px) C(gray)">
-             Written by <br/><span class="Fz(16px) C(darkred) Td(u):h" onClick={this.user}>{authorName}</span>
+             Written by <br/>
+            <Link to={{pathname: `/poets/${userName}`}} class="Fz(16px) C(darkred) Td(u):h">{authorName}</Link>
           </div>
-          {!isFollowing&&
-          <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control) Cur(p):h"
-            onClick={this.userFollow}>Follow</span>
-          }
-          {isFollowing&&
-          <span class="Fl(end) Bgc(darkred) Bgc(lightgray):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control) Cur(p):h"
-            onClick={this.userUnfollow}>Following</span>
-          }
+          {!isFollowing &&
+            <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control) Cur(p):h"
+              onClick={this.userFollow}>Follow</span>}
+          {isFollowing &&
+            <span class="Fl(end) Bgc(darkred) Bgc(lightgray):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control) Cur(p):h"
+              onClick={this.userUnfollow}>Following</span>}
 
         </div>
 

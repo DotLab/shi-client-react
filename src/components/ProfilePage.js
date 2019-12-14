@@ -7,62 +7,31 @@ import {formatDate, getExcerpt} from '../utils';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
-    this.toEdit = this.toEdit.bind(this);
-    this.toDetail = this.toDetail.bind(this);
-    this.toPoem = this.toPoem.bind(this);
-    this.toFollower = this.toFollower.bind(this);
-    this.toFollowing = this.toFollowing.bind(this);
     this.toVisit = this.toVisit.bind(this);
-    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
-  }
-
-  toEdit(poemId) {
-    this.props.redirectToEdit(poemId);
-  }
-
-  toDetail(poemId) {
-    this.props.redirectToDetail(poemId);
-  }
-
-  toPoem(poemId) {
-    this.props.redirectToPoem(poemId);
-  }
-
-  toFollower(poemId) {
-    this.props.redirectToFollower(poemId);
-  }
-
-  toFollowing(poemId) {
-    this.props.redirectToFollowing(poemId);
   }
 
   toVisit(poemId) {
     this.props.visitPoem(poemId);
   }
 
-  redirectToUserProfile() {
-    this.props.redirectToUserProfile();
-  }
-
   render() {
-    const {displayName, poems, isOwner, isFollowing} = this.props;
+    const {displayName, userName, poems, isOwner, isFollowing} = this.props;
     return <div>
       <h3 class="Fz(24px)">
         {displayName}
       </h3>
       <div class="Fz(12px) C(gray)">
-        <span class="Mx(6px) Cur(p) Td(u) C(gray)" onClick={this.toPoem}>poems</span>
-        <span class="Mx(6px) Cur(p) Td(u):h C(gray)" onClick={this.toFollowing}>following</span>
-        <span class="Mx(6px) Cur(p) Td(u):h C(gray)" onClick={this.toFollower}>follower</span>
+        <Link to={{pathname: `/poets/${userName}`}} class="Mx(6px) Cur(p) Td(u) C(gray)">poems</Link>
+        <Link to={{pathname: `/poets/${userName}/following`}} class="Mx(6px) Cur(p) Td(u):h C(gray)">following</Link>
+        <Link to={{pathname: `/poets/${userName}/follower`}} class="Mx(6px) Cur(p) Td(u):h C(gray)">follower</Link>
       </div>
       <div>
 
         {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId} authorName={displayName}
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
-          commentCount={poem.commentCount} preview={short(poem.body)} isOwner={isOwner} toEdit={this.toEdit}
-          toDetail={this.toDetail} toVisit={this.toVisit} isFollowing={isFollowing}
-          redirectToUserProfile={this.redirectToUserProfile}
+          commentCount={poem.commentCount} preview={getExcerpt(poem.body)} isOwner={isOwner}
+          toVisit={this.toVisit} isFollowing={isFollowing}
         />)}
 
       </div>

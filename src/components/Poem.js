@@ -46,7 +46,6 @@ export default class Poem extends React.Component {
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
       <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing}
-        redirectToUserProfile={this.redirectToUserProfile}
       />
     </div>;
   }
