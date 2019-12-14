@@ -20,9 +20,6 @@ export default class FollowListingPage extends React.Component {
 
     this.userFollow = this.userFollow.bind(this);
     this.userUnfollow = this.userUnfollow.bind(this);
-    this.redirectToProfile = this.redirectToProfile.bind(this);
-    this.toFollower = this.toFollower.bind(this);
-    this.toFollowing = this.toFollowing.bind(this);
   }
 
   async componentDidMount() {
@@ -34,55 +31,29 @@ export default class FollowListingPage extends React.Component {
       this.setState(poet[0]);
     }
 
-    try {
-      const poets = await this.app.followerList({
-        userName: this.state.userName,
-      });
-      if (poets) {
-        const userIds = poets.map((x) => x._id);
-        const followingStatus = await this.app.followingStatus({
-          token: this.app.state.token, userIds,
-        });
-        if (followingStatus) {
-          followingStatus.forEach((f, i) => {
-            poets[i].isFollowing = f;
-          });
-          this.setState({poets: poets});
-        }
-      }
-    } catch (err) {
-      console.log('error');
-    }
+    const poets = await this.app.followerList({
+      userName: this.state.userName,
+    });
+
+    const userIds = poets.map((x) => x._id);
+    const followingStatus = await this.app.followingStatus({
+      token: this.app.state.token, userIds,
+    });
+
+    followingStatus.forEach((f, i) => {
+      poets[i].isFollowing = f;
+    });
+    this.setState({poets: poets});
   }
 
   async userFollow(id) {
-    try {
-      await this.app.userFollowUser({followId: id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.app.userFollowUser({followId: id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async userUnfollow(id) {
-    try {
-      await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  redirectToProfile() {
-    this.app.history.push(`/poets/${this.state.userName}`);
-  }
-
-  toFollower() {
-    this.app.history.push(`/poets/${this.state.userName}/follower`);
-  }
-
-  toFollowing() {
-    this.app.history.push(`/poets/${this.state.userName}/following`);
+    await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   render() {
@@ -93,15 +64,15 @@ export default class FollowListingPage extends React.Component {
         {displayName}
       </h3>
       <div class="Fz(12px) C(gray)">
-        <span class="Mx(6px) Cur(p) Td(u):h C(gray)" onClick={this.redirectToProfile}>poems</span>
-        <span class="Mx(6px) Cur(p) Td(u):h C(gray)" onClick={this.toFollowing}>following</span>
-        <span class="Mx(6px) Cur(p) Td(u) C(gray)" onClick={this.toFollower}>follower</span>
+        <Link to={{pathname: `/poets/${this.state.userName}`}} class="Mx(6px) Cur(p) Td(u):h C(gray)">poems</Link>
+        <Link to={{pathname: `/poets/${this.state.userName}/following`}} class="Mx(6px) Cur(p) Td(u):h C(gray)">following</Link>
+        <Link to={{pathname: `/poets/${this.state.userName}/follower`}} class="Mx(6px) Cur(p) Td(u) C(gray)">follower</Link>
       </div>
       <div class="Maw(500px) Mx(a) Mt(12px)">
         {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
           displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
           followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
-          isFollowing={poet.isFollowing} redirectToProfile={this.redirectToProfile}/>)}
+          isFollowing={poet.isFollowing}/>)}
       </div>
     </div>;
   }
