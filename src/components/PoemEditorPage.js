@@ -46,15 +46,11 @@ export default class PoemEditorPage extends React.Component {
 
   async componentDidMount() {
     const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
-    console.log(poem);
-    if (poem) {
-      this.setState(poem.payload);
-    }
+    this.setState(poem);
   }
 
   render() {
     const {align, title, body, visibility} = this.state;
-    console.log(align);
 
     return <div>
       <div class="Maw(600px) Ta(s) Bgc(whitesmoke) Mih(500px) Bdrs($bdrs-panel) P($p-panel) Mx(a)">

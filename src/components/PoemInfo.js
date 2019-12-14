@@ -18,19 +18,11 @@ export default class PoemInfo extends React.Component {
   async likePoem(e) {
     e.preventDefault();
     if (!this.state.likeFlag) {
-      try {
-        await this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
-        this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
-      } catch (e) {
-        console.log(e);
-      }
+      await this.app.poemLike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount + 1, likeFlag: true});
     } else {
-      try {
-        await this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
-        this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
-      } catch (e) {
-        console.log(e);
-      }
+      await this.app.poemUnlike({poemId: this.props.poemId, token: this.app.state.token});
+      this.setState({likeCount: this.state.likeCount - 1, likeFlag: false});
     }
   }
 
@@ -50,7 +42,6 @@ export default class PoemInfo extends React.Component {
             <span class="Fl(end) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) Bdrs($bdrs-control)">Follow</span>
           }
         </div>
-
 
         <div class="D(f) My(12px)">
           <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..."/>

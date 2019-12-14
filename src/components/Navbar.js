@@ -14,9 +14,6 @@ export default class Navbar extends React.Component {
     this.app = props.app;
 
     this.changePath = this.changePath.bind(this);
-    this.redirectToLogin = this.redirectToLogin.bind(this);
-    this.redirectToWrite = this.redirectToWrite.bind(this);
-    this.userLogOut = this.userLogOut.bind(this);
   }
 
   changePath(e) {
@@ -29,20 +26,8 @@ export default class Navbar extends React.Component {
     } else if (e.target.value === ROUTE_SETTINGS) {
       this.props.history.push('/settings');
     } else if (e.target.value === ROUTE_LOGOUT) {
-      this.userLogOut();
+      this.app.userLogOut();
     }
-  }
-
-  redirectToLogin() {
-    this.props.history.push('/login');
-  }
-
-  redirectToWrite() {
-    this.props.history.push('/write');
-  }
-
-  userLogOut() {
-    this.app.userLogOut();
   }
 
   render() {
@@ -80,7 +65,6 @@ export default class Navbar extends React.Component {
           {!isLoggedIn && <Link to="/login" class="C(gray) C(white):h Cur(p) Mend(30px)"><i class="fas fa-sign-in-alt"></i></Link>}
         </span>
       </div>
-
     </div>;
   }
 }
