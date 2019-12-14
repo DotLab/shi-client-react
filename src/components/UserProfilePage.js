@@ -35,9 +35,10 @@ export default class UserProfilePage extends React.Component {
     this.setState({poems: poems});
   }
 
-
   visitPoem(poemId) {
-    this.app.poemVisit({poemId: poemId, token: this.app.state.token});
+    if (this.app.state.token) {
+      this.app.poemVisit({poemId: poemId, token: this.app.state.token});
+    }
   }
 
   render() {

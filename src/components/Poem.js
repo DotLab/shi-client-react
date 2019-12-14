@@ -19,7 +19,7 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {id, authorId, authorName, align, title, body, preview,
+    const {id, authorId, authorName, userName, align, title, body, preview,
       lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing} = this.props;
     const {isExpanded} = this.state;
 
@@ -44,7 +44,7 @@ export default class Poem extends React.Component {
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
+      <PoemInfo authorId={authorId} userName={userName} authorName={authorName} likeCount={likeCount} id={id}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing}
       />
     </div>;

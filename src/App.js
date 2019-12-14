@@ -129,50 +129,50 @@ export default class App extends React.Component {
   }
 
   async poemVisit({poemId, token}) {
-    this.genericAPI('/v1/poems/visit', {poemId, token});
+    this.genericApi1('/v1/poems/visit', {poemId, token});
   }
 
   async poetDetail({userName, userId}) {
-    const res = await this.genericAPI('/v1/poets/detail', {userName, userId});
+    const res = await this.genericApi1('/v1/poets/detail', {userName, userId});
     return res.payload;
   }
 
   async followerList({userName}) {
-    const res = await this.genericAPI('/v1/poets/follower', {userName});
+    const res = await this.genericApi1('/v1/poets/follower', {userName});
     return res.payload;
   }
 
   async followingList({userName}) {
-    const res = await this.genericAPI('/v1/poets/following', {userName});
+    const res = await this.genericApi1('/v1/poets/following', {userName});
     return res.payload;
   }
 
   async followingStatus({token, userIds}) {
-    const res = await this.genericAPI('/v1/poets/followingStatus', {token, userIds});
+    const res = await this.genericApi1('/v1/poets/followingStatus', {token, userIds});
     return res.payload;
   }
 
   async likeStatus({token, poemIds}) {
-    const res = await this.genericAPI('/v1/poems/likeStatus', {token, poemIds});
+    const res = await this.genericApi1('/v1/poems/likeStatus', {token, poemIds});
     return res.payload;
   }
 
   async poemList({token, filter, sort, order, limit, skip, search}) {
-    const res = await this.genericAPI('/v1/poems/home', {token, filter, sort, order, limit, skip, search});
+    const res = await this.genericApi1('/v1/poems/home', {token, filter, sort, order, limit, skip, search});
     return res.payload;
   }
 
   async commentList({token, poemId, limit}) {
-    const res = await this.genericAPI('/v1/poems/comment-list', {token, poemId, limit});
+    const res = await this.genericApi1('/v1/poems/comment-list', {token, poemId, limit});
     return res.payload;
   }
 
   async comment({token, poemId, comment}) {
-    await this.genericAPI('/v1/poems/comment', {token, poemId, comment});
+    await this.genericApi1('/v1/poems/comment', {token, poemId, comment});
   }
 
   async commentDelete({token, commentId}) {
-    await this.genericAPI('/v1/poems/comment/delete', {token, commentId});
+    await this.genericApi1('/v1/poems/comment/delete', {token, commentId});
   }
 
   render() {

@@ -11,20 +11,12 @@ export default class PoemInfo extends React.Component {
 
   async like(e) {
     e.preventDefault();
-    try {
-      await this.props.poemLike();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.props.poemLike();
   }
 
   async unlike(e) {
     e.preventDefault();
-    try {
-      await this.props.poemUnlike();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.props.poemUnlike();
   }
 
   render() {
