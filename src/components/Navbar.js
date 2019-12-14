@@ -65,7 +65,6 @@ export default class Navbar extends React.Component {
           {!isLoggedIn && <Link to="/login" class="C(gray) C(white):h Cur(p) Mend(30px)"><i class="fas fa-sign-in-alt"></i></Link>}
         </span>
       </div>
-
     </div>;
   }
 }

@@ -28,17 +28,15 @@ export default class Poem extends React.Component {
       <div class={getAlignStyle(align)}>
         {isOwner &&
           <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>}
-
         {isOwner &&
           <Link to={{pathname: `/poems/${this.props.id}/edit`}} class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px) Px(4px)">edit</Link>}
       </div>
+
       <div class={getAlignStyle(align)}>
         {!isOwner && <span> {author} • </span>}
         <span>{lastEditDate}</span>
       </div>
-      <Link to={{pathname: `/poems/${this.props.id}`}} class={`Fz(24px) Cur(p):h D(b) C(black) `+ getAlignStyle(align)}>
-        {title}
-      </Link>
+      <Link to={{pathname: `/poems/${this.props.id}`}} class={`Fz(24px) Cur(p):h D(b) C(black) `+ getAlignStyle(align)}>{title}</Link>
       <p class={`Whs(pw) `+ getAlignStyle(align)}>
         {!isExpanded ? (preview || body) : body}
       </p>

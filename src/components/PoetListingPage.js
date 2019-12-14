@@ -45,9 +45,7 @@ export default class PoetListingPage extends React.Component {
       activeYearLImit: this.state.year,
       search: this.state.q,
     });
-    if (poets) {
-      this.setState({poets: poets});
-    }
+    this.setState({poets: poets});
   }
 
   async componentWillReceiveProps(newprops) {
@@ -74,9 +72,7 @@ export default class PoetListingPage extends React.Component {
       activeYearLImit: this.state.year,
       search: this.state.q,
     });
-    if (poets) {
-      this.setState({poets: poets});
-    }
+    this.setState({poets: poets});
   }
 
   search(e) {
@@ -133,7 +129,7 @@ export default class PoetListingPage extends React.Component {
         {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
           displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
           followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
-          isFollowing={poet.isFollowing} />)}
+          isFollowing={poet.isFollowing}/>)}
       </div>
     </div>;
   }
