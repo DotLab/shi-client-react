@@ -2,7 +2,7 @@ import React from 'react';
 import Poem from './Poem';
 import {Link} from 'react-router-dom';
 
-import {formatDate, short} from '../utils';
+import {formatDate, getExcerpt} from '../utils';
 
 export default class ProfilePage extends React.Component {
   constructor(props) {

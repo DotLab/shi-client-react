@@ -27,8 +27,6 @@ export default class PoemDetailPage extends React.Component {
       likeStatus: false,
     };
     this.pushHistory = pushHistory.bind(this);
-    this.redirectToEdit = this.redirectToEdit.bind(this);
-    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
     this.poemLike = this.poemLike.bind(this);
     this.poemUnlike = this.poemUnlike.bind(this);
   }
@@ -98,14 +96,11 @@ export default class PoemDetailPage extends React.Component {
 
     return <div class="My(50px) Maw(500px) Mx(a)">
       <div>
-
         <div class={getAlignStyle(align)}>
           <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>
-          {isOwner &&
-          <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px) Td(u):h" onClick={this.redirectToEdit}>
+          <Link to={{pathname: `/poems/${this.state._id}/edit`}} class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Px(4px) Bdrs(2px) Td(u):h">
             edit
-          </button>
-          }
+          </Link>
         </div>
         <div class={getAlignStyle(align)}>
           <span class="C(gray) Fz(8px)">{writtenDateFormatted}</span>

@@ -56,14 +56,9 @@ export default class UserProfilePage extends React.Component {
     } catch (err) {
       console.log(err);
     }
-  }
 
-  redirectToEdit(poemId) {
-    this.app.history.push(`/poems/${poemId}/edit`);
-  }
-
-  redirectToDetail(poemId) {
-    this.app.history.push(`/poems/${poemId}`);
+    const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+    this.setState({poems: poems});
   }
 
   redirectToPoem() {

@@ -53,7 +53,6 @@ export default class PoemInfo extends React.Component {
 
         </div>
 
-
         <div class="D(f) My(12px)">
           <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..."/>
         </div>
