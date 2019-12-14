@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {STYLE_CONTROL_INPUT} from './styles';
 
 export default class SettingsPage extends React.Component {
@@ -27,7 +28,7 @@ export default class SettingsPage extends React.Component {
         <div class="Mt($m-control)">
           <div>
             <span class="Fz(12px) Fw(b) C(dimgray)">USERNAME</span>
-            <span class="Fz(14px) Fl(end) Fs(n)">https://hellopoetry.com/{username}</span>
+            <span class="Fz(14px) Fl(end) Fs(n)">{username}</span>
           </div>
           <input class={STYLE_CONTROL_INPUT} value={username} disabled/>
         </div>
@@ -35,6 +36,9 @@ export default class SettingsPage extends React.Component {
         <div class="Mt($m-control)">
           <div class="D(b) Fz(12px) Fw(b) C(dimgray)">NAME</div>
           <input class={STYLE_CONTROL_INPUT} value={name} disabled/>
+        </div>
+        <div>
+          <Link class="Fz(14px) C(darkred) Td(u):h" to='/settings/password'>Change Password</Link>
         </div>
       </div>
     </div>;

@@ -2,6 +2,8 @@ import queryString from 'query-string';
 
 export const avatarIconUrl = 'data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9JzMwMHB4JyB3aWR0aD0nMzAwcHgnICBmaWxsPSIjMDAwMDAwIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBzdHJva2Utd2lkdGg9IjAuNTAxIiBzdHJva2UtbGluZWpvaW49ImJldmVsIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHZlcnNpb249IjEuMSIgb3ZlcmZsb3c9InZpc2libGUiIHZpZXdCb3g9IjAgMCA5NiA5NiIgeD0iMHB4IiB5PSIwcHgiPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iYmxhY2siIGZvbnQtZmFtaWx5PSJUaW1lcyBOZXcgUm9tYW4iIGZvbnQtc2l6ZT0iMTYiIHRyYW5zZm9ybT0ic2NhbGUoMSAtMSkiPjxnIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTk2KSI+PGc+PHBhdGggZD0iTSAzMi4xOSwyOS42NzcgTCAzMi4xOSwzMS4yNjIgQyAzMi4xOSwzNS45NjEgMzMuOTc4LDM5LjQzNSAzNi45OTQsNDEuNjg1IEMgMzkuOTQxLDQzLjg4MyA0My44NzUsNDQuNzggNDcuOTk4LDQ0Ljc4IEMgNTIuMTIyLDQ0Ljc4IDU2LjA1OSw0My44ODMgNTkuMDAzLDQxLjY4NSBDIDYyLjAxOCwzOS40MzYgNjMuODA5LDM1Ljk1NyA2My44MDksMzEuMjYyIEwgNjMuODA5LDI5LjY3NyBMIDMyLjE5LDI5LjY3NyBaIE0gMzkuMjE5LDU3LjU0MyBDIDM5LjIxOSw2Mi4zODkgNDMuMTUyLDY2LjMyMyA0Ny45OTcsNjYuMzIzIEMgNTIuODQ0LDY2LjMyMyA1Ni43NzcsNjIuMzg5IDU2Ljc3Nyw1Ny41NDMgQyA1Ni43NzcsNTIuNjk3IDUyLjg0NCw0OC43NjQgNDcuOTk3LDQ4Ljc2NCBDIDQzLjE1Miw0OC43NjQgMzkuMjE5LDUyLjY5NyAzOS4yMTksNTcuNTQzIFoiIHN0cm9rZT0ibm9uZSIgZmlsbD0iIzAwMDAwMCIgZmlsbC1ydWxlPSJldmVub2RkIiBzdHJva2Utd2lkdGg9IjAuNSIgbWFya2VyLXN0YXJ0PSJub25lIiBtYXJrZXItZW5kPSJub25lIiBzdHJva2UtbWl0ZXJsaW1pdD0iNzkuODQwMzE5MzYxMjc3NSI+PC9wYXRoPjwvZz48L2c+PC9nPjwvc3ZnPg==';
 
+const POEM_SHORT_LENGTH = 100;
+
 export function formatDate(date) {
   if (date == null) return null;
   if (typeof date === 'string') {
@@ -122,3 +124,43 @@ export function pushHistory() {
   /* eslint-disable-next-line no-invalid-this */
   this.props.history.push(this.props.location.pathname + '?' + queryString.stringify(this.query));
 }
+
+export const BAD_REQUEST = 400;
+export const UNAUTHORIZED = 401;
+export const FORBIDDEN = 403;
+export const NOT_FOUND = 404;
+
+export function getExcerpt(poemBody) {
+  return poemBody.slice(0, POEM_SHORT_LENGTH);
+}
+
+export const TEXT_ALIGN_START = 'TEXT_ALIGN_START';
+export const TEXT_ALIGN_CENTER = 'TEXT_ALIGN_CENTER';
+export const TEXT_ALIGN_END = 'TEXT_ALIGN_END';
+
+export function getAlignStyle(textAlign) {
+  switch (textAlign) {
+    case TEXT_ALIGN_START: return 'Ta(s)';
+    case TEXT_ALIGN_CENTER: return 'Ta(c)';
+    case TEXT_ALIGN_END: return 'Ta(e)';
+  }
+}
+
+export function getParagraphAlignStyle(textAlign) {
+  switch (textAlign) {
+    case TEXT_ALIGN_START: return 'Ta(s)';
+    case TEXT_ALIGN_CENTER: return 'Ta(c)';
+    case TEXT_ALIGN_END: return 'Ta(e)';
+  }
+}
+export const FILTER_ALL = 'all';
+export const FILTER_FOLLOWING = 'following';
+
+export const CURRENT_YEAR = 2019;
+export const DEFAULT_LIMIT = 20;
+export const QUERY_ASC = 'asc';
+export const QUERY_DESC = 'desc';
+export const QUERY_DATE = 'date';
+export const QUERY_VIEWS = 'views';
+export const QUERY_LIKES = 'likes';
+export const QUERY_ALPHABETICAL = 'alphabetical';
