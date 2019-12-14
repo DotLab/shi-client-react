@@ -32,7 +32,6 @@ export default class PoetListingPage extends React.Component {
     this.searchYear = this.searchYear.bind(this);
     this.userFollow = this.userFollow.bind(this);
     this.userUnfollow = this.userUnfollow.bind(this);
-    this.redirectToProfile = this.redirectToProfile.bind(this);
   }
 
   async componentDidMount() {
@@ -64,7 +63,6 @@ export default class PoetListingPage extends React.Component {
       order: this.query.order || undefined,
       sort: this.query.sort || undefined,
     });
-
 
     const poets = await this.app.userList({
       token: this.app.state.token,
@@ -112,10 +110,6 @@ export default class PoetListingPage extends React.Component {
     this.pushHistory();
   }
 
-  redirectToProfile(userName) {
-    this.app.history.push(`/poets/${userName}`);
-  }
-
   render() {
     const {q, sort, order, year, poets} = this.state;
 
@@ -139,7 +133,7 @@ export default class PoetListingPage extends React.Component {
         {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
           displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
           followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
-          isFollowing={poet.isFollowing} redirectToProfile={this.redirectToProfile}/>)}
+          isFollowing={poet.isFollowing} />)}
       </div>
     </div>;
   }
