@@ -44,13 +44,10 @@ export default class PoemInfo extends React.Component {
           </div>
           {!isFollowing &&
             <button class="Fl(end) Bdc(t) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
-              onClick={this.follow}>Follow</button>
-          }
+              onClick={this.follow}>Follow</button>}
           {isFollowing &&
             <button class="Fl(end) Bdc(t) Bgc(darkred) Bgc(lightgray):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
-              onClick={this.unfollow}>Following</button>
-          }
-
+              onClick={this.unfollow}>Following</button>}
         </div>
 
         <div class="D(f) My(12px)">

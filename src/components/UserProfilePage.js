@@ -27,7 +27,7 @@ export default class UserProfilePage extends React.Component {
     if (this.props.match.params.userName !== undefined) {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
       this.setState(poet[0]);
-    } else {
+    } else if (this.app.state.user) {
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
       this.setState(poet[0]);
     }

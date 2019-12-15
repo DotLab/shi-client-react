@@ -39,6 +39,7 @@ export default class PoemDetailPage extends React.Component {
     const poet = await this.app.poetDetail({userId: this.state.authorId});
     this.setState({authorName: poet.displayName, authorUserName: poet.userName});
 
+    if (this.app.state.token === null) return;
     const isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.state.authorId]});
     const liked = await this.app.likeStatus({token: this.app.state.token, poemIds: [this.props.match.params.poemId]});
     this.setState({isFollowing: isFollowing[0], liked: liked[0]});
@@ -91,12 +92,8 @@ export default class PoemDetailPage extends React.Component {
         <div class={getAlignStyle(align)}>
           <span class="C(gray) Fz(8px)">{writtenDateFormatted}</span>
         </div>
-        <h3 class={`Fz(24px) `+ getAlignStyle(align)}>
-          {title}
-        </h3>
-        <p class={`Whs(pw) `+ getAlignStyle(align)}>
-          {body}
-        </p>
+        <h3 class={`Fz(24px) `+ getAlignStyle(align)}>{title}</h3>
+        <p class={`Whs(pw) `+ getAlignStyle(align)}>{body}</p>
 
         <PoemInfo authorName={authorName} authorId={authorId} userName={authorUserName}
           isFollowing={isFollowing} liked={liked} likeCount={likeCount}

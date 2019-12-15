@@ -26,7 +26,7 @@ export default class FollowListingPage extends React.Component {
     if (this.props.match.params.userName !== undefined) {
       const poet = await this.app.poetDetail({userName: this.props.match.params.userName});
       this.setState(poet[0]);
-    } else {
+    } else if (this.app.state.user) {
       const poet = await this.app.poetDetail({userName: this.app.state.user.userName});
       this.setState(poet[0]);
     }
@@ -48,12 +48,36 @@ export default class FollowListingPage extends React.Component {
 
   async userFollow(id) {
     await this.app.userFollowUser({followId: id, token: this.app.state.token});
-    this.pushHistory();
+    const poets = await this.app.followingList({
+      userName: this.state.userName,
+    });
+
+    const userIds = poets.map((x) => x._id);
+    const followingStatus = await this.app.followingStatus({
+      token: this.app.state.token, userIds,
+    });
+
+    followingStatus.forEach((f, i) => {
+      poets[i].isFollowing = f;
+    });
+    this.setState({poets: poets});
   }
 
   async userUnfollow(id) {
     await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
-    this.pushHistory();
+    const poets = await this.app.followingList({
+      userName: this.state.userName,
+    });
+
+    const userIds = poets.map((x) => x._id);
+    const followingStatus = await this.app.followingStatus({
+      token: this.app.state.token, userIds,
+    });
+
+    followingStatus.forEach((f, i) => {
+      poets[i].isFollowing = f;
+    });
+    this.setState({poets: poets});
   }
 
   render() {
