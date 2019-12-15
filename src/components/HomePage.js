@@ -4,7 +4,7 @@ import {onChange, pushHistory} from '../utils';
 import queryString from 'query-string';
 import {QUERY_ASC, QUERY_DESC, QUERY_DATE, QUERY_VIEWS, QUERY_LIKES,
   FILTER_ALL, FILTER_FOLLOWING, DEFAULT_LIMIT, DEFAULT_SKIP} from '../utils';
-import {formatDate, short} from '../utils';
+import {formatDate, getExcerpt} from '../utils';
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -48,40 +48,29 @@ export default class HomePage extends React.Component {
 
   async componentDidMount() {
     const token = this.app.state.token;
-    if (token === null) {
-      try {
-        const poems = await this.app.poemList({
-          filter: FILTER_ALL,
-          sort: this.state.sort,
-          order: this.state.order,
-          limit: this.state.limit,
-          skip: this.state.skip,
-          search: this.state.q,
-        });
-        if (poems) {
-          this.setState({poems: poems});
-        }
-      } catch (err) {
-        console.log('error');
-      }
+    if (!token) {
+      const poems = await this.app.poemList({
+        filter: FILTER_ALL,
+        sort: this.state.sort,
+        order: this.state.order,
+        limit: this.state.limit,
+        skip: this.state.skip,
+        search: this.state.q,
+      });
+      this.setState({poems: poems});
     } else {
-      try {
-        const poems = await this.app.poemList({
-          token: this.app.state.token,
-          filter: FILTER_FOLLOWING,
-          sort: this.state.sort,
-          order: this.state.order,
-          limit: this.state.limit,
-          skip: this.state.skip,
-          search: this.state.q,
-        });
-        if (poems) {
-          this.setState({poems: poems});
-        }
-      } catch (err) {
-        console.log('error');
-      }
+      const poems = await this.app.poemList({
+        token: this.app.state.token,
+        filter: FILTER_FOLLOWING,
+        sort: this.state.sort,
+        order: this.state.order,
+        limit: this.state.limit,
+        skip: this.state.skip,
+        search: this.state.q,
+      });
+      this.setState({poems: poems});
     }
+    console.log(this.state.poems);
   }
 
   async componentWillReceiveProps(newprops) {
@@ -94,59 +83,46 @@ export default class HomePage extends React.Component {
     if (this.query.filter === undefined) {
       this.query.filter = FILTER_FOLLOWING;
     }
-    if (this.app.state.token === null) {
-      try {
-        const poems = await this.app.poemList({
-          filter: FILTER_ALL,
-          sort: this.query.sort || undefined,
-          order: this.query.order || undefined,
-          limit: this.state.limit,
-          skip: this.state.skip,
-          search: this.query.q || undefined,
-        });
-        if (poems) {
-          this.setState({
-            poems: poems,
-            q: this.query.q,
-            filter: this.query.filter,
-            sort: this.query.sort,
-            order: this.query.order,
-          });
-        }
-      } catch (err) {
-        console.log('error');
-      }
-    } else {
-      try {
-        const poems = await this.app.poemList({
-          token: this.app.state.token,
-          filter: this.query.filter || FILTER_FOLLOWING,
-          sort: this.query.sort || undefined,
-          order: this.query.order || undefined,
-          limit: this.state.limit,
-          skip: this.state.skip,
-          search: this.query.q || undefined,
-        });
+    if (!this.app.state.token) {
+      const poems = await this.app.poemList({
+        filter: FILTER_ALL,
+        sort: this.query.sort || undefined,
+        order: this.query.order || undefined,
+        limit: this.state.limit,
+        skip: this.state.skip,
+        search: this.query.q || undefined,
+      });
 
-        if (poems) {
-          this.setState({
-            poems: poems,
-            q: this.query.q,
-            filter: this.query.filter,
-            sort: this.query.sort,
-            order: this.query.order,
-          });
-        }
-      } catch (err) {
-        console.log('error');
-      }
+      this.setState({
+        poems: poems,
+        q: this.query.q,
+        filter: this.query.filter,
+        sort: this.query.sort,
+        order: this.query.order,
+      });
+    } else {
+      const poems = await this.app.poemList({
+        token: this.app.state.token,
+        filter: this.query.filter || FILTER_FOLLOWING,
+        sort: this.query.sort || undefined,
+        order: this.query.order || undefined,
+        limit: this.state.limit,
+        skip: this.state.skip,
+        search: this.query.q || undefined,
+      });
+
+      this.setState({
+        poems: poems,
+        q: this.query.q,
+        filter: this.query.filter,
+        sort: this.query.sort,
+        order: this.query.order,
+      });
     }
   }
 
-
   search(e) {
     e.preventDefault();
-
     this.query.q = this.state.q;
     this.pushHistory();
   }
@@ -167,47 +143,32 @@ export default class HomePage extends React.Component {
   }
 
   toVisit(poemId) {
+    if (!this.app.state.token) return;
     this.app.poemVisit({poemId: poemId, token: this.app.state.token});
   }
 
   async like(poemId) {
-    if (this.app.state.token === null) return;
-    try {
-      await this.app.poemLike({poemId: poemId, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    if (!this.app.state.token) return;
+    await this.app.poemLike({poemId: poemId, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async unlike(poemId) {
-    if (this.app.state.token === null) return;
-    try {
-      await this.app.poemUnlike({poemId: poemId, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    if (!this.app.state.token) return;
+    await this.app.poemUnlike({poemId: poemId, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async follow(followId) {
-    if (this.app.state.token === null) return;
-    try {
-      await this.app.userFollowUser({followId: followId, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    if (!this.app.state.token) return;
+    await this.app.userFollowUser({followId: followId, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async unfollow(unfollowId) {
-    if (this.app.state.token === null) return;
-    try {
-      await this.app.userUnfollowUser({unfollowId: unfollowId, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    if (!this.app.state.token) return;
+    await this.app.userUnfollowUser({unfollowId: unfollowId, token: this.app.state.token});
+    this.pushHistory();
   }
 
   toDetail(poemId) {
@@ -238,10 +199,10 @@ export default class HomePage extends React.Component {
 
       </div>
       <div>
-        {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId}
+        {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId} authorName={poem.authorName}
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
-          commentCount={poem.commentCount} preview={short(poem.body)} liked={poem.liked} toDetail={this.toDetail}
+          commentCount={poem.commentCount} preview={getExcerpt(poem.body)} liked={poem.liked} toDetail={this.toDetail}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
           redirectToUserProfile={this.redirectToUserProfile}
           toVisit={this.toVisit} app={this.app}/>)}
