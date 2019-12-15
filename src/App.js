@@ -162,19 +162,6 @@ export default class App extends React.Component {
     return res.payload;
   }
 
-  async commentList({token, poemId, limit}) {
-    const res = await this.genericApi1('/v1/poems/comment-list', {token, poemId, limit});
-    return res.payload;
-  }
-
-  async comment({token, poemId, comment}) {
-    await this.genericApi1('/v1/poems/comment', {token, poemId, comment});
-  }
-
-  async commentDelete({token, commentId}) {
-    await this.genericApi1('/v1/poems/comment/delete', {token, commentId});
-  }
-
   render() {
     return <div class="Ta(c)">
       <PropsRoute path="/" component={Navbar} app={this}/>

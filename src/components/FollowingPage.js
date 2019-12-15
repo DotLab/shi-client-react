@@ -1,6 +1,6 @@
 import React from 'react';
 import UserInfo from './UserInfo';
-import {onChange, pushHistory, formatDate} from '../utils';
+import {formatDate} from '../utils';
 import {Link} from 'react-router-dom';
 
 export default class FollowListingPage extends React.Component {
@@ -14,9 +14,6 @@ export default class FollowListingPage extends React.Component {
       displayName: null,
       poets: [],
     };
-
-    this.onChange = onChange.bind(this);
-    this.pushHistory = pushHistory.bind(this);
 
     this.userFollow = this.userFollow.bind(this);
     this.userUnfollow = this.userUnfollow.bind(this);
@@ -84,9 +81,7 @@ export default class FollowListingPage extends React.Component {
     const {poets, displayName} = this.state;
 
     return <div>
-      <h3 class="Fz(24px)">
-        {displayName}
-      </h3>
+      <h3 class="Fz(24px)">{displayName}</h3>
       <div class="Fz(12px) C(gray)">
         <Link to={{pathname: `/poets/${this.state.userName}`}} class="Mx(6px) Cur(p) Td(u):h C(gray)">poems</Link>
         <Link to={{pathname: `/poets/${this.state.userName}/following`}} class="Mx(6px) Cur(p) Td(u) C(gray)">following</Link>
@@ -96,7 +91,7 @@ export default class FollowListingPage extends React.Component {
         {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
           displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
           followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
-          isFollowing={poet.isFollowing} redirectToProfile={this.redirectToProfile}/>)}
+          isFollowing={poet.isFollowing}/>)}
       </div>
     </div>;
   }
