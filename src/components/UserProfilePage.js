@@ -17,6 +17,10 @@ export default class UserProfilePage extends React.Component {
     };
 
     this.visitPoem = this.visitPoem.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
   }
 
   async componentDidMount() {
@@ -41,6 +45,34 @@ export default class UserProfilePage extends React.Component {
     }
   }
 
+  async like(poemId) {
+    if (this.app.state.token === null) return;
+    await this.app.poemLike({poemId: poemId, token: this.app.state.token});
+    const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+    this.setState({poems: poems});
+  }
+
+  async unlike(poemId) {
+    if (this.app.state.token === null) return;
+    await this.app.poemUnlike({poemId: poemId, token: this.app.state.token});
+    const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
+    this.setState({poems: poems});
+  }
+
+  async follow() {
+    if (this.app.state.token === null) return;
+    await this.app.userFollowUser({followId: this.state._id, token: this.app.state.token});
+    const follow = await this.app.followingStatus({userIds: [this.state._id], token: this.app.state.token});
+    this.setState({isFollowing: follow[0]});
+  }
+
+  async unfollow() {
+    if (this.app.state.token === null) return;
+    await this.app.userUnfollowUser({unfollowId: this.state._id, token: this.app.state.token});
+    const follow = await this.app.followingStatus({userIds: [this.state._id], token: this.app.state.token});
+    this.setState({isFollowing: follow[0]});
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -52,6 +84,8 @@ export default class UserProfilePage extends React.Component {
       <ProfilePage displayName={displayName} userName={userName} poems={poems} isOwner={isOwner}
         visitPoem={this.visitPoem}
         isFollowing={isFollowing}
+        like={this.like} unlike={this.unlike}
+        follow={this.follow} unfollow={this.unfollow}
       />
     </div>;
   }

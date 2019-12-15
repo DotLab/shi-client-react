@@ -45,24 +45,28 @@ export default class PoemDetailPage extends React.Component {
   }
 
   async like() {
+    if (this.app.state.token === null) return;
     await this.app.poemLike({poemId: this.state._id, token: this.app.state.token});
     const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
     this.setState({likeCount: poem.likeCount, liked: true});
   }
 
   async unlike() {
+    if (this.app.state.token === null) return;
     await this.app.poemUnlike({poemId: this.state._id, token: this.app.state.token});
     const poem = await this.app.poemDetail({poemId: this.props.match.params.poemId, token: this.app.state.token});
     this.setState({likeCount: poem.likeCount, liked: false});
   }
 
   async follow() {
+    if (this.app.state.token === null) return;
     await this.app.userFollowUser({followId: this.state.authorId, token: this.app.state.token});
     const follow = await this.app.followingStatus({userIds: [this.state.authorId], token: this.app.state.token});
     this.setState({isFollowing: follow[0]});
   }
 
   async unfollow() {
+    if (this.app.state.token === null) return;
     await this.app.userUnfollowUser({unfollowId: this.state.authorId, token: this.app.state.token});
     const follow = await this.app.followingStatus({userIds: [this.state.authorId], token: this.app.state.token});
     this.setState({isFollowing: follow[0]});

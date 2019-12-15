@@ -8,10 +8,30 @@ export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.toVisit = this.toVisit.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
   }
 
   toVisit(poemId) {
     this.props.visitPoem(poemId);
+  }
+
+  like(poemId) {
+    this.props.like(poemId);
+  }
+
+  unlike(poemId) {
+    this.props.unlike(poemId);
+  }
+
+  follow() {
+    this.props.follow();
+  }
+
+  unfollow() {
+    this.props.unfollow();
   }
 
   render() {
@@ -32,7 +52,9 @@ export default class ProfilePage extends React.Component {
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
           commentCount={poem.commentCount} preview={getExcerpt(poem.body)} isOwner={isOwner}
-          toVisit={this.toVisit} isFollowing={isFollowing}
+          toVisit={this.toVisit} isFollowing={isFollowing} liked={poem.liked}
+          like={this.like} unlike={this.unlike}
+          follow={this.follow} unfollow={this.unfollow}
         />)}
 
       </div>

@@ -11,6 +11,10 @@ export default class Poem extends React.Component {
       isExpanded: false,
     };
     this.expand=this.expand.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
   }
 
   expand() {
@@ -18,9 +22,25 @@ export default class Poem extends React.Component {
     this.props.toVisit(this.props.id);
   }
 
+  async like() {
+    await this.props.like(this.props.id);
+  }
+
+  async unlike() {
+    await this.props.unlike(this.props.id);
+  }
+
+  async follow() {
+    await this.props.follow(this.props.authorId);
+  }
+
+  async unfollow() {
+    await this.props.unfollow(this.props.authorId);
+  }
+
   render() {
     const {id, authorId, authorName, userName, align, title, body, preview,
-      lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing} = this.props;
+      lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing, liked} = this.props;
     const {isExpanded} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
@@ -45,7 +65,9 @@ export default class Poem extends React.Component {
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
       <PoemInfo authorId={authorId} userName={userName} authorName={authorName} likeCount={likeCount} id={id}
-        commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing}
+        commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
+        like={this.like} unlike={this.unlike}
+        follow={this.follow} unfollow={this.unfollow}
       />
     </div>;
   }
