@@ -35,6 +35,7 @@ export default class ProfilePage extends React.Component {
 
   render() {
     const {displayName, userName, poems, isOwner, isFollowing} = this.props;
+
     return <div>
       <h3 class="Fz(24px)">
         {displayName}
@@ -45,7 +46,6 @@ export default class ProfilePage extends React.Component {
         <Link to={{pathname: `/poets/${userName}/follower`}} class="Mx(6px) Cur(p) Td(u):h C(gray)">follower</Link>
       </div>
       <div>
-
         {poems.map((poem) => <Poem key={poem._id} id={poem._id}
           authorId={poem.authorId} authorName={displayName} userName={userName}
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
@@ -55,7 +55,6 @@ export default class ProfilePage extends React.Component {
           like={this.like} unlike={this.unlike}
           follow={this.follow} unfollow={this.unfollow}
         />)}
-
       </div>
     </div>;
   }
