@@ -1,62 +1,25 @@
 import React from 'react';
 import PoemInfo from './PoemInfo';
-import {getAlignStyle, pushHistory} from '../utils';
+import {getAlignStyle} from '../utils';
+import {Link} from 'react-router-dom';
 
 export default class Poem extends React.Component {
   constructor(props) {
     super(props);
-    this.app = props.app;
 
     this.state = {
-      isExpanded: this.props.isExpanded,
-      authorName: this.props.authorName,
-      authorUserName: this.props.authorUserName,
-      isFollowing: this.props.isFollowing || false,
+      isExpanded: false,
     };
-    this.pushHistory = pushHistory.bind(this);
     this.expand=this.expand.bind(this);
-    this.edit = this.edit.bind(this);
-    this.detail = this.detail.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
-    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
-  }
-
-  async componentDidMount() {
-    if (!this.props.authorName) {
-      try {
-        const poet = await this.app.poetDetail({userId: this.props.authorId});
-        let isFollowing;
-        if (this.app.state.token !== null) {
-          isFollowing = await this.app.followingStatus({token: this.app.state.token, userIds: [this.props.authorId]});
-        } else {
-          isFollowing = [false];
-        }
-        this.setState({authorName: poet.displayName, authorUserName: poet.userName,
-          isFollowing: isFollowing[0]});
-      } catch (err) {
-        console.log(err);
-      }
-    }
   }
 
   expand() {
     this.setState({isExpanded: true});
     this.props.toVisit(this.props.id);
-  }
-
-  edit() {
-    this.props.toEdit(this.props.id);
-  }
-
-  detail() {
-    this.props.toDetail(this.props.id);
-  }
-
-  redirectToUserProfile() {
-    this.props.redirectToUserProfile(this.state.authorUserName);
   }
 
   async like() {
@@ -76,9 +39,9 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {id, authorId, align, title, body, preview,
-      lastEditDate, isOwner, visibility, viewCount, commentCount, liked, likeCount} = this.props;
-    const {isExpanded, isFollowing, authorName} = this.state;
+    const {id, authorId, authorName, userName, align, title, body, preview,
+      lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing, liked} = this.props;
+    const {isExpanded} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
       <div class="C(lightgrey) Fz(14dpx)">
@@ -86,29 +49,26 @@ export default class Poem extends React.Component {
       </div>
       <div class={getAlignStyle(align)}>
         {isOwner &&
-        <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>}
-
+          <span class="Bgc(lightgray) D(ib) Px(4px) Py(0) Fz(10px) Bdrs(2px) Mend(10px)">{visibility}</span>}
         {isOwner &&
-         <button class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px)" onClick={this.edit}>edit</button>}
+          <Link to={{pathname: `/poems/${this.props.id}/edit`}} class="Bgc(black) C(white) Py(0) Bdw(0) Fz(10px) Bdrs(2px) Px(4px)">edit</Link>}
       </div>
+
       <div class={getAlignStyle(align)}>
         {!isOwner && <span> {authorName} • </span>}
         <span>{lastEditDate}</span>
       </div>
-      <h3 class={`Fz(24px) Cur(p):h `+ getAlignStyle(align)} onClick={this.detail}>
-        {title}
-      </h3>
+      <Link to={{pathname: `/poems/${this.props.id}`}} class={`Fz(24px) Cur(p):h D(b) C(black) `+ getAlignStyle(align)}>{title}</Link>
       <p class={`Whs(pw) `+ getAlignStyle(align)}>
         {!isExpanded ? (preview || body) : body}
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-
-      {isExpanded && <PoemInfo authorId={authorId} authorName={authorName} likeCount={likeCount} id={id}
+      <PoemInfo authorId={authorId} userName={userName} authorName={authorName} likeCount={likeCount} id={id}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
-        redirectToUserProfile={this.redirectToUserProfile} like={this.like} unlike={this.unlike}
+        like={this.like} unlike={this.unlike}
         follow={this.follow} unfollow={this.unfollow}
-      />}
+      />
     </div>;
   }
 }

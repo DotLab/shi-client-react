@@ -32,27 +32,20 @@ export default class PoetListingPage extends React.Component {
     this.searchYear = this.searchYear.bind(this);
     this.userFollow = this.userFollow.bind(this);
     this.userUnfollow = this.userUnfollow.bind(this);
-    this.redirectToProfile = this.redirectToProfile.bind(this);
   }
 
   async componentDidMount() {
-    try {
-      const poets = await this.app.userList({
-        token: this.app.state.token,
-        filter: FILTER_ALL,
-        sort: this.state.sort,
-        order: this.state.order,
-        limit: DEFAULT_LIMIT,
-        skip: this.state.skip,
-        activeYearLImit: this.state.year,
-        search: this.state.q,
-      });
-      if (poets) {
-        this.setState({poets: poets});
-      }
-    } catch (err) {
-      console.log('error');
-    }
+    const poets = await this.app.userList({
+      token: this.app.state.token,
+      filter: FILTER_ALL,
+      sort: this.state.sort,
+      order: this.state.order,
+      limit: DEFAULT_LIMIT,
+      skip: this.state.skip,
+      activeYearLImit: this.state.year,
+      search: this.state.q,
+    });
+    this.setState({poets: poets});
   }
 
   async componentWillReceiveProps(newprops) {
@@ -62,29 +55,24 @@ export default class PoetListingPage extends React.Component {
       this.query.order = QUERY_DESC;
     }
 
-    try {
-      const poets = await this.app.userList({
-        token: this.app.state.token,
-        filter: FILTER_ALL,
-        sort: this.query.sort,
-        order: this.query.order,
-        limit: DEFAULT_LIMIT,
-        skip: this.state.skip,
-        activeYearLImit: this.query.year,
-        search: this.query.q,
-      });
-      if (poets) {
-        this.setState({
-          poets: poets,
-          q: this.query.q || undefined,
-          year: this.query.year || CURRENT_YEAR,
-          order: this.query.order || undefined,
-          sort: this.query.sort || undefined,
-        });
-      }
-    } catch (err) {
-      console.log('error');
-    }
+    this.setState({
+      q: this.query.q || undefined,
+      year: this.query.year || CURRENT_YEAR,
+      order: this.query.order || undefined,
+      sort: this.query.sort || undefined,
+    });
+
+    const poets = await this.app.userList({
+      token: this.app.state.token,
+      filter: FILTER_ALL,
+      sort: this.state.sort,
+      order: this.state.order,
+      limit: DEFAULT_LIMIT,
+      skip: this.state.skip,
+      activeYearLImit: this.state.year,
+      search: this.state.q,
+    });
+    this.setState({poets: poets});
   }
 
   search(e) {
@@ -113,30 +101,18 @@ export default class PoetListingPage extends React.Component {
   }
 
   async userFollow(id) {
-    try {
-      await this.app.userFollowUser({followId: id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.app.userFollowUser({followId: id, token: this.app.state.token});
+    this.pushHistory();
   }
 
   async userUnfollow(id) {
-    try {
-      await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
-      this.pushHistory();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.app.userUnfollowUser({unfollowId: id, token: this.app.state.token});
+    this.pushHistory();
   }
-
-  redirectToProfile(userName) {
-    this.app.history.push(`/poets/${userName}`);
-  }
-
 
   render() {
     const {q, sort, order, year, poets} = this.state;
+
     return <div>
       <h2>Poets</h2>
       <form>
@@ -161,7 +137,7 @@ export default class PoetListingPage extends React.Component {
         {poets.map((poet) => <UserInfo key={poet._id} id={poet._id} userName={poet.userName}
           displayName={poet.displayName} lastActiveDate={formatDate(poet.lastActiveDate)} viewCount={poet.viewCount}
           followerCount={poet.followerCount} userFollow={this.userFollow} userUnfollow={this.userUnfollow}
-          isFollowing={poet.isFollowing} redirectToProfile={this.redirectToProfile}/>)}
+          isFollowing={poet.isFollowing}/>)}
       </div>
     </div>;
   }
