@@ -6,15 +6,23 @@ import {Link} from 'react-router-dom';
 export default class Poem extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
 
     this.state = {
       isExpanded: false,
+      authorName: this.props.authorName,
+      authorUserName: this.props.authorUserName,
     };
     this.expand=this.expand.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+  }
+
+  async componentDidMount() {
+    const poet = await this.app.poetDetail({userId: this.props.authorId});
+    this.setState({authorName: poet.displayName, authorUserName: poet.userName});
   }
 
   expand() {
@@ -39,9 +47,9 @@ export default class Poem extends React.Component {
   }
 
   render() {
-    const {id, authorId, authorName, userName, align, title, body, preview,
+    const {id, authorId, align, title, body, preview,
       lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing, liked} = this.props;
-    const {isExpanded} = this.state;
+    const {isExpanded, authorName, authorUserName} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
       <div class="C(lightgrey) Fz(14dpx)">
@@ -64,7 +72,7 @@ export default class Poem extends React.Component {
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo authorId={authorId} userName={userName} authorName={authorName} likeCount={likeCount} id={id}
+      <PoemInfo authorId={authorId} userName={authorUserName} authorName={authorName} likeCount={likeCount} id={id} app={this.app}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
         like={this.like} unlike={this.unlike}
         follow={this.follow} unfollow={this.unfollow}

@@ -86,7 +86,7 @@ export default class UserProfilePage extends React.Component {
 
     return <div>
       <ProfilePage displayName={displayName} userName={userName} poems={poems} isOwner={isOwner}
-        visitPoem={this.visitPoem}
+        visitPoem={this.visitPoem} app={this.app}
         isFollowing={isFollowing}
         like={this.like} unlike={this.unlike}
         follow={this.follow} unfollow={this.unfollow}

@@ -6,6 +6,7 @@ import {formatDate, getExcerpt} from '../utils';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
     this.toVisit = this.toVisit.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
@@ -53,7 +54,7 @@ export default class ProfilePage extends React.Component {
           commentCount={poem.commentCount} preview={getExcerpt(poem.body)} isOwner={isOwner}
           toVisit={this.toVisit} isFollowing={isFollowing} liked={poem.liked}
           like={this.like} unlike={this.unlike}
-          follow={this.follow} unfollow={this.unfollow}
+          follow={this.follow} unfollow={this.unfollow} app={this.app}
         />)}
 
       </div>

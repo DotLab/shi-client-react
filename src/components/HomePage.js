@@ -29,7 +29,6 @@ export default class HomePage extends React.Component {
       limit: DEFAULT_LIMIT,
       skip: DEFAULT_SKIP,
       _id: null,
-      userName: null,
       poems: [],
     };
 
@@ -42,8 +41,6 @@ export default class HomePage extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
-    this.toDetail = this.toDetail.bind(this);
-    this.redirectToUserProfile = this.redirectToUserProfile.bind(this);
   }
 
   async componentDidMount() {
@@ -70,7 +67,6 @@ export default class HomePage extends React.Component {
       });
       this.setState({poems: poems});
     }
-    console.log(this.state.poems);
   }
 
   async componentWillReceiveProps(newprops) {
@@ -171,14 +167,6 @@ export default class HomePage extends React.Component {
     this.pushHistory();
   }
 
-  toDetail(poemId) {
-    this.app.history.push(`/poems/${poemId}`);
-  }
-
-  redirectToUserProfile(authorUserName) {
-    this.app.history.push(`/poets/${authorUserName}`);
-  }
-
   render() {
     const {q, sort, order, filter, poems} = this.state;
 
@@ -199,12 +187,11 @@ export default class HomePage extends React.Component {
 
       </div>
       <div>
-        {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId} authorName={poem.authorName}
+        {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId}
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
-          commentCount={poem.commentCount} preview={getExcerpt(poem.body)} liked={poem.liked} toDetail={this.toDetail}
+          commentCount={poem.commentCount} preview={getExcerpt(poem.body)} liked={poem.liked}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
-          redirectToUserProfile={this.redirectToUserProfile}
           toVisit={this.toVisit} app={this.app}/>)}
       </div>
     </div>;
