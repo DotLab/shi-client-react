@@ -1,5 +1,5 @@
 import React from 'react';
-import {onChange} from '../utils';
+import {Link} from 'react-router-dom';
 
 export default class PoemInfo extends React.Component {
   constructor(props) {
@@ -19,57 +19,33 @@ export default class PoemInfo extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
-    this.user = this.user.bind(this);
-    this.onChange = onChange.bind(this);
     this.editing = this.editing.bind(this);
-    // this.notEditing = this.notEditing.bind(this);
     this.comment = this.comment.bind(this);
   }
 
   async like(e) {
     e.preventDefault();
-    try {
-      await this.props.like();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.props.like();
   }
 
   async unlike(e) {
     e.preventDefault();
-    try {
-      await this.props.unlike();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.props.unlike();
   }
 
   async follow(e) {
     e.preventDefault();
-    try {
-      await this.props.follow();
-    } catch (err) {
-      console.log(err);
-    }
+    await this.props.follow();
   }
 
   async unfollow(e) {
     e.preventDefault();
-    try {
-      await this.props.unfollow();
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  user() {
-    this.props.redirectToUserProfile();
+    await this.props.unfollow();
   }
 
   editing() {
     this.setState({editing: true});
   }
-
 
   comment(e) {
     e.preventDefault();
@@ -78,26 +54,23 @@ export default class PoemInfo extends React.Component {
   }
 
   render() {
-    const {authorName, isFollowing, commentCount, liked, likeCount} = this.props;
+    const {authorName, userName, isFollowing, commentCount, liked, likeCount} = this.props;
     const {editing, body} = this.state;
 
     return <div>
-
       <div class="Mih(100px) Miw(500px) Bgc(whitesmoke) D(ib) P(10px) Bdrs($bdrs-panel)">
         <div class="Ta(s)">
           <img class="Bdrs(100%) Mend(16px)" src="https://hellopoetry.s3.amazonaws.com/static/cache/3c/06/3c06fe65b732452ef83554385e05d5d6.jpg" alt=""/>
           <div class="D(ib) Va(m) Fz(12px) C(gray)">
-             Written by <br/><span class="Fz(16px) C(darkred) Td(u):h" onClick={this.user}>{authorName}</span>
+             Written by <br/>
+            <Link to={{pathname: `/poets/${userName}`}} class="Fz(16px) C(darkred) Td(u):h">{authorName}</Link>
           </div>
-          {!isFollowing&&
-          <button class="Fl(end) Bdc(t) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
-            onClick={this.follow}>Follow</button>
-          }
-          {isFollowing&&
-          <button class="Fl(end) Bdc(t) Bgc(darkred) Bgc(lightgray):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
-            onClick={this.unfollow}>Following</button>
-          }
-
+          {!isFollowing &&
+            <button class="Fl(end) Bdc(t) Bgc(lightgray) Bgc(darkred):h C(white):h Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
+              onClick={this.follow}>Follow</button>}
+          {isFollowing &&
+            <button class="Fl(end) Bdc(t) Bgc(darkred) Bgc(lightgray):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
+              onClick={this.unfollow}>Following</button>}
         </div>
 
         <div class="D(f) My(12px)">
