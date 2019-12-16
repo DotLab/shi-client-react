@@ -3,7 +3,6 @@ import PoemInfo from './PoemInfo';
 import Comment from './Comment';
 import {getAlignStyle, formatDateTime, HOME_COMMENT_LIMIT} from '../utils';
 import {Link} from 'react-router-dom';
-
 export default class Poem extends React.Component {
   constructor(props) {
     super(props);
@@ -27,11 +26,10 @@ export default class Poem extends React.Component {
   async componentDidMount() {
     if (this.props.authorName) return;
     const poet = await this.app.poetDetail({userId: this.props.authorId});
-    this.setState({authorName: poet.displayName, authorUserName: poet.userName});
-
     if (!this.app.state.token) return;
     const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
-    this.setState({authorName: poet.displayName, authorUserName: poet.userName, comments: comments});
+    this.setState({authorName: poet.displayName, authorUserName: poet.userName,
+      comments: comments});
   }
 
   async expand() {
@@ -103,9 +101,9 @@ export default class Poem extends React.Component {
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
       <PoemInfo authorId={authorId} userName={authorUserName} authorName={authorName} likeCount={likeCount} id={id} app={this.app}
         commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
-        like={this.like} unlike={this.unlike}
+        redirectToUserProfile={this.redirectToUserProfile} like={this.like} unlike={this.unlike}
         follow={this.follow} unfollow={this.unfollow} comment={this.comment}
-      />}
+      />
 
       {isExpanded && <div>
         {comments.map((comment) => <Comment key={comment._id} id={comment._id} body={comment.body}

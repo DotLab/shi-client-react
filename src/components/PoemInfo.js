@@ -1,4 +1,5 @@
 import React from 'react';
+import {onChange} from '../utils';
 import {Link} from 'react-router-dom';
 
 export default class PoemInfo extends React.Component {
@@ -19,6 +20,7 @@ export default class PoemInfo extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.onChange = onChange.bind(this);
     this.editing = this.editing.bind(this);
     this.comment = this.comment.bind(this);
   }
@@ -46,6 +48,7 @@ export default class PoemInfo extends React.Component {
   editing() {
     this.setState({editing: true});
   }
+
 
   comment(e) {
     e.preventDefault();
