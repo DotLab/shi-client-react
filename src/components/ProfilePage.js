@@ -11,8 +11,6 @@ export default class ProfilePage extends React.Component {
     this.toVisit = this.toVisit.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
-    this.follow = this.follow.bind(this);
-    this.unfollow = this.unfollow.bind(this);
     this.comment = this.comment.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
   }
@@ -27,14 +25,6 @@ export default class ProfilePage extends React.Component {
 
   unlike(poemId) {
     this.props.unlike(poemId);
-  }
-
-  follow() {
-    this.props.follow();
-  }
-
-  unfollow() {
-    this.props.unfollow();
   }
 
   async comment(body, poemId) {
@@ -65,7 +55,7 @@ export default class ProfilePage extends React.Component {
           commentCount={poem.commentCount} preview={getExcerpt(poem.body)} isOwner={isOwner}
           toVisit={this.toVisit} isFollowing={isFollowing} liked={poem.liked}
           like={this.like} unlike={this.unlike}
-          follow={this.follow} unfollow={this.unfollow} app={this.app}
+          follow={this.props.follow} unfollow={this.props.unfollow} app={this.app}
           comment={this.comment} deleteComment={this.deleteComment}
         />)}
       </div>
