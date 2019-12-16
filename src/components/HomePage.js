@@ -44,8 +44,7 @@ export default class HomePage extends React.Component {
   }
 
   async componentDidMount() {
-    const token = this.app.state.token;
-    if (!token) {
+    if (!this.app.state.token) {
       const poems = await this.app.poemList({
         filter: FILTER_ALL,
         sort: this.state.sort,

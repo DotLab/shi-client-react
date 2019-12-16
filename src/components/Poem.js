@@ -21,6 +21,7 @@ export default class Poem extends React.Component {
   }
 
   async componentDidMount() {
+    if (this.props.authorName) return;
     const poet = await this.app.poetDetail({userId: this.props.authorId});
     this.setState({authorName: poet.displayName, authorUserName: poet.userName});
   }
