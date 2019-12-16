@@ -190,7 +190,7 @@ export default class HomePage extends React.Component {
         {poems.map((poem) => <Poem key={poem._id} id={poem._id} authorId={poem.authorId}
           align={poem.align} title={poem.title} body={poem.body} visibility={poem.visibility}
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
-          commentCount={poem.commentCount} preview={getExcerpt(poem.body)} liked={poem.liked}
+          commentCount={poem.commentCount} preview={getExcerpt(poem.body)} liked={poem.liked} isFollowing={poem.isFollowing}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
           toVisit={this.toVisit} app={this.app}/>)}
       </div>
