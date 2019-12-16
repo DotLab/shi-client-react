@@ -53,7 +53,7 @@ export default class HomePage extends React.Component {
         skip: this.state.skip,
         search: this.state.q,
       });
-      this.setState({poems: poems});
+      this.setState({poems});
     } else {
       const poems = await this.app.poemList({
         token: this.app.state.token,
@@ -64,7 +64,7 @@ export default class HomePage extends React.Component {
         skip: this.state.skip,
         search: this.state.q,
       });
-      this.setState({poems: poems});
+      this.setState({poems});
     }
   }
 

@@ -36,7 +36,7 @@ export default class UserProfilePage extends React.Component {
     this.setState({isFollowing: followStatus[0]});
 
     const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
-    this.setState({poems: poems});
+    this.setState({poems});
   }
 
   visitPoem(poemId) {
@@ -49,14 +49,14 @@ export default class UserProfilePage extends React.Component {
     if (this.app.state.token === null) return;
     await this.app.poemLike({poemId: poemId, token: this.app.state.token});
     const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
-    this.setState({poems: poems});
+    this.setState({poems});
   }
 
   async unlike(poemId) {
     if (this.app.state.token === null) return;
     await this.app.poemUnlike({poemId: poemId, token: this.app.state.token});
     const poems = await this.app.userPoem({token: this.app.state.token, poetId: this.state._id});
-    this.setState({poems: poems});
+    this.setState({poems});
   }
 
   async follow() {
