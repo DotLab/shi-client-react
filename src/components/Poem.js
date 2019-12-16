@@ -29,16 +29,16 @@ export default class Poem extends React.Component {
     if (!this.app.state.token) return;
     const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
     this.setState({authorName: poet.displayName, authorUserName: poet.userName,
-      comments: comments});
+      comments});
   }
 
   async expand() {
     this.setState({isExpanded: true});
     this.props.toVisit(this.props.id);
-    if (this.app.state.token !== null) {
-      const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
-      this.setState({comments: comments, commentCount: comments.length});
-    }
+
+    if (!this.app.state.token) return;
+    const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+    this.setState({comments, commentCount: comments.length});
   }
 
   async like() {
@@ -58,19 +58,17 @@ export default class Poem extends React.Component {
   }
 
   async comment(body) {
-    if (this.app.state.token !== null) {
-      await this.props.comment(body, this.props.id);
-      const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
-      this.setState({comments: comments, commentCount: comments.length});
-    }
+    if (!this.app.state.token) return;
+    await this.props.comment(body, this.props.id);
+    const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+    this.setState({comments, commentCount: comments.length});
   }
 
   async deleteComment(commentId) {
-    if (this.app.state.token !== null) {
-      await this.props.deleteComment(commentId);
-      const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
-      this.setState({comments: comments, commentCount: comments.length});
-    }
+    if (!this.app.state.token) return;
+    await this.props.deleteComment(commentId);
+    const comments = await this.app.commentList({poemId: this.props.id, token: this.app.state.token, limit: HOME_COMMENT_LIMIT});
+    this.setState({comments, commentCount: comments.length});
   }
 
   render() {
