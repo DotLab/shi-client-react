@@ -11,8 +11,6 @@ export default class ProfilePage extends React.Component {
     this.toVisit = this.toVisit.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
-    this.follow = this.follow.bind(this);
-    this.unfollow = this.unfollow.bind(this);
   }
 
   toVisit(poemId) {
