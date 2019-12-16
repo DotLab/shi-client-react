@@ -118,13 +118,14 @@ export default class PoemDetailPage extends React.Component {
           viewCount={viewCount} commentCount={commentCount}
           poemId={this.state._id}
           like={this.like} unlike={this.unlike}
-          follow={this.follow} unfollow={this.unfollow}
+          follow={this.follow} unfollow={this.unfollow} comment={this.comment}
         />
         <div>
           {comments.map((comment) => <Comment key={comment._id} id={comment._id} body={comment.body}
             commentAuthorId={comment.commentAuthorId} date={formatDateTime(comment.date)}
             deleteComment={this.deleteComment} isOwner={comment.isOwner}
-            commentAuthorName={comment.commentAuthorName}/>)}
+            commentAuthorName={comment.commentAuthorName}
+            commentAuthorUserName={comment.commentAuthorUserName}/>)}
         </div>
       </div>
     </div>;
