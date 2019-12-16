@@ -25,14 +25,6 @@ export default class ProfilePage extends React.Component {
     this.props.unlike(poemId);
   }
 
-  follow() {
-    this.props.follow();
-  }
-
-  unfollow() {
-    this.props.unfollow();
-  }
-
   render() {
     const {displayName, userName, poems, isOwner, isFollowing} = this.props;
 
@@ -53,7 +45,7 @@ export default class ProfilePage extends React.Component {
           commentCount={poem.commentCount} preview={getExcerpt(poem.body)} isOwner={isOwner}
           toVisit={this.toVisit} isFollowing={isFollowing} liked={poem.liked}
           like={this.like} unlike={this.unlike}
-          follow={this.follow} unfollow={this.unfollow}
+          follow={this.props.follow} unfollow={this.props.unfollow}
         />)}
       </div>
     </div>;
