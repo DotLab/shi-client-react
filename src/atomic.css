@@ -1,0 +1,357 @@
+.Bdc\(t\) {
+  border-color: transparent;
+}
+.Bdw\(0\) {
+  border-width: 0;
+}
+.Bdrs\(\$bdrs-panel\) {
+  border-radius: 6px;
+}
+.Bdrs\(2px\) {
+  border-radius: 2px;
+}
+.Bdrs\(\$bdrs-control\) {
+  border-radius: 4px;
+}
+.Bdrs\(100\%\) {
+  border-radius: 100%;
+}
+.Bgc\(dimgray\) {
+  background-color: dimgray;
+}
+.Bgc\(lightgray\) {
+  background-color: lightgray;
+}
+.Bgc\(white\) {
+  background-color: white;
+}
+.Bgc\(whitesmoke\) {
+  background-color: whitesmoke;
+}
+.Bgc\(black\) {
+  background-color: black;
+}
+.Bgc\(darkred\) {
+  background-color: darkred;
+}
+.Bgc\(black\)\:h:hover {
+  background-color: black;
+}
+.Bgc\(darkred\)\:h:hover {
+  background-color: darkred;
+}
+.Bgc\(lightgray\)\:h:hover {
+  background-color: lightgray;
+}
+.C\(darkgray\) {
+  color: darkgray;
+}
+.C\(\$gray-500\) {
+  color: #adb5bd;
+}
+.C\(black\) {
+  color: black;
+}
+.C\(dimgray\) {
+  color: dimgray;
+}
+.C\(gray\) {
+  color: gray;
+}
+.C\(lightgrey\) {
+  color: lightgrey;
+}
+.C\(skyblue\) {
+  color: skyblue;
+}
+.C\(white\) {
+  color: white;
+}
+.C\(darkred\) {
+  color: darkred;
+}
+.C\(white\)\:h:hover {
+  color: white;
+}
+.C\(darkred\)\:h:hover {
+  color: darkred;
+}
+.Cur\(p\) {
+  cursor: pointer;
+}
+.Cur\(p\)\:h:hover {
+  cursor: pointer;
+}
+.D\(b\) {
+  display: block;
+}
+.D\(ib\), .Row {
+  display: inline-block;
+}
+.D\(f\) {
+  display: flex;
+}
+.As\(c\) {
+  align-self: center;
+}
+.Fl\(end\) {
+  float: right;
+}
+.Fl\(start\) {
+  float: left;
+}
+.Fw\(b\) {
+  font-weight: bold;
+}
+.Fz\(12px\) {
+  font-size: 12px;
+}
+.Fz\(14dpx\) {
+  font-size: 14dpx;
+}
+.Fz\(14px\) {
+  font-size: 14px;
+}
+.Fz\(16px\) {
+  font-size: 16px;
+}
+.Fz\(20px\) {
+  font-size: 20px;
+}
+.Fz\(24px\) {
+  font-size: 24px;
+}
+.Fz\(10px\) {
+  font-size: 10px;
+}
+.Fz\(30px\) {
+  font-size: 30px;
+}
+.Fz\(8px\) {
+  font-size: 8px;
+}
+.Fz\(26px\) {
+  font-size: 26px;
+}
+.Fs\(n\) {
+  font-style: normal;
+}
+.H\(44px\) {
+  height: 44px;
+}
+.H\(50px\) {
+  height: 50px;
+}
+.H\(fc\) {
+  height: fit-content;
+}
+.Lh\(50px\) {
+  line-height: 50px;
+}
+.Mx\(4px\) {
+  margin-left: 4px;
+}
+.Mx\(4px\), .Mend\(4px\) {
+  margin-right: 4px;
+}
+.Mx\(6px\) {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+.Mx\(8px\) {
+  margin-left: 8px;
+}
+.Mx\(8px\), .Mend\(8px\) {
+  margin-right: 8px;
+}
+.Mx\(a\), .Mstart\(a\) {
+  margin-left: auto;
+}
+.Mx\(a\) {
+  margin-right: auto;
+}
+.My\(12px\), .Mt\(12px\) {
+  margin-top: 12px;
+}
+.My\(12px\) {
+  margin-bottom: 12px;
+}
+.My\(30px\) {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.My\(50px\) {
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+.Mt\(10px\) {
+  margin-top: 10px;
+}
+.Mt\(20px\), .Mt\(\$m-control\) {
+  margin-top: 20px;
+}
+.Mt\(2px\) {
+  margin-top: 2px;
+}
+.Mt\(4px\) {
+  margin-top: 4px;
+}
+.Mend\(10px\) {
+  margin-right: 10px;
+}
+.Mend\(16px\) {
+  margin-right: 16px;
+}
+.Mend\(30px\) {
+  margin-right: 30px;
+}
+.Mend\(20px\) {
+  margin-right: 20px;
+}
+.Mb\(16px\) {
+  margin-bottom: 16px;
+}
+.Mb\(20px\) {
+  margin-bottom: 20px;
+}
+.Mstart\(30px\) {
+  margin-left: 30px;
+}
+.Maw\(300px\) {
+  max-width: 300px;
+}
+.Maw\(500px\) {
+  max-width: 500px;
+}
+.Maw\(600px\) {
+  max-width: 600px;
+}
+.Mih\(500px\) {
+  min-height: 500px;
+}
+.Mih\(100px\) {
+  min-height: 100px;
+}
+.Miw\(500px\) {
+  min-width: 500px;
+}
+.T\(0\) {
+  top: 0;
+}
+.End\(-15px\) {
+  right: -15px;
+}
+.Start\(0\) {
+  left: 0;
+}
+.Op\(0\) {
+  opacity: 0;
+}
+.P\(\$p-panel\) {
+  padding: 20px;
+}
+.P\(10px\) {
+  padding: 10px;
+}
+.P\(12px\) {
+  padding: 12px;
+}
+.P\(4px\) {
+  padding: 4px;
+}
+.Px\(4px\) {
+  padding-left: 4px;
+  padding-right: 4px;
+}
+.Px\(6px\) {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.Px\(8px\) {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.Px\(12px\) {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+.Py\(2px\) {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.Py\(4px\) {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.Py\(8px\) {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+.Py\(0\) {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.Pos\(a\) {
+  position: absolute;
+}
+.Pos\(r\) {
+  position: relative;
+}
+.Pos\(st\) {
+  position: sticky;
+}
+.Ta\(c\) {
+  text-align: center;
+}
+.Ta\(s\) {
+  text-align: start;
+}
+.Ta\(e\) {
+  text-align: end;
+}
+.Td\(u\) {
+  text-decoration: underline;
+}
+.Td\(n\)\:h:hover {
+  text-decoration: none;
+}
+.Td\(u\)\:h:hover {
+  text-decoration: underline;
+}
+.Va\(m\) {
+  vertical-align: middle;
+}
+.Va\(t\), .Row {
+  vertical-align: top;
+}
+.Whs\(pw\) {
+  white-space: pre-wrap;
+}
+.W\(100\%\), .Row {
+  width: 100%;
+}
+.W\(50px\) {
+  width: 50px;
+}
+.W\(80px\) {
+  width: 80px;
+}
+.Wob\(ba\) {
+  word-break: break-all;
+}
+.Cf:before, .Cf:after {
+  content: " ";
+  display: table;
+}
+.Cf:after {
+  clear: both;
+}
+.Cf, .Row {
+  zoom: 1;
+}
+.Row {
+  clear: both;
+  box-sizing: border-box;
+  *display: block;
+  *width: auto;
+}
