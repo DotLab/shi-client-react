@@ -73,6 +73,10 @@ export default class UserProfilePage extends React.Component {
     this.setState({isFollowing: follow[0]});
   }
 
+  likePoem(poemId) {
+    this.app.poemLike({poemId: poemId, token: this.app.state.token});
+  }
+
   render() {
     let isOwner = true;
     if (!this.app.state.user || this.state._id !== this.app.state.user._id) {
@@ -82,7 +86,7 @@ export default class UserProfilePage extends React.Component {
 
     return <div>
       <ProfilePage displayName={displayName} userName={userName} poems={poems} isOwner={isOwner}
-        visitPoem={this.visitPoem}
+        visitPoem={this.visitPoem} app={this.app}
         isFollowing={isFollowing}
         like={this.like} unlike={this.unlike}
         follow={this.follow} unfollow={this.unfollow}

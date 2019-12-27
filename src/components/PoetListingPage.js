@@ -91,7 +91,11 @@ export default class PoetListingPage extends React.Component {
     else if (this.query.sort === sort) this.query.order = QUERY_ASC;
     else {
       this.query.sort = sort;
-      this.query.order = QUERY_DESC;
+      if (sort === QUERY_ALPHABETICAL) {
+        this.query.order = QUERY_ASC;
+      } else {
+        this.query.order = QUERY_DESC;
+      }
     }
     this.pushHistory();
   }
@@ -116,10 +120,14 @@ export default class PoetListingPage extends React.Component {
         <button class="Bgc(black) C(white) Bdrs($bdrs-control)" onClick={this.search}><i class="fas fa-search"></i></button>
       </form>
       <div class="Fz(12px) C(gray) Mt(12px)">
-        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_DATE ? 'Td(u) C(black)' : '')} onClick={()=> this.changeSort(QUERY_DATE)}>{sort === QUERY_DATE && order === QUERY_ASC ? 'oldest' : 'latest'}</span>
-        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_VIEWS ? 'Td(u) C(black)' : '')} onClick={()=> this.changeSort(QUERY_VIEWS)}>{sort === QUERY_VIEWS && order === QUERY_ASC ? 'least viewed' : 'most viewed'}</span>
-        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_LIKES ? 'Td(u) C(black)' : '')} onClick={()=> this.changeSort(QUERY_LIKES)}>{sort === QUERY_LIKES && order === QUERY_ASC ? 'least liked' : 'most liked'}</span>
-        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_ALPHABETICAL ? 'Td(u) C(black)' : '')} onClick={()=> this.changeSort(QUERY_ALPHABETICAL)}>{sort === QUERY_ALPHABETICAL && order === QUERY_ASC ? 'z-a' : 'a-z'}</span>
+        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_DATE ? 'Td(u) C(black)' : '')}
+          onClick={()=> this.changeSort(QUERY_DATE)}>{sort === QUERY_DATE && order === QUERY_ASC ? 'oldest' : 'latest'}</span>
+        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_VIEWS ? 'Td(u) C(black)' : '')}
+          onClick={()=> this.changeSort(QUERY_VIEWS)}>{sort === QUERY_VIEWS && order === QUERY_ASC ? 'least viewed' : 'most viewed'}</span>
+        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_LIKES ? 'Td(u) C(black)' : '')}
+          onClick={()=> this.changeSort(QUERY_LIKES)}>{sort === QUERY_LIKES && order === QUERY_ASC ? 'least liked' : 'most liked'}</span>
+        <span class={'Mx(6px) Td(u):h ' + (sort === QUERY_ALPHABETICAL ? 'Td(u) C(black)' : '')}
+          onClick={()=> this.changeSort(QUERY_ALPHABETICAL)}>{sort !== QUERY_ALPHABETICAL || (sort === QUERY_ALPHABETICAL && order === QUERY_ASC) ? 'a-z' : 'z-a'}</span>
         <span class="Mx(6px) Td(u):h"> | </span>
         <span class="Mx(6px)">
           active until year <input class="Py(0) W(80px) Ta(e) Bdrs($bdrs-control)" type="number" step="1" name="year" value={year} onChange={this.searchYear}/>

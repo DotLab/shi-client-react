@@ -40,7 +40,7 @@ export default class FollowListingPage extends React.Component {
     followingStatus.forEach((f, i) => {
       poets[i].isFollowing = f;
     });
-    this.setState({poets: poets});
+    this.setState({poets});
   }
 
   async userFollow(id) {
@@ -57,7 +57,7 @@ export default class FollowListingPage extends React.Component {
     followingStatus.forEach((f, i) => {
       poets[i].isFollowing = f;
     });
-    this.setState({poets: poets});
+    this.setState({poets});
   }
 
   async userUnfollow(id) {
@@ -74,7 +74,7 @@ export default class FollowListingPage extends React.Component {
     followingStatus.forEach((f, i) => {
       poets[i].isFollowing = f;
     });
-    this.setState({poets: poets});
+    this.setState({poets});
   }
 
   render() {

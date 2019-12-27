@@ -158,6 +158,7 @@ export const FILTER_FOLLOWING = 'following';
 
 export const CURRENT_YEAR = 2019;
 export const DEFAULT_LIMIT = 20;
+export const DEFAULT_SKIP = 0;
 export const QUERY_ASC = 'asc';
 export const QUERY_DESC = 'desc';
 export const QUERY_DATE = 'date';

@@ -6,6 +6,8 @@ import {formatDate, getExcerpt} from '../utils';
 export default class ProfilePage extends React.Component {
   constructor(props) {
     super(props);
+    this.app = props.app;
+
     this.toVisit = this.toVisit.bind(this);
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
