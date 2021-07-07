@@ -41,6 +41,8 @@ export default class HomePage extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.comment = this.comment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async componentDidMount() {
@@ -166,6 +168,14 @@ export default class HomePage extends React.Component {
     this.pushHistory();
   }
 
+  async comment(comment, poemId) {
+    this.app.comment({poemId: poemId, token: this.app.state.token, comment: comment});
+  }
+
+  async deleteComment(commentId) {
+    this.app.commentDelete({token: this.app.state.token, commentId: commentId});
+  }
+
   render() {
     const {q, sort, order, filter, poems} = this.state;
 
@@ -191,7 +201,7 @@ export default class HomePage extends React.Component {
           lastEditDate={formatDate(poem.lastEditDate)} viewCount={poem.viewCount} likeCount={poem.likeCount}
           commentCount={poem.commentCount} preview={getExcerpt(poem.body)} liked={poem.liked} isFollowing={poem.isFollowing}
           like={this.like} unlike={this.unlike} follow={this.follow} unfollow={this.unfollow}
-          toVisit={this.toVisit} app={this.app}/>)}
+          toVisit={this.toVisit} app={this.app} comment={this.comment} deleteComment={this.deleteComment}/>)}
       </div>
     </div>;
   }

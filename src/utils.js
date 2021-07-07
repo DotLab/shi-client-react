@@ -165,3 +165,5 @@ export const QUERY_DATE = 'date';
 export const QUERY_VIEWS = 'views';
 export const QUERY_LIKES = 'likes';
 export const QUERY_ALPHABETICAL = 'alphabetical';
+export const HOME_COMMENT_LIMIT = 5;
+export const DETAIL_COMMENT_LIMIT = 30;

@@ -21,6 +21,8 @@ export default class UserProfilePage extends React.Component {
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.comment = this.comment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   async componentDidMount() {
@@ -73,8 +75,12 @@ export default class UserProfilePage extends React.Component {
     this.setState({isFollowing: follow[0]});
   }
 
-  likePoem(poemId) {
-    this.app.poemLike({poemId: poemId, token: this.app.state.token});
+  async comment(comment, poemId) {
+    this.app.comment({poemId: poemId, token: this.app.state.token, comment: comment});
+  }
+
+  async deleteComment(commentId) {
+    this.app.commentDelete({token: this.app.state.token, commentId: commentId});
   }
 
   render() {
@@ -90,6 +96,7 @@ export default class UserProfilePage extends React.Component {
         isFollowing={isFollowing}
         like={this.like} unlike={this.unlike}
         follow={this.follow} unfollow={this.unfollow}
+        comment={this.comment} deleteComment={this.deleteComment}
       />
     </div>;
   }

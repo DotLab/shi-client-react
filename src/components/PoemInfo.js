@@ -1,14 +1,28 @@
 import React from 'react';
+import {onChange} from '../utils';
 import {Link} from 'react-router-dom';
 
 export default class PoemInfo extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      _id: null,
+      poemAuthorId: null,
+      commentAuthorId: null,
+      poemId: null,
+      body: '',
+      date: null,
+      editing: false,
+    };
+
     this.like = this.like.bind(this);
     this.unlike = this.unlike.bind(this);
     this.follow = this.follow.bind(this);
     this.unfollow = this.unfollow.bind(this);
+    this.onChange = onChange.bind(this);
+    this.editing = this.editing.bind(this);
+    this.comment = this.comment.bind(this);
   }
 
   async like(e) {
@@ -31,8 +45,20 @@ export default class PoemInfo extends React.Component {
     await this.props.unfollow();
   }
 
+  editing() {
+    this.setState({editing: true});
+  }
+
+
+  comment(e) {
+    e.preventDefault();
+    this.props.comment(this.state.body);
+    this.setState({editing: false, body: ''});
+  }
+
   render() {
-    const {authorName, userName, isFollowing, liked, likeCount, commentCount} = this.props;
+    const {authorName, userName, isFollowing, commentCount, liked, likeCount} = this.props;
+    const {editing, body} = this.state;
 
     return <div>
       <div class="Mih(100px) Miw(500px) Bgc(whitesmoke) D(ib) P(10px) Bdrs($bdrs-panel)">
@@ -51,7 +77,13 @@ export default class PoemInfo extends React.Component {
         </div>
 
         <div class="D(f) My(12px)">
-          <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..."/>
+          <textarea class="D(b) Bdrs($bdrs-panel) Bdc(t) W(100%)" placeholder="Add a comment..." name="body" value={body} onChange={this.onChange}
+            onFocus={this.editing} />
+        </div>
+        <div>
+          {editing && <button class="Fl(end) Bdc(t) Bgc(dimgray) Bgc(black):h C(white) Px(8px) Py(2px) Mt(10px) Mend(8px) Fz(12px) W(80px) Bdrs($bdrs-control) Cur(p):h"
+            onClick={this.comment} >comment</button>
+          }
         </div>
 
         <div class="Fz(14px) My(12px) Cf">
