@@ -12,6 +12,8 @@ import PoemDetailPage from './components/PoemDetailPage';
 import PropsRoute from './PropsRoute';
 import PoetListingPage from './components/PoetListingPage';
 import ChangePasswordPage from './components/ChangePasswordPage';
+import FollowerPage from './components/FollowerPage';
+import FollowingPage from './components/FollowingPage';
 
 import {Route, Link, Switch} from 'react-router-dom';
 
@@ -126,8 +128,37 @@ export default class App extends React.Component {
     await this.genericApi1('/v1/poems/unlike', {poemId, token});
   }
 
-  async poetDetail({userName}) {
-    const res = await this.genericApi1('/v1/poets/detail', {userName});
+  async poemVisit({poemId, token}) {
+    this.genericApi1('/v1/poems/visit', {poemId, token});
+  }
+
+  async poetDetail({userName, userId}) {
+    const res = await this.genericApi1('/v1/poets/detail', {userName, userId});
+    return res.payload;
+  }
+
+  async followerList({userName}) {
+    const res = await this.genericApi1('/v1/poets/follower', {userName});
+    return res.payload;
+  }
+
+  async followingList({userName}) {
+    const res = await this.genericApi1('/v1/poets/following', {userName});
+    return res.payload;
+  }
+
+  async followingStatus({token, userIds}) {
+    const res = await this.genericApi1('/v1/poets/followingStatus', {token, userIds});
+    return res.payload;
+  }
+
+  async likeStatus({token, poemIds}) {
+    const res = await this.genericApi1('/v1/poems/likeStatus', {token, poemIds});
+    return res.payload;
+  }
+
+  async poemList({token, filter, sort, order, limit, skip, search}) {
+    const res = await this.genericApi1('/v1/poems/home', {token, filter, sort, order, limit, skip, search});
     return res.payload;
   }
 
@@ -137,9 +168,11 @@ export default class App extends React.Component {
 
       <Switch>
         <PropsRoute exact path="/" component={HomePage} app={this}/>
-        <PropsRoute path="/me/following" component={UserProfilePage} page="following" app={this}/>
-        <PropsRoute path="/me/follower" component={UserProfilePage} page="follower" app={this}/>
+        <PropsRoute path="/me/following" component={FollowingPage} app={this}/>
+        <PropsRoute path="/me/follower" component={FollowerPage} app={this}/>
         <PropsRoute path="/me" component={UserProfilePage} app={this}/>
+        <PropsRoute path="/poets/:userName/following"component={FollowingPage} app={this}/>
+        <PropsRoute path="/poets/:userName/follower"component={FollowerPage} app={this}/>
         <PropsRoute path="/poets/:userName" component={UserProfilePage} app={this}/>
         <PropsRoute path="/poets" component={PoetListingPage} app={this}/>
         <PropsRoute path="/login" component={LoginPage} app={this} />

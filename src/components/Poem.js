@@ -11,14 +11,36 @@ export default class Poem extends React.Component {
       isExpanded: false,
     };
     this.expand=this.expand.bind(this);
+    this.like = this.like.bind(this);
+    this.unlike = this.unlike.bind(this);
+    this.follow = this.follow.bind(this);
+    this.unfollow = this.unfollow.bind(this);
   }
 
   expand() {
     this.setState({isExpanded: true});
+    this.props.toVisit(this.props.id);
+  }
+
+  async like() {
+    await this.props.like(this.props.id);
+  }
+
+  async unlike() {
+    await this.props.unlike(this.props.id);
+  }
+
+  async follow() {
+    await this.props.follow(this.props.authorId);
+  }
+
+  async unfollow() {
+    await this.props.unfollow(this.props.authorId);
   }
 
   render() {
-    const {author, align, title, body, preview, lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount} = this.props;
+    const {id, authorId, authorName, userName, align, title, body, preview,
+      lastEditDate, isOwner, visibility, viewCount, likeCount, commentCount, isFollowing, liked} = this.props;
     const {isExpanded} = this.state;
 
     return <div class="My(50px) Maw(500px) Mx(a)">
@@ -33,7 +55,7 @@ export default class Poem extends React.Component {
       </div>
 
       <div class={getAlignStyle(align)}>
-        {!isOwner && <span> {author} • </span>}
+        {!isOwner && <span> {authorName} • </span>}
         <span>{lastEditDate}</span>
       </div>
       <Link to={{pathname: `/poems/${this.props.id}`}} class={`Fz(24px) Cur(p):h D(b) C(black) `+ getAlignStyle(align)}>{title}</Link>
@@ -42,7 +64,11 @@ export default class Poem extends React.Component {
       </p>
       {!isExpanded &&
          <span class="Cur(p) C(skyblue) Td(u):h" onClick={this.expand}>Continue reading...</span>}
-      <PoemInfo author={author} likeCount={likeCount} commentCount={commentCount} isOwner={isOwner}/>
+      <PoemInfo authorId={authorId} userName={userName} authorName={authorName} likeCount={likeCount} id={id}
+        commentCount={commentCount} isOwner={isOwner} isFollowing={isFollowing} liked={liked}
+        like={this.like} unlike={this.unlike}
+        follow={this.follow} unfollow={this.unfollow}
+      />
     </div>;
   }
 }
